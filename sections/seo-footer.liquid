@@ -1,0 +1,95 @@
+{% assign title = section.settings.title %}
+{% assign description = section.settings.description %}
+{% assign subtitle = section.settings.subtitle %}
+{% assign blocks = section.blocks %}
+
+{{ 'section-seo-footer.css' | asset_url | stylesheet_tag }}
+
+<section class="seo-footer">
+  <div class="seo-footer__info">
+    <h2 class="seo-footer__title">
+      {% if title != blank %}
+        {{ title }}
+      {% else %}
+        {{ collection.title }}
+      {% endif %}
+    </h2>
+
+    <div class="seo-footer__description">
+      {% if description != blank %}
+        {{ description }}
+      {% else %}
+        {{ collection.description }}
+      {% endif %}
+    </div>
+  </div>
+
+  {% if section.blocks.size > 0 %}
+    <div class="seo-footer__categories">
+      {% if subtitle != blank %}
+        <h3 class="seo-footer__subtitle">{{ subtitle }}</h3>
+      {% endif %}
+
+      <div class="seo-footer__container">
+        <div class="seo-footer__wrapper">
+          {% for block in blocks %}
+            {% assign title = block.settings.cat_title %}
+            {% assign icon = block.settings.cat_icon %}
+            {% if title != blank and icon != blank %}
+              <div class="seo-footer__category">
+                <div class="seo-footer__category-icon">{{ icon }}</div>
+                <h4 class="seo-footer__category-title">{{ title }}</h4>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</section>
+
+{% schema %}
+  {
+    "name": "Seo Footer",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Section title"
+      },
+      {
+        "type": "richtext",
+        "id": "description",
+        "label": "Section description"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Section subtitle"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Category",
+        "type": "Category",
+        "settings": [
+          {
+            "type": "text",
+            "id": "cat_title",
+            "label": "Category title"
+          },
+          {
+            "type": "textarea",
+            "id": "cat_icon",
+            "label": "Category icon"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Seo footer"
+      }
+    ]
+  }
+{% endschema %}

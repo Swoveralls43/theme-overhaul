@@ -1,0 +1,211 @@
+<style>
+
+  .transpricing{
+    padding:50px 0;
+  }
+
+  .transpricing__wrapper{
+    max-width:1280px;
+    width:94%;
+    margin:0 auto;
+    padding:0;
+  }
+
+  .transpricing__title{
+    
+  }
+
+  .transpricing__title h2{
+    font-size:32px;
+    font-weight:bold;
+    text-align:center;
+  }
+
+
+  .transpricing__desc{
+    
+  }
+
+  .transpricing__desc p{
+    font-size:20px;
+    text-align:center;
+    line-height:1.4em;
+  }
+
+  .transpricing__list{
+    margin-top:50px;
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap:30px;
+    gap:30px;
+  }
+
+  .transpricing__list-wrapper{
+    display:flex;
+    flex-direction:column;
+    flex-wrap:wrap;
+    justify-content:flex-start;
+    align-items:center;
+  }
+
+  .transpricing__list-image{
+    display:flex;
+    justify-content:center;
+  }
+
+  .transpricing__list-title{
+    
+  }
+
+  .transpricing__list-title p{
+    font-size:20px;
+    text-align:center;
+    line-height:1.4em;
+  }
+
+
+
+
+  
+@media only screen and (max-width: 980px) {
+
+  .transpricing__list{
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+}
+
+
+
+@media only screen and (max-width: 768px) {
+
+  .transpricing__list{
+    grid-template-columns: 1fr;
+  }
+  
+}  
+  
+</style>
+
+{% for collection in product.collections %}
+
+{% if collection.handle == 'swoveralls-colors' %}
+<div class="transpricing">
+  <div class="transpricing__wrapper">
+
+  <div class="transpricing__title">
+    <h2>Transparent Pricing</h2>
+  </div>
+
+  <div class="transpricing__desc">
+    <p>It's important to us that you know what goes in to making the comfy products we make. This list is not everything, as there are 
+    other additional costs that go into making Swoveralls, Swovie Shorts, and Comfyalls, such as product development and paid marketing - but 
+    high quality materials and teams lead to high quality products your body deserves.</p>
+  </div>
+
+  <div class="transpricing__list">
+
+  <div class="transpricing__list-wrapper">
+    <div class="transpricing__list-image"><img src="https://cdn.shopify.com/s/files/1/0047/6862/8836/files/icon-materials.png?v=1697044049" loading="lazy" /></div>
+    <div class="transpricing__list-title"><p>Materials<br>$13.30</p></div>
+  </div>
+
+  <div class="transpricing__list-wrapper">
+    <div class="transpricing__list-image"><img src="https://cdn.shopify.com/s/files/1/0047/6862/8836/files/icons-hardware.png?v=1697044049" loading="lazy" /></div>
+    <div class="transpricing__list-title"><p>Hardware<br>$0.65</p></div>
+    <div class="transpricing__list-price"><p></p></div>
+  </div>
+
+  <div class="transpricing__list-wrapper">
+    <div class="transpricing__list-image"><img src="https://cdn.shopify.com/s/files/1/0047/6862/8836/files/icons-labor.png?v=1697044049" loading="lazy" /></div>
+    <div class="transpricing__list-title"><p>Labor<br>$22.55</p></div>
+  </div>
+
+  <div class="transpricing__list-wrapper">
+    <div class="transpricing__list-image"><img src="https://cdn.shopify.com/s/files/1/0047/6862/8836/files/icons-transport.png?v=1697044049" loading="lazy" /></div>
+    <div class="transpricing__list-title"><p>Transport<br>$5.66</p></div>
+  </div>    
+    
+  </div>
+    
+  </div>  
+</div>
+{% endif %}
+
+
+
+{% if collection.handle == 'swovie-shorts' %}
+<div class="transpricing">
+  <div class="transpricing__wrapper">
+
+  <div class="transpricing__title">
+    <h2>Transparent Pricing</h2>
+  </div>
+
+  <div class="transpricing__desc">
+    <p>It's important to us that you know what goes in to making the comfy products we make. This list is not everything, as there are 
+    other additional costs that go into making Swoveralls, Swovie Shorts, and Comfyalls, such as product development and paid marketing - but 
+    high quality materials and teams lead to high quality products your body deserves.</p>
+  </div>
+
+  <div class="transpricing__list">
+
+  <div class="transpricing__list-wrapper">
+    <div class="transpricing__list-image"><img src="https://cdn.shopify.com/s/files/1/0047/6862/8836/files/icon-materials.png?v=1697044049" loading="lazy" /></div>
+    <div class="transpricing__list-title"><p>Materials<br>$8.30</p></div>
+  </div>
+
+  <div class="transpricing__list-wrapper">
+    <div class="transpricing__list-image"><img src="https://cdn.shopify.com/s/files/1/0047/6862/8836/files/icons-hardware.png?v=1697044049" loading="lazy" /></div>
+    <div class="transpricing__list-title"><p>Hardware<br>$0.65</p></div>
+  </div>
+
+  <div class="transpricing__list-wrapper">
+    <div class="transpricing__list-image"><img src="https://cdn.shopify.com/s/files/1/0047/6862/8836/files/icons-labor.png?v=1697044049" loading="lazy" /></div>
+    <div class="transpricing__list-title"><p>Labor<br>$20.55</p></div>
+  </div>
+
+  <div class="transpricing__list-wrapper">
+    <div class="transpricing__list-image"><img src="https://cdn.shopify.com/s/files/1/0047/6862/8836/files/icons-transport.png?v=1697044049" loading="lazy" /></div>
+    <div class="transpricing__list-title"><p>Transport<br>$5.66</p></div>
+  </div>    
+    
+  </div>
+    
+  </div>  
+</div>
+{% endif %} 
+
+
+{% endfor %}
+
+
+  
+
+
+ 
+
+
+
+{% schema %}
+{
+  "name": "Transparent Pricing",
+  "tag": "section",
+  "class": "transparent-pricing",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Transparent Pricing"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Transparent Pricing",
+      "settings": {
+        "title": "Transparent Pricing"
+      }
+    }
+  ]
+}
+{% endschema %}

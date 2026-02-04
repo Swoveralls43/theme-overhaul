@@ -1,0 +1,256 @@
+{% schema %}
+  {
+    "name": "Workshop Progress",
+    "class": "page-width",
+    "settings": [
+      {
+        "id": "ws_bar_height",
+        "type": "text",
+        "label": "Bar Height",
+        "default": "14px"
+      },
+      {
+        "id": "ws_bar_border_width",
+        "type": "text",
+        "label": "Bar Border Width",
+        "default": "0"
+      },
+      {
+        "id": "ws_bar_border_radius",
+        "type": "text",
+        "label": "Bar Border Radius",
+        "default": "0"
+      },
+      {
+        "id": "ws_bar_border_color",
+        "type": "color",
+        "label": "Bar Border Color",
+        "default": "#fafafa"
+      },
+      {
+        "id": "ws_bar_color_bg",
+        "type": "color",
+        "label": "Bar Background",
+        "default": "#f2f2f2"
+      },
+      {
+        "id": "ws_bar_color_progress",
+        "type": "color",
+        "label": "Bar Color",
+        "default": "#0f2130"
+      },
+      {
+        "id": "ws_progress_font_size",
+        "type": "text",
+        "label": "Progress Font Size",
+        "default": "100%",
+        "info": "Can be %, px, or (r)em"
+      },
+      {
+        "id": "ws_ship_date_font_size",
+        "type": "text",
+        "label": "Ship Date Font Size",
+        "default": "100%",
+        "info": "Can be %, px, or (r)em"
+      },
+      {
+        "id": "ws_ship_date_border_color",
+        "type": "color",
+        "label": "Ship Date Border Color",
+        "default": "#666"
+      }
+    ]
+  }
+{% endschema %}
+{%- assign wsData = product.metafields['tsio-workshop']['data'].value -%}
+{%- if wsData['phase'] == 'crowd-sourced' -%}
+  {%- assign wsEnds = wsData['ends_at'] -%}
+  {%- assign wsTarget = wsData['threshold'] -%}
+  {%- assign wsSales = wsData['num_sold'] -%}
+  {%- assign wsProgress = wsSales | times: 100 | divided_by: wsTarget | round -%}
+  <section class="ws-data">
+    <ul data-ws-progress="{{ wsProgress }}%">
+      <li class="ws-period">
+        <span>Workshop ends:</span>
+        <time class="ws-countdown" datetime="{{ wsEnds }}">{{ wsEnds }}</time>
+      </li>
+      <li class="ws-progress">{{ wsProgress }}% Funded</li>
+    </ul>
+  </section>
+  <style type="text/css">
+    {%- assign wsBarHeight = section.settings.ws_bar_height -%}
+    {%- assign wsBarBorderWidth = section.settings.ws_bar_border_width -%}
+    {%- assign wsBarBorderRadius = section.settings.ws_bar_border_radius -%}
+    {%- assign wsBarBorderColor = section.settings.ws_bar_border_color -%}
+    {%- assign wsBarColorBg = section.settings.ws_bar_color_bg -%}
+    {%- assign wsBarColor = section.settings.ws_bar_color_progress -%}
+    {%- assign wsProgressFontSize = section.settings.ws_progress_font_size -%}
+    {%- assign wsShipDateFontSize = section.settings.ws_ship_date_font_size -%}
+    {%- assign wsShipDateBorderColor = section.settings.ws_ship_date_border_color -%}
+    .ws-data ul{ font-size: {{ wsProgressFontSize }};}
+    .ws-data ul:before,
+    .ws-data ul:after{
+      height: {{ wsBarHeight }};
+      border: {{ wsBarBorderWidth }} solid {{ wsBarBorderColor }};
+      border-radius: {{ wsBarBorderRadius }};
+    }
+    .ws-data ul:before{ background: {{ wsBarColorBg }};}
+    .ws-data ul:after{ background: {{ wsBarColor }};}
+    .ws-estimated-ship-date {
+      font-size: {{ wsShipDateFontSize }};
+      border-color: {{ wsShipDateBorderColor }};
+    }
+  </style>
+{%- endif -%}
+
+{%- include 'tsio-workshop-estimated-shipping-range', wsProduct: product -%}
+{%- include 'tsio-workshop-estimated-shipping-alert' -%}
+
+{% stylesheet 'scss' %}
+  @mixin keyframes($animationName){
+    @-webkit-keyframes $animationName { @content;}
+    @keyframes $animationName { @content;}
+  }
+
+  @for $i from 0 through 100 {
+    @include keyframes(progress-#{$i}){
+      from { width: 0;}
+      to { width: percentage($i / 100);}
+    }
+  }
+
+  #shopify-section-tsio-workshop-product{ margin: 0;}
+
+  .ws-data{
+    ul, li{
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    ul{
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      margin: 12px 18px;
+      padding-top: 1.5rem;
+
+      @media only screen and (min-width: 768px) {
+        margin: 36px 0 12px;
+      }
+
+      &:before,
+      &:after{
+        content: '';
+        display: block;
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        height: 1rem;
+        border-width: 1px;
+        border-style: solid;
+      }
+      &:before{ width: 100%;}
+      &:after{
+        z-index: 2;
+        animation-name: progress-100;
+        animation-delay: 1s;
+        animation-duration: 0.7s;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: forwards;
+      }
+
+      @for $i from 0 through 100 {
+        &[data-ws-progress="#{$i}%"]:after{ animation-name: progress-#{$i};}
+      }
+    }
+  }
+  .ws-estimated-ship-date {
+    margin: 12px 18px;
+    padding: 0.75em;
+    border-width: 3px;
+    border-style: solid;
+    background: #fff;
+    text-align: center;
+
+    @media only screen and (min-width: 768px) {
+      margin: 12px 0 0;
+    }
+
+    p{ margin: 0;}
+
+    .ws-cut-off {
+      position: relative;
+      z-index: 2;
+      margin: 1em 0;
+
+      &:after {
+        content: '';
+        display: block;
+        position: relative;
+        z-index: 1;
+        width: 80%;
+        left: 10%;
+        top: -1em;
+        border-bottom: 1px solid;
+      }
+      i{
+        position: relative;
+        z-index: 2;
+        padding: 0 1em;
+        background: #fff;
+      }
+    }
+
+    &.ws-multiple-ship-dates{ padding: 1em 1.25em;}
+  }
+{% endstylesheet %}
+<script>
+  var timezoneOffset = '{{ 'now' | date: "%z" }}';
+</script>
+{% javascript %}
+  (function(){
+    var countDownsAvailable = document.querySelectorAll('.ws-countdown');
+    var loadScript = function(url, cb){
+        var script = document.createElement('script');
+        script.async = true;
+        script.onerror = function() {
+            console.log('workshop error loading script', url);
+        };
+        script.onload = cb;
+        script.src = url;
+
+        document.getElementsByTagName("head")[0].appendChild(script);
+    };
+
+    var initCountdowns = function($){
+      !function(t){"use strict";var e=[],s=[],i={precision:100,elapse:!1,defer:!1};s.push(/^[0-9]*$/.source),s.push(/([0-9]{1,2}\/){2}[0-9]{4}( [0-9]{1,2}(:[0-9]{2}){2})?/.source),s.push(/[0-9]{4}([\/\-][0-9]{1,2}){2}( [0-9]{1,2}(:[0-9]{2}){2})?/.source),s=new RegExp(s.join("|"));var o={Y:"years",m:"months",n:"daysToMonth",d:"daysToWeek",w:"weeks",W:"weeksToMonth",H:"hours",M:"minutes",S:"seconds",D:"totalDays",I:"totalHours",N:"totalMinutes",T:"totalSeconds"};var n=function(s,o,n){this.el=s,this.$el=t(s),this.interval=null,this.offset={},this.options=t.extend({},i),this.firstTick=!0,this.instanceNumber=e.length,e.push(this),this.$el.data("tsiocountdown-instance",this.instanceNumber),n&&("function"==typeof n?(this.$el.on("update.tsiocountdown",n),this.$el.on("stoped.tsiocountdown",n),this.$el.on("finish.tsiocountdown",n)):this.options=t.extend({},i,n)),this.setFinalDate(o),!1===this.options.defer&&this.start()};t.extend(n.prototype,{start:function(){null!==this.interval&&clearInterval(this.interval);var t=this;this.update(),this.interval=setInterval(function(){t.update.call(t)},this.options.precision)},stop:function(){clearInterval(this.interval),this.interval=null,this.dispatchEvent("stoped")},toggle:function(){this.interval?this.stop():this.start()},pause:function(){this.stop()},resume:function(){this.start()},remove:function(){this.stop.call(this),e[this.instanceNumber]=null,delete this.$el.data().tsioCountdownInstance},setFinalDate:function(t){this.finalDate=function(t){if(t instanceof Date)return t;if(String(t).match(s))return String(t).match(/^[0-9]*$/)&&(t=Number(t)),String(t).match(/\-/)&&(t=String(t).replace(/\-/g,"/")),new Date(t);throw new Error("Couldn't cast `"+t+"` to a date object.")}(t)},update:function(){if(0!==this.$el.closest("html").length){var t,e=new Date;t=this.finalDate.getTime()-e.getTime(),t=Math.ceil(t/1e3),t=!this.options.elapse&&t<0?0:Math.abs(t),this.totalSecsLeft===t||this.firstTick?this.firstTick=!1:(this.totalSecsLeft=t,this.elapsed=e>=this.finalDate,this.offset={seconds:this.totalSecsLeft%60,minutes:Math.floor(this.totalSecsLeft/60)%60,hours:Math.floor(this.totalSecsLeft/60/60)%24,days:Math.floor(this.totalSecsLeft/60/60/24)%7,daysToWeek:Math.floor(this.totalSecsLeft/60/60/24)%7,daysToMonth:Math.floor(this.totalSecsLeft/60/60/24%30.4368),weeks:Math.floor(this.totalSecsLeft/60/60/24/7),weeksToMonth:Math.floor(this.totalSecsLeft/60/60/24/7)%4,months:Math.floor(this.totalSecsLeft/60/60/24/30.4368),years:Math.abs(this.finalDate.getFullYear()-e.getFullYear()),totalDays:Math.floor(this.totalSecsLeft/60/60/24),totalHours:Math.floor(this.totalSecsLeft/60/60),totalMinutes:Math.floor(this.totalSecsLeft/60),totalSeconds:this.totalSecsLeft},this.options.elapse||0!==this.totalSecsLeft?this.dispatchEvent("update"):(this.stop(),this.dispatchEvent("finish")))}else this.remove()},dispatchEvent:function(e){var s,i=t.Event(e+".tsiocountdown");i.finalDate=this.finalDate,i.elapsed=this.elapsed,i.offset=t.extend({},this.offset),i.strftime=(s=this.offset,function(t){var e,i,n,a,h,l,r=t.match(/%(-|!)?[A-Z]{1}(:[^;]+;)?/gi);if(r)for(var c=0,f=r.length;c<f;++c){var u=r[c].match(/%(-|!)?([a-zA-Z]{1})(:[^;]+;)?/),p=(e=u[0],i=e.toString().replace(/([.?*+^$[\]\\(){}|-])/g,"\\$1"),new RegExp(i)),d=u[1]||"",v=u[3]||"",g=null;u=u[2],o.hasOwnProperty(u)&&(g=o[u],g=Number(s[g])),null!==g&&("!"===d&&(a=g,h=void 0,l=void 0,h="s",l="",(n=v)&&(1===(n=n.replace(/(:|;|\s)/gi,"").split(/\,/)).length?h=n[0]:(l=n[0],h=n[1])),g=Math.abs(a)>1?h:l),""===d&&g<10&&(g="0"+g.toString()),t=t.replace(p,g.toString()))}return t=t.replace(/%%/,"%")}),this.$el.trigger(i)}}),t.fn.tsioCountdown=function(){var s=Array.prototype.slice.call(arguments,0);return this.each(function(){var i=t(this).data("tsiocountdown-instance");if(void 0!==i){var o=e[i],a=s[0];n.prototype.hasOwnProperty(a)?o[a].apply(o,s.slice(1)):null===String(a).match(/^[$A-Z_][0-9A-Z_$]*$/i)?(o.setFinalDate.call(o,a),o.start()):t.error("Method %s does not exist on jQuery.tsioCountdown".replace(/\%s/gi,a))}else new n(this,s[0],s[1])})}}($);
+
+      $(function(){
+        $('.ws-period time').each(function(){
+          var dateString = $(this).attr('datetime').replace(/\//g,'-') + 'T23:59:59.000';
+          if(timezoneOffset){
+            dateString += timezoneOffset;
+          }
+          var dateObj = new Date(dateString);
+          $(this).tsioCountdown(dateObj, function(event) {
+            $(this).html(event.strftime('%-Dd %Hh %Mm %Ss'));
+          });
+        });
+      });
+    };
+
+    if(countDownsAvailable.length){
+      if ((typeof jQuery === 'undefined') || (parseFloat(jQuery.fn.jquery) < 1.7)) {
+        loadScript('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js', function(){
+          jQueryTSIOWorkshop = jQuery.noConflict(true);
+          initCountdowns(jQueryTSIOWorkshop);
+        });
+      } else {
+        initCountdowns(jQuery);
+      }
+    }
+  })();
+{% endjavascript %}

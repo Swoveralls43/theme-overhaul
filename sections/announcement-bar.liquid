@@ -1,0 +1,134 @@
+{%- for block in section.blocks -%}
+  {%- case block.type -%}
+    {%- when 'announcement' -%}
+      {% if request.path contains block.settings.matching_url %}
+        <div class="announcement-bar font-heading announcement-bar-background-{{ forloop.index }}" role="region" aria-label="{{ 'sections.header.announcement' | t }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.text != blank -%}
+            {%- if block.settings.link != blank -%}
+              {%- unless block.settings.text contains "href" -%}
+                <a href="{{ block.settings.link }}" class="announcement-bar__link link link--text focus-inset animate-arrow">
+              {%- endunless -%}
+            {%- endif -%}
+            <div class="announcement-bar__message h5">
+              {{ block.settings.text }}
+            </div>
+            {%- if block.settings.link != blank -%}
+              {%- unless block.settings.text contains "href" -%}
+                </a>
+              {%- endunless -%}
+            {%- endif -%}
+          {%- endif -%}
+        <div class="link-announcement-bar">
+        <a class="kiwi-modal-toggle" href="javascript:void(0)">Size Guide</a>
+          
+        <a href="https://swoveralls.com/pages/loyalty-program">Rewards 🏆</a>
+        </div>
+        </div>
+        
+      {%- endif -%}
+  {%- endcase -%}
+{%- endfor -%}
+
+{% style %}
+.link-announcement-bar {
+  float: right;
+  font-family: var(--font-body);
+  font-size: 12px;
+  padding: 0 48px;
+  position: relative;
+  z-index: 2;
+}
+
+.link-announcement-bar a{
+  margin-left: 30px;
+  color: #e5f808;
+  font-weight: 700px;
+}
+
+  @media screen and (max-width: 1199px){
+    .link-announcement-bar {
+    display: none;
+    }
+  }
+  
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when 'announcement' -%}
+        .announcement-bar-background-{{ forloop.index }} {
+          background-color: {{ block.settings.background_color }};
+        }
+        .announcement-bar-background-{{ forloop.index }} .announcement-bar__message{
+          color: {{ block.settings.color }};
+        }
+    {%- endcase -%}
+  {%- endfor -%}
+  
+  {% assign blocks_size = section.blocks | size %}
+  
+  {% if blocks_size > 0 %}
+    #HeaderWrapper {
+      height: 118px;
+    }
+    
+    .main-content {
+      margin-top: 118px;
+    }
+    
+    @media only screen and (min-width: 1200px) {
+      .main-content {
+        margin-top: 140px;
+      }
+    }
+  {% endif %}
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "t:sections.announcement-bar.name",
+  "max_blocks": 12,
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "t:sections.announcement-bar.blocks.announcement.name",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Welcome to our store</p>",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.text.label"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.background_color.label",
+          "default": "#000"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.font_color.label",
+          "default": "#fff"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.link.label"
+        },
+        {
+          "type": "text",
+          "id": "matching_url",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.matching_url.label",
+          "default": "/"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "announcement"
+      }
+    ]
+  }
+}
+{% endschema %}

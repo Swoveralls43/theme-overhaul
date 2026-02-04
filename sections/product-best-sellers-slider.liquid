@@ -1,0 +1,74 @@
+<link rel="stylesheet" href="{{ 'slick.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'section-product-recommendations-slider.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'section-product-best-sellers-slider.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'content-price.css' | asset_url }}" media="print" onload="this.media='all'">
+
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-product-grid.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'vendor.js' | asset_url }}"></script>
+<script src="{{ 'section-product-best-sellers-slider.js' | asset_url }}"></script>
+
+{% assign best_sellers = section.settings.best_sellers %}
+{% assign title = section.settings.title %}
+{% assign limit = section.settings.limit %}
+
+{% assign product_images_length = limit | minus: 1 | times: 1.0 %}
+{% assign images_progress_length = 100 | divided_by: product_images_length %}
+
+{% if best_sellers != blank %}
+<div class="page-width">
+    <div class="product-recommendations__wrapper">
+      <div class="product-recommendations product-best-sellers js-product-recommendations">
+        <div class="js-product-recommendations__container product-recommendations__container">
+          {% if title != blank %}
+            <h2 class="h2 product-recommendations__title">
+              {{ title | escape }}
+            </h2>
+          {% endif %}
+
+          <div class="product-recommendations__slider content-slider js-product-best-sellers-slider">
+            {% for product in best_sellers.products limit: limit %}
+              {% unless product.tags contains 'exclude_rebuy' %}
+                <div class="product-recommendations__slider-slide js-slide">
+                  {% include 'product-grid-item', product: product %}
+                </div>
+              {% endunless %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="product__images__progress-bar js-images-progress">
+        <span style="width: {{ images_progress_length }}%;"></span>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+    "name": "Best Sellers Slider",
+    "settings": [
+      {
+        "type": "collection",
+        "id": "best_sellers",
+        "label": "Best Sellers Collection"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Section title"
+      },
+      {
+        "type": "number",
+        "id": "limit",
+        "label": "Products limit"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Best Sellers Slider"
+      }
+    ]
+  }
+{% endschema %}

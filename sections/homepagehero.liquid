@@ -1,0 +1,169 @@
+<!-- sections/homepagehero -->
+
+{{ 'section-homepagehero.css' | asset_url | stylesheet_tag }}
+
+{% case section.settings.content_position %}
+    {% when "leftbottom" %}
+      {%- assign blockposition = 'herobottomleft' -%}
+    {% when "centercenter" %}
+      {%- assign blockposition = 'herocentercenter' -%}
+    {% when "rightbottom" %}
+      {%- assign blockposition = 'herobottomright' -%}
+    {% when "centerbottom" %}
+      {%- assign blockposition = 'herobottomcenter' -%}
+{% endcase %}
+
+{% case section.settings.content_alignment %}
+    {% when "left" %}
+      {%- assign contentalignment = 'hero_align_left' -%}
+    {% when "center" %}
+      {%- assign contentalignment = 'hero_align_center' -%}
+    {% when "right" %}
+      {%- assign contentalignment = 'hero_align_right'-%}
+{% endcase %}
+
+<div class="container_hero_text_button">
+    {% if section.settings.hero_video_link != blank %}
+        {%- if section.settings.hero_overlay -%}
+            <div class="container_overlay"></div>
+        {%- endif -%}
+        <video  class="container_hero video_hero" autoplay muted loop id="myVideo">
+        <source class="inner_image" src="{{ section.settings.hero_video_link }}" type="video/mp4">
+        </video>
+    {% else section.settings.hero_video_link == blank%}
+        <picture class="container_hero">
+            {%- if section.settings.hero_overlay -%}
+                <div class="container_overlay"></div>
+            {%- endif -%}
+                <source class="inner_hero" media="(min-width: 800px)" srcset="{{ section.settings.hero_image_desktop | img_url: '1800x' }}">
+                <img class="inner_hero" style="width: 100%" src="{{ section.settings.hero_image_mobile | img_url: '1200x' }}" alt="{{ section.settings.hero_image_desktop.alt }}">
+            {% endif %}
+        </picture>
+    <div class="container_text_button">
+        <div class="inner_container_text_button {{ blockposition }}">
+            <h2 class="text hero_text" style="color: {{ section.settings.hero_text_color }}">{{ section.settings.hero_text }}</h2>
+            {% if section.settings.button_url != blank %}
+              <a class="button_html {{ contentalignment }}" href="{{ section.settings.button_url }}">
+              <div class="text button_text" style="background-color: {{ section.settings.button_background_color }}; color: {{ section.settings.button_text_color }}"> {{ section.settings.button_text }}</div>
+              </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+    "presets": [
+        {
+            "category": "Homepage hero",
+            "name": "Homepage hero"
+        }
+    ],
+    "name": "Homepage hero",
+    "settings": [
+        {
+            "type": "text",
+            "id": "hero_video_link",
+            "label": "Video link"
+        },
+        {
+            "type": "image_picker",
+            "id": "hero_image_desktop",
+            "label": "Desktop Image",
+            "info": "1800 x 800px .jpg recommended"
+        },
+        {
+            "type": "image_picker",
+            "id": "hero_image_mobile",
+            "label": "Mobile Image",
+            "info": "1800 x 800px .jpg recommended"
+        },    
+        {
+            "type": "checkbox",
+            "id": "hero_overlay",
+            "label": "Image overlay",
+            "default": true
+        },    
+        {
+            "type": "text",
+            "id": "hero_text",
+            "label": "Hero text",
+            "default": "new arrivals"
+        },
+        {
+            "type": "color",
+            "id": "hero_text_color",
+            "label": "Hero text color",
+            "default": "#fff"
+        },        
+        {
+            "type": "text",
+            "id": "button_text",
+            "label": "Button text",
+            "default": "shop now"
+        },
+        {
+            "type": "color",
+            "id": "button_text_color",
+            "label": "Button text color",
+            "default": "#FFFFFF"
+        },
+        {
+            "type": "color",
+            "id": "button_background_color",
+            "label": "Button background color",
+            "default": "#121212"
+        },
+        {
+            "type": "url",
+            "id": "button_url",
+            "label": "Button link"
+        },
+        {
+            "type": "select",
+            "id": "content_alignment",
+            "label": "Content alignment",
+            "options": [
+                {
+                "value": "left",
+                "label": "Left"
+                },
+                {
+                "value": "center",
+                "label": "Center "
+                },
+                {
+                "value": "right",
+                "label": "Right "
+                }
+            ],
+            "default": "center"
+        }
+        ,
+        {
+            "type": "select",
+            "id": "content_position",
+            "label": "Content position",
+            "options": [
+                {
+                "value": "leftbottom",
+                "label": "Left bottom"
+                },
+                {
+                "value": "centercenter",
+                "label": "Center center"
+                },
+                {
+                "value": "centerbottom",
+                "label": "Center bottom"
+                },
+                {
+                "value": "rightbottom",
+                "label": "Right bottom"
+                }
+            ],
+            "default": "centerbottom"
+        }
+    ]
+}
+{% endschema %}

@@ -1,0 +1,274 @@
+{{ 'template-product.css' | asset_url | stylesheet_tag }}
+{{ 'slick.css' | asset_url | stylesheet_tag }}
+{{ 'slick.min.js' | asset_url | script_tag }}
+
+{% assign active_product = product %}
+{% assign product_color = active_product.options_by_name['Color'].values | first %}
+{% assign product_color_handle = product_color | handle %}
+{% assign linked_products = false %}
+{% assign base_product = false %}
+
+{% for prod_collection in active_product.collections %}
+  {% if prod_collection.handle contains 'colors' %}
+    {% assign linked_products_handle = prod_collection.handle %}
+    {% assign linked_products = collections[linked_products_handle].products %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% comment %}
+  If current product is base active product is the first product with a color different than base
+{% endcomment %}
+
+{% if product_color_handle == 'base' %}
+  {% for linked_product in linked_products %}
+    {% assign linked_product_color = linked_product.options_by_name['Color'].values | first %}
+    {% assign linked_product_color_handle = linked_product_color | handle %}
+    {% if linked_product_color_handle != 'base' %}
+      {% assign active_product = linked_product %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% comment %}
+  Get base product
+{% endcomment %}
+{% for linked_product in linked_products %}
+  {% assign linked_product_color = linked_product.options_by_name['Color'].values | first %}
+  {% assign linked_product_color_handle = linked_product_color | handle %}
+  {% if linked_product_color_handle == 'base' %}
+    {% assign base_product = linked_product %}
+  {% endif %}
+{% endfor %}
+
+{% assign current_variant = active_product.selected_or_first_available_variant %}
+{% assign featured_image = current_variant.featured_image | default: active_product.featured_image %}
+{% assign product_color = active_product.options_by_name['Color'].values | first %}
+{% assign product_color_handle = product_color | handle %}
+{% assign product_short_title = active_product.title | split: '/' | first | strip %}
+{% assign base_product_title = base_product.title | split: '/' | first | remove: '[Pre-Launch]' | remove: 'Base' | strip %}
+
+<div class="page-width product-page">
+  <div class="product__description__page">
+    <div class="product__description__form">
+      <div class="product__description__form__left">
+        <div class="product__description__form__breadcrumbs-mobile">
+          {% render 'breadcrumbs' %}
+        </div>
+        <div {% assign product_images_size = product.images | size %} class="js-product-images
+                                              {% if product_images_size > 1 %}
+                                                product__description__form__images-multiple
+                                              {% elsif product_images_size == 1 %}
+                                                product__description__form__images
+                                              {% endif %}
+                                              ">
+          {% include 'product-images' %}
+        </div>
+        <div class="product__description__form__images-mobile">
+          {% render 'product-images-mobile' linked_products: linked_products %}
+        </div>
+
+        <div class="product__description__form__detail">
+          <div class="product__description__form__detail-content">
+            {% if base_product.description != blank %}
+              {% assign preview_desc = base_product.description %}
+
+              {% if preview_desc contains '</div>' %}
+                {% assign preview_desc = preview_desc | split: '</div>' | first | append: '</div>' %}
+              {% endif %}
+
+              {{ preview_desc }}
+            {% else %}
+              {% assign preview_desc = product.description | split: '</p>' | first | append: '</p>' %}
+
+              {% if preview_desc contains '</div>' %}
+                {% assign preview_desc = preview_desc | split: '</div>' | first | append: '</div>' %}
+              {% endif %}
+
+              {{ preview_desc }}
+            {% endif %}
+          </div>
+          <button class="product__description__form__detail-action open__right__drawer" data-right-drawer-renderer="product-details">
+            View Product Details
+          </button>
+        </div>
+      </div>
+      <div class="product__description__form__right">
+        <div class="product__description__form__breadcrumbs">
+          {% render 'breadcrumbs' %}
+        </div>
+        {% if base_product %}
+          <h1 class="product__description__form__title">{{ base_product_title }}</h1>
+        {% else %}
+          <h1 class="product__description__form__title">{{ product_short_title }}</h1>
+        {% endif %}
+
+        {% assign on_sale = false %}
+        {% if active_product.compare_at_price > active_product.price %}
+          {% assign on_sale = true %}
+        {% endif %}
+
+        <p class="product__description__form__price">
+          <span class="js-product-price{% if on_sale %} sale{% endif %}">{{ active_product.price | money }}</span>
+          <span class="js-compare-price{% if on_sale %} compare-price{% endif %}">{{ active_product.compare_at_price | money }}</span>
+        </p>
+
+        {% include 'product-form' %}
+
+        <div class="product__description__form__detail-mobile">
+          <div class="product__description__form__detail-content">
+            {% if base_product.description != blank %}
+              {{ base_product.description }}
+            {% else %}
+              {{ product.description }}
+            {% endif %}
+          </div>
+          <button class="product__description__form__detail-action open__right__drawer" data-right-drawer-renderer="product-details">
+            View Product Details
+          </button>
+        </div>
+
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'product_extra_info' %}
+              {% if block.settings.info_text != blank %}
+                {% if block.settings.info_tag == blank or product.tags contains block.settings.info_tag %}
+                  <div class="product__description__considerations" data-product-description-considerations>
+                    <div class="product__description__considerations__left">
+                      <p>{{ block.settings.info_text }}</p>
+                    </div>
+                    <div class="product__description__considerations__right">
+                      {% if block.settings.extra_info_logo %}
+                        <img src="{{ block.settings.extra_info_logo | image_url }}" class="product__description__considerations__icon"/>
+                      {% endif %}
+                    </div>
+                  </div>
+                {% endif %}
+              {% endif %}
+          {% endcase %}
+        {% endfor %}
+
+        {% assign has_team = false %}
+        {% assign selected_team = false %}
+        {% assign team = '' %}
+        {% assign league = '' %}
+
+        {% for tag in product.tags %}
+          {% if tag contains 'team:' %}
+            {% assign team = tag | split: 'team:' | last | capitalize %}
+            {% assign has_team = true %}
+          {% elsif tag contains 'league:' %}
+            {% assign league = tag | split: 'league:' | last | capitalize %}
+          {% endif %}
+        {% endfor %}
+
+        {% if has_team %}
+          {% assign product_handle = 'logo-' | append: team | handle %}
+          {% assign team_product = all_products[product_handle] %}
+          {% assign favorite_teams = customer.metafields.customer_fields.data['favorite_teams_list'] %}
+          {% assign team_downcase = team | downcase %}
+
+          {% for team_string in favorite_teams %}
+            {% assign selected_team_downcase = team_string | split: '|' | first | downcase %}
+            {% if team_downcase == selected_team_downcase %}
+              {% assign selected_team = true %}
+            {% endif %}
+          {% endfor %}
+
+          <div class="js-cf{% unless customer %} js-no-customer{% endunless %}">
+            <div class="product__form__favorite__team js-pdp-ft{% if selected_team %} selected{% endif %}" data-team="{{ team }}" data-league="{{ league }}">
+              <div class="product__form__favorite__team-left">
+                {% if team_product %}
+                  {{ team_product.description }}
+                {% endif %}
+                <div class="product__form__favorite__team-info">
+                  <h4 class="product__form__favorite__team-title">{{ team | replace: '-', ' ' }}</h4>
+                  <h4 class="product__form__favorite__team-name">{{ league }}</h4>
+                </div>
+              </div>
+              <div>
+                <div class="empty-heart">
+                  <img src="{{ 'icon-heart-empty.svg' | asset_url }}"/>
+                </div>
+                <div class="full-heart">
+                  <img src="{{ 'icon-heart.svg' | asset_url }}"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="product__overlay"></div>
+
+<div class="product__size__guides-modal">
+  {% include 'product-size-guide-modal' %}
+</div>
+
+<div class="product__zoom-modal">
+  <div class="product__zoom__close-container">
+    <div class="product__zoom-modal__close js-close-product-zoom">
+      <img src="{{ 'icon-close-circle.svg' | asset_url }}"/>
+    </div>
+  </div>
+  <div class="product__zoom__close__mobile-container">
+    <div class="product__zoom-modal__close js-close-product-zoom">
+      <img src="{{ 'icon-close-circle.svg' | asset_url }}"/>
+    </div>
+  </div>
+  {% if linked_products %}
+    {% for linked_product in linked_products %}
+      {% assign image_color = linked_product.options_by_name['Color'].values | first %}
+      {% assign image_color_downcase = image_color | downcase %}
+
+      {% for image in linked_product.images %}
+        <img class="js-product-image js-product-image-zoom
+                                          {% if linked_product.handle == active_product.handle %} active{% endif %}" data-image-color="{{ image_color | handle }}" src="{{ image | image_url }}"/>
+      {% endfor %}
+    {% endfor %}
+  {% else %}
+    {% for image in product.images %}
+      <img class="js-product-image js-product-image-zoom active" data-color-handle="{{ image_color | handle }}" src="{{ image | image_url }}"/>
+    {% endfor %}
+  {% endif %}
+</div>
+
+{{ 'product.js' | asset_url | script_tag }}
+
+{% schema %}
+
+{
+  "name": "Product",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "product_extra_info",
+      "name": "Confidence Statement",
+      "settings": [
+        {
+          "type": "text",
+          "id": "info_text",
+          "label": "Confidence Statement"
+        }, 
+        {
+          "type": "image_picker",
+          "id": "extra_info_logo",
+          "label": "Extra info logo"
+        },
+        {
+          "type": "text",
+          "id": "info_tag",
+          "label": "Confidence Statement Tag",
+          "info": "Providing a tag will ensure this statement only appears on PDPs with this tag."
+        }
+      ]
+    }
+  ]
+}
+
+{% endschema %}

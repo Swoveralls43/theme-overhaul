@@ -1,0 +1,371 @@
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-product-grid.css' | asset_url | stylesheet_tag }}
+{{ 'component-filters.css' | asset_url | stylesheet_tag }}
+{{ 'component-team-selector.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'vendor.js' | asset_url }}"></script>
+
+<div class="page-width">
+  {% render 'breadcrumbs' %}
+</div>
+<div class="collection-products page-width">
+  {% comment %}
+  <aside class="collection__sidebar active">
+    {% unless team_prod != empty or collection.handle contains 'league' %}
+      <ul class="sidebar__list">
+        {% for link in linklists[section.settings.sidebar_league_navigation].links %}
+          {% assign title_downcase = link.title | downcase %}
+          {% assign clear_filters = false %}
+
+          {% if title_downcase == 'everything' %}
+            {% assign clear_filters = true %}
+          {% endif %}
+          
+          <li class="js-sidebar-item sidebar__filter-item sidebar__league-filter">
+            <span class="js-col-filter" type="button" data-algolia-filter="collections:{{ link.url | remove: '#' }}">{{ link.title }}</span>
+            {% if link.links %}
+              <ul>
+                {% for sub_link in link.links %}
+                  {% assign sub_filter = sub_link.url | remove: '#' %}
+                  {% assign sub_filter_handle = sub_filter | replace: ' ', '-' %}
+                  {% assign show_filter = false %}
+                  
+                  {% if collection.all_tags contains sub_filter %}
+                    {% assign show_filter = true %}
+                  {% endif %}
+                  
+                  {% if show_filter %}
+                    <li class="js-col-filter" type="button" data-algolia-filter="collections:{{ link.url | remove: '#' }}"><span>{{ sub_link.title }}</span></li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endunless %}
+    
+    <ul class="sidebar__list">
+      {% for link in linklists[section.settings.sidebar_list].links %}
+        {% assign title_downcase = link.title | downcase %}
+        {% assign clear_filters = false %}
+
+        {% if title_downcase == 'everything' %}
+          {% assign clear_filters = true %}
+        {% endif %}
+        
+        <li class="{% unless clear_filters %}js-sidebar-item{% endunless %} sidebar__filter-item {% if clear_filters %}visible{% endif %}">
+          <span class="js-open-filter-list {% if clear_filters %}js-filter-btn-algolia-clear{% else %}js-type-filter{% endif %}" data-algolia-filter="{{ link.url | remove: '#' | replace: '-', ' ' }}" data-prefix="{{ link.url | split: ':' | first | remove: '#' }}">{{ link.title }}</span>
+          {% if link.links %}
+            <ul>
+              {% for sub_link in link.links %}
+                {% assign sub_filter = sub_link.url | remove: '#' %}
+                {% assign sub_filter_handle = sub_filter | replace: ' ', '-' %}
+                {% assign show_filter = false %}
+                
+                {% if collection.all_tags contains sub_filter %}
+                  {% assign show_filter = true %}
+                {% endif %}
+                
+                {% if show_filter %}
+                  <li class="js-type-filter" data-algolia-filter="{{ sub_filter }}" data-prefix="{{ sub_link.url | split: ':' | first | remove: '#' }}"><span>{{ sub_link.title }}</span></li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+
+    <ul class="sidebar__list sidebar__list--icons js-sidebar-icons-filters">
+      {% for block in section.blocks %}
+        {% if block.type == 'sidebar-icon-list-item' %}
+            <li class="js-sidebar-item sidebar__icon-filter">
+              <button class="js-col-filter" type="button" data-algolia-filter="collections:{{ block.settings.tag }}">
+                {% if block.settings.image %}
+                  <img src="{{ block.settings.image | img_url: '40x' }}" alt="{{ block.settings.title }}">
+                {% endif %}
+                <span>{{ block.settings.title }}</span>
+              </button>
+            </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </aside>
+  {% endcomment %}
+  <div class="collection__main">
+    <div class="collection__header">
+      <div class="collection__title-wrapper">
+        <div class="collection__info">
+          {% if search.results_count <= 0 %}
+            <h1>No results found for "{{ search.terms }}"</h1>
+          {% else %}
+            <h1>Showing results for "{{ search.terms }}"</h1>
+          {% endif %}
+        </div>
+      </div>
+      {% if section.settings.sidebar_list %}
+        <div class="collection__inline-filters">
+          <ul class="inline-filters__list">
+            {% for link in linklists[section.settings.sidebar_list].links %}
+              {% assign title_downcase = link.title | downcase %}
+              {% assign clear_filters = false %}
+
+              {% if title_downcase == 'everything' %}
+                {% assign clear_filters = true %}
+              {% endif %}
+            
+              <li class="{% unless clear_filters %}js-sidebar-item{% endunless %} sidebar__filter-item {% if clear_filters %}visible{% endif %}" data-algolia-filter="{{ link.url | remove: '#' | replace: '-', ' ' }}" data-prefix="{{ link.url | split: ':' | first | remove: '#' }}">
+                <span class="js-open-filter-list js-inline-filter inline-filter visible {% if clear_filters %}js-filter-btn-algolia-clear{% else %}js-type-filter{% endif %}" data-algolia-filter="{{ link.url | remove: '#' | replace: '-', ' ' }}" data-prefix="{{ link.url | split: ':' | first | remove: '#' }}">{{ link.title }}</span>
+                {% if link.links %}
+                  <ul>
+                    {% for sub_link in link.links %}
+                      {% assign sub_filter = sub_link.url | remove: '#' %}
+                      {% assign sub_filter_handle = sub_filter | replace: ' ', '-' %}
+                      {% assign show_filter = false %}
+                      
+                      {% if collection.all_tags contains sub_filter %}
+                        {% assign show_filter = true %}
+                      {% endif %}
+                      
+                      {% if show_filter %}
+                        <li class="js-type-filter" data-algolia-filter="{{ sub_filter }}" data-prefix="{{ sub_link.url | split: ':' | first | remove: '#' }}"><span>{{ sub_link.title }}</span></li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      <div class="collection__toolbar search__toolbar">
+        {% comment %}
+        <div class="toolbar__filters">
+          <button type="button" class="btn-text filter-toggle js-toggle-filters">
+            {% render 'icon-filters' %}
+            <span>All Filters</span>
+          </button>
+          <div class="active-filter__list js-active-filters">
+            {% if current_tags.size > 0 %}
+              {% for current_tag in current_tags %}
+                {% if current_tag contains '-' %}
+                  {% assign current_tag_splited = current_tag | split: '-' | last  %}
+                  {% elsif current_tag contains ':' %}
+                  {% assign current_tag_splited = current_tag | split: ':' | last  %}
+                {% endif %}
+
+                {% capture tag_link %}{{ current_tag | link_to_remove_tag: current_tag }}{% endcapture %}
+                {% assign tag_link_parts = tag_link | remove_first: '<a href="' | split: '" title="' %}
+                {% assign tag_link = tag_link_parts[0] | strip %}
+
+                <div class="active-filter">
+                  <span>{{ current_tag_splited }}</span>
+                  <a href="{{ tag_link }}" type="button" class="js-rm-filter btn-text" aria-label="Remove tag {{ current_tag }}">{% render 'icon-x' %}</a>
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+          <div class="js-close-icon-html" style="display: none">
+            {% render 'icon-x' %}
+          </div>
+        </div>
+        {% endcomment %}
+        <div class="toolbar__sorting">
+          <span><span class="js-product-count">{{ collection.products_count }}</span> Products</span>
+          {% comment %}
+          <div class="toolbar__grid-view">
+            <button type="button" class="js-icon-grid-four">
+              {% render 'icon-grid-four' %}
+            </button>
+            <button type="button" class="js-icon-grid-one">
+              {% render 'icon-grid-one' %}
+            </button>
+          </div>
+          {% endcomment %}
+          <div class="sorting__list">
+            <button type="button" class="btn-text js-toggle-sorting">
+              <span>Sort</span>
+              {% render 'icon-chevron-down' %}</button>
+              <div class="sorting__options">
+                {% render 'sorting-list-temp' %}
+                {% comment %}
+                <ul class="js-filter-list filter__list">
+                  
+                  {% for option in collection.sort_options %}
+                    
+                    {% liquid
+                      assign value = '?sort_by=' | append: option.value
+                      assign option_downcase = option.value | downcase
+                      assign show_option = true
+                    
+                      if settings.enable_algolia_plp
+                        assign base_index = 'shopify_ics_products'
+                        
+                        assign sort_index = option.value | replace: '-', '_'
+                        assign value = base_index | append: '_' | append: sort_index
+                      endif
+                      
+                      if option_downcase == 'manual' or option_downcase == 'best-selling'
+                        assign show_option = false
+                      endif
+                    %}
+
+                    {% if show_option %}
+                      <li class="filter__list-item">
+                        <label class="filter__tag visible" data-sort-filter>
+                          <input class="filter__input js-sort-input"
+                                 value="{{ option.value }}"
+                                 data-sort="{{ value }}"
+                                 name="sort"
+                                 type="radio" data-tag="{{ tag | handleize }}" data-algolia-filter="{{ tag }}" {% if option.value == sort_by %} checked {% endif %}>
+
+                          <div class="filter__tag-wrapper">
+                            <div class="filter__tag-heading">
+                              {{ option.name }}
+                            </div>
+
+                            <div class="filter__radio"></div>
+                          </div>
+                        </label>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+                {% endcomment %}
+              </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="active-filter__list active-filter__list--mobile js-active-filters">
+        {% if current_tags.size > 0 %}
+          {% for current_tag in current_tags %}
+            {% if current_tag contains '-' %}
+              {% assign current_tag_splited = current_tag | split: '-' | last  %}
+              {% elsif current_tag contains ':' %}
+              {% assign current_tag_splited = current_tag | split: ':' | last  %}
+            {% endif %}
+
+            {% capture tag_link %}{{ current_tag | link_to_remove_tag: current_tag }}{% endcapture %}
+            {% assign tag_link_parts = tag_link | remove_first: '<a href="' | split: '" title="' %}
+            {% assign tag_link = tag_link_parts[0] | strip %}
+
+            <div class="active-filter">
+              <span>{{ current_tag_splited }}</span>
+              <a href="{{ tag_link }}" type="button" class="js-rm-filter btn-text" aria-label="Remove tag {{ current_tag }}">{% render 'icon-x' %}</a>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    {% paginate search.results by 9 %}
+      <div class="product-grid js-product-grid" data-search="{{ search.terms }}" data-page="{{ paginate.current_page }}" data-filters="{% if settings.enable_algolia_plp %}algolia{% endif %}" data-hits-per-page="27">
+        
+        {% if settings.enable_algolia_plp %}
+          <div class="product-grid__loading">
+            {% for i in (1..9) %}
+              <div class="loading__item">
+                <div class="loading__item__image">
+                </div>
+                <div class="loading__item__info">
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          {% for item in search.results %}
+            {% if item.object_type == 'product' %}
+              {% render 'product-grid-item' product: item, forloop: forloop %}
+              
+              {% if forloop.last and paginate.next %}
+                <div class="product-grid__item product-grid__item--next js-grid-item-next">
+                  <a href="{{ paginate.next.url }}">
+                    {% render 'icon-circle-arrow' %}
+                    <span>Next Page</span>
+                  </a>
+                </div>
+              {% endif %}
+              {% else %}
+                {{ item.url }}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+        
+      </div>
+      {% if settings.enable_algolia_plp %}
+        {% render 'algolia-pagination' %}
+      {% else %}
+        {% render 'pagination', paginate: paginate %}
+      {% endif %}
+    {% endpaginate %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection Page",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "gender_navigation",
+      "label": "Gender Navigation",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "sidebar_list",
+      "label": "Sidebar Filter List"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "gender-card",
+      "name": "Gender Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "gender_title",
+          "label": "Gender"
+        },
+        {
+          "type": "image_picker",
+          "id": "gender_image",
+          "label": "Gender Image"
+        }
+      ]
+    },
+    {
+      "type": "product-finder-type",
+      "name": "Product Finder Type",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Short Description"
+        },
+        {
+          "type": "text",
+          "id": "type",
+          "label": "Filter Tag",
+          "info": "The product tag that will be used for filtering. e.g. 'style:Bucket'"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{{ 'collection.js' | asset_url | script_tag }}

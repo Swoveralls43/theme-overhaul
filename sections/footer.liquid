@@ -1,0 +1,307 @@
+{{ 'section-footer.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'section-footer.js' | asset_url }}" defer="defer"></script>
+
+{% liquid 
+  assign form_title = section.settings.form_title
+  assign input_placeholder = section.settings.input_placeholder
+  assign twitter_show = section.settings.twitter_show 
+  assign twitter_link = section.settings.twitter_link 
+  assign facebook_show = section.settings.facebook_show 
+  assign facebook_link = section.settings.facebook_link 
+  assign youtube_show = section.settings.youtube_show 
+  assign youtube_link = section.settings.youtube_link 
+  assign instagram_show = section.settings.instagram_show 
+  assign instagram_link = section.settings.instagram_link 
+  assign tiktok_show = section.settings.tiktok_show 
+  assign tiktok_link = section.settings.tiktok_link 
+  assign pinterest_show = section.settings.pinterest_show 
+  assign pinterest_link = section.settings.pinterest_link 
+  assign footer_menu = section.settings.footer_menu
+%}
+
+<footer class="footer">
+  <div class="footer__wrapper">
+    <div class="footer__top">
+      <div class="footer__top-container">
+        {% if section.settings.logo != blank %}
+          <div class="footer__logo">
+            {{ section.settings.logo | image_url: width: 300 | image_tag: width: 124, loading: 'lazy' }}
+          </div>
+        {% endif %}
+        <div class="footer__copy">
+          <span class="hide-md-up">&copy; {{ 'now' | date: "%Y" }} {{ shop.name }} | {{ 'sections.footer.reserved' | t }}</span>
+          <span class="show-md-up">&copy; {{ 'now' | date: "%Y" }} {{ shop.name }} <br/> {{ 'sections.footer.reserved' | t }}</span>
+        </div>
+      </div>
+    </div>
+
+   <!-- START KiwiSizing code !-->
+     <div id="KiwiSizingChart" 
+        data-sizing-id="64604389"
+        data-display-mode="1"
+        data-recommender-display-mode="1"
+        data-layout-type="0" class="hidden">
+      </div>
+    <!-- END KiwiSizing code !-->
+    
+    <div class="footer__body">
+      <div class="footer__body-row">
+        {% for parent_item in footer_menu.links %}
+           <div class="footer__body-item">
+              <h3 class="h4 footer__list-title {% if parent_item.links.size > 0 %}js-footer-accordion-trigger{% endif %}">
+                {{ parent_item.title }}
+                {% if parent_item.links.size > 0 %}
+                  <img loading="lazy" width="16" height="16" class="footer__list-title-icon" src="{{ 'icon-chevron-down.svg' | asset_url }}" alt="">
+                {% endif %}
+              </h3>
+
+             {% if parent_item.links.size > 0 %}
+               <ul class="footer__list js-footer-accordion-content">
+                 {% if parent_item.handle == 'swove-101' %}
+                 {% endif %}
+                 {% for child_item in parent_item.links %}
+                    <li class="footer__list-item">
+                      {% if child_item.title == 'Size Quiz' and false  %}
+                        <a class="kiwi-modal-chart-toggle footer__list-link" href="#">
+                          {{ child_item.title }}
+                        </a>
+                      {% else %}
+                        <a {% if child_item.title == 'Accessibility' %} data-acsb-custom-trigger="true" {% endif %} href="{{ child_item.url }}" class="footer__list-link">
+                          {{ child_item.title }}
+                        </a>
+                      {% endif %}
+                    </li>
+                 {% endfor %}
+               </ul>
+             {% endif %}
+           </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+
+   
+    
+    {% if form_title != blank %}
+      <p class="footer__top-title">{{ form_title }}</p>
+    {% endif %}
+
+    <style>
+      .custom-klaviyo-form-container{
+        margin-left:-6px!important;
+      }
+
+      @media only screen and (max-width: 768px) {
+        
+      .custom-klaviyo-form-container{
+        margin-left:0px!important;
+      }   
+        
+      }
+    </style>
+    
+     <div class="custom-klaviyo-form-container"><div class="klaviyo-form-SUznGR"></div></div>
+    {% comment %} <div class="klaviyo-form-XXi4gR"></div> {% endcomment %}
+
+
+    {% comment %}
+    {% form 'customer', class: 'footer__form' %}
+      {% if form.posted_successfully? %}
+        <div class="footer__success">
+          {{ 'sections.footer.footer__success' | t }}
+        </div>
+      {% else %}
+        {% if form.errors %}
+          <div class="footer__form">
+            {% for field in form.errors %}
+              <p class="footer__error">{{ field | capitalize }} - {{ form.errors.messages[field] }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <input type="hidden" id="contact_tags" name="contact[tags]" value="newsletter"/>
+
+        <div class="footer__input-wrapper">
+          <input type="email" class="footer__form-input" required name="contact[email]" placeholder="{{ input_placeholder }}">
+          <button aria-label="{{ 'sections.footer.submit' | t }}" class="footer__form-btn">
+             {% render 'icon-arrow-right' %}
+          </button>
+        </div>
+      {% endif %}
+    {% endform %}
+    {% endcomment %}
+
+    <div class="footer__socials">
+      {% if twitter_show %}
+        <a href="{{ twitter_link }}" class="footer__social-item">
+          <img src="{{ 'icon-twitter.svg' | asset_url }}" alt="Twitter">
+        </a>
+      {% endif %}
+
+      {% if facebook_show %}
+        <a href="{{ facebook_link }}" class="footer__social-item">
+          <img src="{{ 'icon-facebook.svg' | asset_url }}" alt="Twitter">
+        </a>
+      {% endif %}
+
+      {% if youtube_show %}
+        <a href="{{ youtube_link }}" class="footer__social-item">
+          <img src="{{ 'icon-youtube.svg' | asset_url }}" alt="Twitter">
+        </a>
+      {% endif %}
+
+      {% if instagram_show %}
+        <a href="{{ instagram_link }}" class="footer__social-item">
+          <img src="{{ 'icon-instagram.svg' | asset_url }}" alt="Twitter">
+        </a>
+      {% endif %}
+
+      {% if pinterest_show %}
+        <a href="{{ pinterest_link }}" class="footer__social-item border">
+          <img src="{{ 'icon-pinterest.svg' | asset_url }}" alt="Pinterest">
+        </a>
+      {% endif %}
+
+      {% if tiktok_show %}
+        <a href="{{ tiktok_link }}" class="footer__social-item border">
+          <img src="{{ 'icon-tiktok.png' | asset_url }}" alt="TikTok">
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</footer>
+
+  <script defer>
+document.querySelectorAll('.kiwi-modal-toggle').forEach(el => {
+  el.addEventListener('click', () => {
+    const target = document.querySelector('[data-sizing-id="64604389"] .sizing-chart-modal-link');
+    if (target) target.click();
+  });
+});
+
+document.querySelectorAll('.kiwi-modal-chart-toggle').forEach(el => {
+  el.addEventListener('click', () => {
+    const target = document.querySelector('[data-sizing-id="64604389"] .sizing-calculator-modal-link');
+    if (target) target.click();
+  });
+});
+  </script>
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Footer Branding"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "header",   
+      "content": "Footer Form"
+    },
+    {
+      "type": "textarea",
+      "id": "form_title",
+      "label": "Form title",
+      "default": "Product launches, exclusive discounts and other important comfy info delivered straight to your inbox."
+    },
+    {
+      "type": "text",
+      "id": "input_placeholder",
+      "label": "Form input placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "header",
+      "content": "Footer socials"
+    },
+    {
+      "type": "checkbox",
+      "id": "twitter_show",
+      "label": "Show twitter",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "twitter_link",
+      "label": "Twitter link",
+      "default": "https:\/\/twitter.com\/swoveralls"
+    },
+    {
+      "type": "checkbox",
+      "id": "facebook_show",
+      "label": "Show facebook",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "facebook_link",
+      "label": "Facebook link",
+      "default": "https:\/\/www.facebook.com\/swoveralls\/"
+    },
+    {
+      "type": "checkbox",
+      "id": "youtube_show",
+      "label": "Show youtube",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "youtube_link",
+      "label": "Youtube link",
+      "default": "#"
+    },
+    {
+      "type": "checkbox",
+      "id": "instagram_show",
+      "label": "Show instagram",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "instagram_link",
+      "label": "Instagram link",
+      "default": "https:\/\/www.instagram.com\/swoveralls_\/"
+    },
+    {
+      "type": "checkbox",
+      "id": "pinterest_show",
+      "label": "Show pinterest",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "pinterest_link",
+      "label": "Pinterest link",
+      "default": "https:\/\/www.pinterest.com\/swoveralls\/"
+    },
+    {
+      "type": "checkbox",
+      "id": "tiktok_show",
+      "label": "Show tiktok",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "tiktok_link",
+      "label": "TikTok link",
+      "default": "https://www.tiktok.com/@swoveralls"
+    },
+    {
+      "type": "header",
+      "content": "Footer menu"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu",
+      "label": "Footer menu"
+    }
+  ]
+}
+{% endschema %}

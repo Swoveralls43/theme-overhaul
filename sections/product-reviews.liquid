@@ -1,0 +1,502 @@
+<style>
+/* Container & Header */
+.product-reviews-section {
+  padding: 30px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 16px;
+  background: #28334A;
+}
+
+.product-reviews-header {
+    display: flex;
+    row-gap: 16px;
+    position: relative;
+    max-width: 100%;
+    min-width: auto;
+    align-self: stretch;
+    column-gap: 16px;
+    flex-basis: auto;
+    min-height: 1px;
+    align-items: center;
+    flex-shrink: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.star-container{
+    display: flex;
+    flex-basis: auto;
+    flex-shrink: 0;
+}
+.product-reviews-headings {
+  font-size: 70px;
+}
+
+.product-reviews-subheadings {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* Carousel */
+.carousel{{ section.id }} {
+  width: 100%;
+  margin: 60px auto 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.track{{ section.id }} {
+  display: flex;
+  gap: 45px;
+  transition: transform 0.6s ease;
+  will-change: transform;
+}
+
+/* Card Style */
+.card{{ section.id }} {
+  position: relative;
+  flex: 0 0 28%;
+  min-width: 220px;
+  border-radius: 12px;
+  overflow: visible;
+}
+
+/* Main content */
+.card-content{{ section.id }} {
+  position: relative;
+  z-index: 2;
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 7px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  word-break: break-word;
+}
+
+/* Pseudo-element for layered peek with JS-controlled height */
+.card{{ section.id }}::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--card{{ section.id }}-height, 100%);
+  background: #96c4b2;
+  border-radius: 7px;
+  z-index: 1;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transform: translate(10px, 20px);
+}
+
+/* Navigation invisible zones */
+.nav{{ section.id }} {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 40%;
+  cursor: pointer;
+  background: rgba(255,255,255,0);
+  z-index: 9999;
+}
+
+  .card{{ section.id }}-heading{
+    font-size: 32px;
+    align-self: stretch;
+    flex-basis: auto;
+    flex-shrink: 0;
+    font-weight: 400;
+    line-height: 34px;
+    overflow-wrap: break-word;
+  }
+  .card{{section.id }}-content{
+    font-size: 24px;
+    align-self: stretch;
+    flex-basis: auto;
+    flex-shrink: 0;
+    font-weight: 400;
+    line-height: 34px;
+    overflow-wrap: break-word;
+  }
+.nav{{ section.id }}.left { left: 0; }
+.nav{{ section.id }}.right { right: 0; }
+
+/* Dots */
+.dots{{ section.id }} {
+  text-align: center;
+  padding-top: 30px;
+}
+
+.dot{{ section.id }} {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 0 4px;
+  background: #bbb;
+  cursor: pointer;
+}
+
+.dot{{ section.id }}.active {
+  background: #fff;
+}
+
+.product-reviews-footer{
+    display: flex;
+    row-gap: 16px;
+    position: relative;
+    max-width: 100%;
+    min-width: auto;
+    align-self: stretch;
+    column-gap: 16px;
+    flex-basis: auto;
+    min-height: 1px;
+    align-items: center;
+    flex-shrink: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .product-reviews-footer button{
+    padding: 12px 20px;
+    background-color: #96c4b2;
+    background-image: none;
+    border-radius: 10px;
+  }
+
+  .button-container{
+    font-size: 40px;
+    transition: inherit;
+    font-family: BryantPro-Bold, " sans-serif";
+    font-weight: 400;
+    line-height: 28px;
+    overflow-wrap: break-word;
+  }
+
+  .product-reviews-footer-text{
+    color: #FFFFFFFF;
+    font-size: 16px;
+    align-self: stretch;
+    flex-basis: auto;
+    text-align: center;
+    flex-shrink: 0;
+    font-family: BryantPro-Bold, " sans-serif";
+    font-weight: 400;
+    line-height: 24px;
+    overflow-wrap: break-word;
+    text-align-last: center;
+  }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .track{{ section.id }} {
+    padding: 0 20px;      /* gives some space sa kilid para peek */
+    gap: 20px;             /* spacing sa cards */
+    justify-content: flex-start; /* flex-start para smooth sliding */
+  }
+  .card{{ section.id }} {
+    flex: 0 0 80%;        /* one card visible, 80% width */
+    min-width: auto;
+  }
+}
+
+#heading-{{ section.id }}{
+  font-size: 70px;
+  margin:0;
+  color:white
+}
+
+#sub-heading-{{ section.id }}{
+  width:100%;
+  color:white
+}
+
+.card{{ section.id }}-heading{
+  
+}
+
+@media (max-width: 768px) {
+  #heading-{{ section.id }}{
+    font-size: 38px;
+  }
+
+  #sub-heading-{{ section.id }}{
+    text-align: center;
+  }
+
+  .card{{ section.id }}-heading span p{
+    font-size: 16px;
+    font-family: 'BryantPro-Bold' !important;
+  }
+  .card{{section.id }}-content span em{
+    font-size: 16px !important;
+    line-height: 0 !important;
+  }
+}
+
+</style>
+<div id="product-reviews"  style="padding-top: 140px; margin-top: -140px; "></div>
+<section class="product-reviews-section">
+  <div class="product-reviews-header">
+    <div class="star-container">
+      <!-- Example SVG stars -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="#FFD84FFF" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="#FFD84FFF" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="#FFD84FFF" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="#FFD84FFF" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="#FFD84FFF" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>
+    </div>
+    <div>
+      <span style="width:100%">
+        <h1 id="heading-{{ section.id }}">Nothing But Love</h1>
+      </span>
+    </div>
+    <div class="product-reviews-subheadings">
+      <span id="sub-heading-{{ section.id }}">
+        <p>Don’t take our word for it. Take theirs. Every review here came from a skeptic-turned-swoviefan.</p>
+      </span>
+    </div>
+  </div>
+
+  <div class="carousel{{ section.id }}">
+    <div class="nav{{ section.id }} left"></div>
+    <div class="nav{{ section.id }} right"></div>
+
+    <div class="track{{ section.id }}">
+      <!-- Card 1 -->
+      <div class="card{{ section.id }}">
+        <div class="card-content{{ section.id }}">
+          <div class="card{{ section.id }}-heading">
+            <span width="100%"><p style="font-weight: 600;"> Worried about warmth? </p></span>
+          </div>
+          <br>
+          <div class="card{{section.id }}-content">
+            <span width="100%"><em style="font-size: 24px; line-height: 34px;">"I have worn these so much and I’ve only had them a few weeks, they’re warm and cozy, but not heavy or sweaty."<br>-Gregory R.</em></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card{{ section.id }}">
+        <div class="card-content{{ section.id }}">
+          <div class="card{{ section.id }}-heading">
+            <span width="100%"><p style="font-weight: 600;"> Not sure about size? </p></span>
+          </div>
+          <br>
+          <div class="card{{section.id }}-content">
+            <span width="100%"><em style="font-size: 24px; line-height: 34px;">"This was actually my second purchase of Swoveralls because I wanted a different size. The return and exchange process was seamless."<br>-April J.</em></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card{{ section.id }}">
+        <div class="card-content{{ section.id }}">
+          <div class="card{{ section.id }}-heading">
+            <span width="100%"><p style="font-weight: 600;"> Afraid they'll feel chunky? </p></span>
+          </div>
+          <br>
+          <div class="card{{section.id }}-content">
+            <span width="100%"><em style="font-size: 24px; line-height: 34px;">"I expected them to feel chunky like most overalls but they’re shockingly sleek. Like joggers in disguise."<br>-Jordan K.</em></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="card{{ section.id }}">
+        <div class="card-content{{ section.id }}">
+          <div class="card{{ section.id }}-heading">
+            <span width="100%"><p style="font-weight: 600;"> Will they actually be comfortable? </p></span>
+          </div>
+          <br>
+          <div class="card{{section.id }}-content">
+            <span width="100%"><em style="font-size: 24px; line-height: 34px;">"So comfy and cozy I love them! Overalls have never felt this good."<br>-Cass J.</em></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="card{{ section.id }}">
+        <div class="card-content{{ section.id }}">
+          <div class="card{{ section.id }}-heading">
+            <span width="100%"><p style="font-weight: 600;"> Will they look good on me? </p></span>
+          </div>
+          <br>
+          <div class="card{{section.id }}-content">
+            <span width="100%"><em style="font-size: 24px; line-height: 34px;">"I am totally in love with Swoveralls and am regularly stopped by people asking where I got them."<br>-Barbara M.</em></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dots{{ section.id }}"></div>
+  </div>
+
+  <div class="product-reviews-footer">
+    <div class="button-container">
+      <button>
+        <span width="100%">
+          <p style="font-size: 18px; font-family: BryantPro-Bold;color: black;">Let's get comfy</p>
+        </span>
+      </button>
+    </div>
+    <div class="product-reviews-footer-text">
+      <span width="100%">
+        <p>100% COMFORT SATISFACTION GUARANTEE</p>
+        <br>
+        <p><strong>365-day free exchanges and returns</strong> if they don’t make you say ‘ahhhh.’</p>
+      </span>
+    </div>
+  </div>
+</section>
+
+
+<script>
+(function(){
+  const sectionId = '{{ section.id }}';
+  const carousel = document.querySelector('.carousel' + sectionId);
+  const track = carousel.querySelector('.track' + sectionId);
+  const navLeft = carousel.querySelector('.nav' + sectionId + '.left');
+  const navRight = carousel.querySelector('.nav' + sectionId + '.right');
+  const dotsContainer = carousel.querySelector('.dots' + sectionId);
+
+  let cards = Array.from(track.children);
+  let index = 0;
+  let visible = 3;
+  const gap = 45;
+
+  function getVisibleCount() {
+    if (window.innerWidth < 600) return 1;
+    if (window.innerWidth < 900) return 2;
+    return 3;
+  }
+
+  function updateCardHeights() {
+    const allCards = track.querySelectorAll('.card' + sectionId);
+    allCards.forEach(card => {
+      const content = card.querySelector('.card-content' + sectionId);
+      card.style.setProperty('--card' + sectionId + '-height', content.offsetHeight + 'px');
+    });
+  }
+
+  function renderDots() {
+    dotsContainer.innerHTML = '';
+    cards.forEach((_, i) => {
+      const dot = document.createElement('span');
+      dot.className = 'dot' + sectionId + (i === index % cards.length ? ' active' : '');
+      dot.addEventListener('click', () => {
+        index = i + visible; // account for cloned cards
+        updatePosition();
+        updateActiveDot();
+      });
+      dotsContainer.appendChild(dot);
+    });
+  }
+
+  function updateActiveDot() {
+    const dots = dotsContainer.querySelectorAll('.dot' + sectionId);
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === index % cards.length);
+    });
+  }
+
+  function cloneEdges() {
+    while (track.firstChild) track.removeChild(track.firstChild);
+    cards.forEach(c => track.appendChild(c.cloneNode(true)));
+    visible = getVisibleCount();
+    const before = cards.slice(-visible).map(c => c.cloneNode(true));
+    const after = cards.slice(0, visible).map(c => c.cloneNode(true));
+    before.forEach(c => track.prepend(c));
+    after.forEach(c => track.append(c));
+    updateCardHeights();
+  }
+
+  function updatePosition(smooth = true) {
+    const all = track.children;
+    const cardWidth = all[0].offsetWidth + gap;
+    const totalVisibleWidth = cardWidth * visible - gap;
+    const center = (carousel.offsetWidth - totalVisibleWidth) / 2;
+    track.style.transition = smooth ? 'transform 0.6s ease' : 'none';
+    track.style.transform = `translateX(${-(index * cardWidth) + center}px)`;
+  }
+
+  function init() {
+    cloneEdges();
+    index = getVisibleCount();
+    updatePosition(false);
+    updateCardHeights();
+    renderDots();
+  }
+
+  function next() {
+    const all = track.children;
+    index++;
+    updatePosition();
+    updateActiveDot();
+    if (index >= all.length - visible) {
+      setTimeout(() => {
+        index = visible;
+        updatePosition(false);
+        updateActiveDot();
+      }, 600);
+    }
+  }
+
+  function prev() {
+    const all = track.children;
+    index--;
+    updatePosition();
+    updateActiveDot();
+    if (index < visible) {
+      setTimeout(() => {
+        index = all.length - visible * 2;
+        updatePosition(false);
+        updateActiveDot();
+      }, 600);
+    }
+  }
+
+  navRight.addEventListener('click', next);
+  navLeft.addEventListener('click', prev);
+  window.addEventListener('resize', init);
+  window.addEventListener('load', init);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Product Reviews",
+  "settings": [
+
+  ],
+  "presets": [
+    {
+      "name": "Product Reviews"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "reviews",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "testimonies",
+          "label": "Testimonies"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

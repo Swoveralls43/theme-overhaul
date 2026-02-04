@@ -1,0 +1,91 @@
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-product-grid.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'component-release-calendar.js' | asset_url }}"></script>
+
+<div class="page-width">
+  {% render 'breadcrumbs' %}
+</div>
+<div class="collection-products page-width sticky">
+  <div class="collection__main">
+    <div class="collection__header">
+      <div class="collection__title-wrapper">
+        <div class="collection__info">
+          <h1>{{ section.settings.title }}</h1>
+        </div>
+      </div>
+    </div>
+    <div class="product-grid product-grid--single js-product-grid" data-gender="{{ collection_gender }}" data-collection="{{ collection.handle }}" data-page="{{ paginate.current_page }}" data-filters="{% if settings.enable_algolia_plp %}algolia{% endif %}">
+      {% for block in section.blocks %}
+        {% render 'calendar-grid-item' calendar_item: block.settings %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="notify-panel js-notify-panel">
+  <div class="right__drawer__overlay right__drawer--close js-close-notify-panel"></div>
+  <div class="notify-panel__wrapper">
+    {% render 'calendar-notify-me' cal: section %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Release Calendar",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "default": "Release calendar",
+        "label": "Page title"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "release-item",
+        "name": "Release Item",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Product Content"
+          },
+          {
+            "type": "text",
+            "id": "product_handle",
+            "label": "If product exists, product card will link to PDP."
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "product_title",
+            "label": "Product Title"
+          },
+          {
+            "type": "text",
+            "id": "price",
+            "label": "Product Price"
+          },
+          {
+            "type": "text",
+            "id": "release_date",
+            "label": "Release Date",
+            "info": "Format: DAY | MO, example: 10 | DEC"
+          },
+          {
+            "type": "header",
+            "content": "Klaviyo"
+          },
+          {
+            "type": "text",
+            "id": "form_id",
+            "label": "Klaviyo Form Id"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

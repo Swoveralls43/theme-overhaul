@@ -1,0 +1,442 @@
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-product-grid.css' | asset_url | stylesheet_tag }}
+{{ 'component-filters.css' | asset_url | stylesheet_tag }}
+
+<style>
+  /* Shrink product titles only on collection grids */
+  .collection__main h2 a[href^="/products/"],
+  .collection__main h3 a[href^="/products/"],
+  .collection__main a[href^="/products/"] {
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Optional: tighten spacing under titles */
+  .collection__main h2,
+  .collection__main h3 {
+    margin-bottom: 5px;
+  }
+
+  /* Optional: clamp long titles to 3 lines */
+  .collection__main h2 a[href^="/products/"],
+  .collection__main h3 a[href^="/products/"] {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  <style>
+  /* Shrink product titles only on collection grids */
+  .collection__main h2 a[href^="/products/"],
+  .collection__main h3 a[href^="/products/"],
+  .collection__main a[href^="/products/"] {
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+  }
+
+  .collection__main h2,
+  .collection__main h3 {
+    margin-bottom: 5px;
+  }
+
+  .collection__main h2 a[href^="/products/"],
+  .collection__main h3 a[href^="/products/"] {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* MOBILE ONLY: move sale banner to bottom left of product card */
+  @media screen and (max-width: 749px) {
+    /* Make sure each product card is a positioning context */
+    .collection__main .product-item,
+    .collection__main .product-card,
+    .collection__main .grid__item {
+      position: relative;
+    }
+
+    /* Replace .sale-banner with the actual class used for your banner */
+    .collection__main .sale-banner,
+    .collection__main .product-card__sale,
+    .collection__main .product-item__badge {
+      position: absolute;
+      left: 8px;
+      bottom: 8px;
+      top: auto;
+      right: auto;
+      transform: none;
+      margin: 0;
+    }
+  }
+</style>
+
+</style>
+
+
+<script src="{{ 'vendor.js' | asset_url }}"></script>
+<script src="{{ 'ajaxinate.min.js' | asset_url }}"></script>
+
+{% assign hits_per_page = collection.metafields.grid.hits_per_page | default: 27 %}
+{% assign collection_gender = false %}
+
+{% if collection.handle contains 'womens' %}
+  {% assign collection_gender = 'womens' %}
+{% elsif collection.handle contains 'mens' %}
+  {% assign collection_gender = 'mens' %}
+{% endif %}
+
+
+
+<div class="page-width">
+  {% render 'breadcrumbs' %}
+</div>
+<div class="collection-products page-width sticky">
+  <aside class="collection__sidebar js-collection-sidebar sticky">
+    {% if section.settings.sidebar_list != blank %}
+      {% comment %} commenting out the title for now, but keeping it in case the client changes their mind {% endcomment %}
+      {% comment %} <strong>{{ linklists[section.settings.sidebar_list].title }}</strong> {% endcomment %}
+      <ul class="sidebar__list js-type-filter-list">
+        {% for link in linklists[section.settings.sidebar_list].links %}
+          <li>
+            <a href="{{ link.url }}">{% if link.active %}<strong>{% endif %} {{ link.title }}{% if link.active %}</strong>{% endif %}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% if section.settings.sidebar_category_navigation != blank %}
+      <strong>{{ linklists[section.settings.sidebar_category_navigation].title }}</strong>
+      <ul class="sidebar__list js-type-filter-list">
+        {% for link in linklists[section.settings.sidebar_category_navigation].links %}
+          <li>
+            <a href="{{ link.url }}">{% if link.active %}<strong>{% endif %} {{ link.title }}{% if link.active %}</strong>{% endif %}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <ul class="sidebar__list sidebar__list--icons js-sidebar-icons-filters">
+      {% for block in section.blocks %}
+        {% if block.type == 'sidebar-icon-list-item' %}
+          <li class="js-sidebar-item sidebar__icon-filter">
+            <button class="js-col-filter" data-algolia-filter="collections:{{ block.settings.tag }}" type="button">
+              {% if block.settings.image %}
+                <img src="{{ block.settings.image | img_url: '40x' }}" alt="{{ block.settings.title }}">
+              {% endif %}
+              <span>{{ block.settings.title }}</span>
+            </button>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </aside>
+  
+  <div class="collection__main">
+    <div class="collection__header">
+      {% render 'product-finder' with section %}
+      <div class="collection__title-wrapper">
+        <div class="collection__info">
+          <h1>{% if team_prod %}{{ team_prod.description }}{% endif %}{{ collection.title }}</h1>
+          
+          <p>{{ collection.description }}</p>
+          
+        </div>
+        <div class="collection__genders">
+          {% if section.settings.gender_navigation %}
+            {% for block in section.blocks %}
+              {% if block.type == 'gender-card' %}
+                {% assign gender_card_title_downcase = block.settings.gender_title | downcase %}
+                {% assign gender_image = block.settings.gender_image %}
+
+                {% for tag in collection.all_tags %}
+                  {% assign tag_downcase = tag | downcase %}
+
+                  {% if tag_downcase contains 'gender:' %}
+                    {% assign gender = tag | split: ':' | last | strip %}
+                    {% assign gender_downcase = gender | downcase %}
+
+                    {% if gender_card_title_downcase == gender_downcase and gender_image %}
+
+                      <div class="gender-card">
+                        {{ tag | link_to_add_tag: tag }}
+                        <img src="{{ gender_image | img_url: '300x' }}" alt="{{ gender_image.alt }}">
+                        <span class="center">{{ gender | capitalize }}</span>
+                      </div>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      
+      {% if section.settings.sidebar_list %}
+        <div class="collection__inline-filters">
+          <ul class="inline-filters__list js-type-filter-list">
+            {% for link in linklists[section.settings.sidebar_list].links %}
+              {% assign title_downcase = link.title | downcase %}
+              {% assign clear_filters = false %}
+
+              {% if title_downcase == 'everything' %}
+                {% assign clear_filters = true %}
+              {% endif %}
+
+              <li class="{% unless clear_filters %}js-sidebar-item{% endunless %} sidebar__filter-item {% if clear_filters %}visible{% endif %}" data-algolia-filter="{{ link.url | remove: '#' | replace: '-', ' ' }} " data-prefix="{{ link.url | split: ':' | first | remove: '#' }}">
+                <a href="{{ link.url }}">
+                  <span class="{% if link.active %} active {% endif %} js-open-filter-list js-inline-filter inline-filter visible {% if clear_filters %}js-filter-btn-algolia-clear{% else %}js-type-filter{% endif %}" data-algolia-filter="{{ link.url | remove: '#' | replace: '-', ' ' }}" data-prefix="{{ link.url | split: ':' | first | remove: '#' }}">{{ link.title }}</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      <div class="scroll-container">
+        <div style="margin-bottom:8px;border:0" class="item">Shop by Size</div>
+        <div class="inline-filters__list js-type-filter-list">
+          {%- for filter in collection.filters -%}
+            {% if filter.label == 'Size' %}
+              {%- for filter_value in filter.values -%}
+                 {%- for active_value in filter.active_values -%}
+                     {% assign is_active = false %}
+                    {% if active_value.value == filter_value.value %}
+                      {% assign is_active = true %}
+                    {% endif %}
+                  {%- endfor -%}
+                <div class="js-open-filter-list js-inline-filter inline-filter visible js-type-filter">
+                  <button type="button" class="custom-filter-button-size {% if is_active %}active{% endif %}">{{ filter_value.value }}</button>
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      
+      <div class="collection__toolbar">
+        
+        
+        <div class="toolbar__filters">
+          {% if collection.metafields.my_fields.show_filters_on_plp_.value %}
+            <button class="btn-text filter-toggle js-toggle-filters" type="button">
+              {% render 'icon-filters' %}
+              <span>All Filters</span>
+            </button>
+          {% endif %}
+          <div class="active-filter__list js-active-filters">
+            {% if current_tags.size > 0 %}
+              {% for current_tag in current_tags %}
+                {% if current_tag contains '-' %}
+                  {% assign current_tag_splited = current_tag | split: '-' | last  %}
+                {% elsif current_tag contains ':' %}
+                  {% assign current_tag_splited = current_tag | split: ':' | last  %}
+                {% endif %}
+
+                {% capture tag_link %}
+                  {{ current_tag | link_to_remove_tag: current_tag }}
+                {% endcapture %}
+                {% assign tag_link_parts = tag_link | remove_first: '<a href="' | split: '" title="' %}
+                {% assign tag_link = tag_link_parts[0] | strip %}
+
+                <div class="active-filter">
+                  <span>{{ current_tag_splited }}</span>
+                  <a href="{{ tag_link }}" type="button" class="js-rm-filter btn-text" aria-label="Remove tag {{ current_tag }}">{% render 'icon-x' %}</a>
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+          <div class="js-close-icon-html" style="display: none">
+            {% render 'icon-x' %}
+          </div>
+        </div>
+        
+        <div class="toolbar__sorting">
+          <span>
+            <span class="js-product-count">{{ collection.products_count }}</span>
+            Products
+          </span>
+          
+          <div class="sorting__list">
+            <button class="btn-text js-toggle-sorting" type="button">
+              <span>Sort</span>
+              {% render 'icon-chevron-down' %}
+            </button>
+            <div class="sorting__options">
+              <ul class="js-filter-list filter__list">
+                {% for option in collection.sort_options %}
+                  {% liquid
+                    assign value = '?sort_by=' | append: option.value
+                    assign option_downcase = option.value | downcase
+                    assign show_option = true
+                  
+                    if option_downcase == 'manual'
+                      assign show_option = false
+                    endif
+
+                     if option_downcase == 'title-ascending'
+                      assign show_option = false
+                    endif
+                    
+                    if option_downcase == 'title-descending'
+                      assign show_option = false
+                    endif
+                  %}
+
+                  {% if show_option %}
+                    <li class="filter__list-item">
+                      <label class="filter__tag visible" data-sort-filter>
+                        <input class="filter__input js-sort-input"
+                               value="{{ option.value }}"
+                               data-sort="{{ value }}"
+                               name="sort"
+                               type="radio" data-tag="{{ tag | handleize }}" data-algolia-filter="{{ tag }}" {% if option.value == sort_by %} checked {% endif %}>
+
+                        <div class="filter__tag-wrapper">
+                          <div class="filter__tag-heading">
+                            {{ option.name }}
+                          </div>
+
+                          <div class="filter__radio"></div>
+                        </div>
+                      </label>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="active-filters">
+        <div class="inline-filters__list js-type-filter-list">
+          {% for filter in collection.filters %}
+            {% if filter.active_values.size > 0 %}
+                {% for active_value in filter.active_values %}
+                  <button
+                    class="remove-filter"
+                    data-filter-name="{{ filter.param_name }}"
+                    data-filter-value="{{ active_value.value }}"
+                  >
+                  {{ active_value.label }} &times; 
+                  </button>
+                {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </div>        
+      </div>
+    </div>
+
+      <div class="active-filter__list active-filter__list--mobile js-active-filters">
+        {% if current_tags.size > 0 %}
+          {% for current_tag in current_tags %}
+            {% if current_tag contains '-' %}
+              {% assign current_tag_splited = current_tag | split: '-' | last  %}
+            {% elsif current_tag contains ':' %}
+              {% assign current_tag_splited = current_tag | split: ':' | last  %}
+            {% endif %}
+
+            {% capture tag_link %}
+              {{ current_tag | link_to_remove_tag: current_tag }}
+            {% endcapture %}
+            {% assign tag_link_parts = tag_link | remove_first: '<a href="' | split: '" title="' %}
+            {% assign tag_link = tag_link_parts[0] | strip %}
+
+            <div class="active-filter">
+              <span>{{ current_tag_splited }}</span>
+              <a href="{{ tag_link }}" type="button" class="js-rm-filter btn-text" aria-label="Remove tag {{ current_tag }}">{% render 'icon-x' %}</a>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+  
+    <div data-product-grid-wrapper>
+      {% render 'collection-product-grid' %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+
+{
+  "name": "Collection Page",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "gender_navigation",
+      "label": "Gender Navigation",
+      "default": true
+    }, {
+      "type": "link_list",
+      "id": "sidebar_list",
+      "label": "Sidebar Filter List"
+    }, {
+      "type": "link_list",
+      "id": "sidebar_category_navigation",
+      "label": "Sidebar Category Navigation"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "gender-card",
+      "name": "Gender Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "gender_title",
+          "label": "Gender"
+        }, {
+          "type": "image_picker",
+          "id": "gender_image",
+          "label": "Gender Image"
+        }
+      ]
+    }, {
+      "type": "product-finder-type",
+      "name": "Product Finder Type",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }, {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        }, {
+          "type": "text",
+          "id": "description",
+          "label": "Short Description"
+        }, {
+          "type": "text",
+          "id": "type",
+          "label": "Filter Tag",
+          "info": "The product tag that will be used for filtering. e.g. 'style:Bucket'"
+        }
+      ]
+    }, {
+      "type": "sidebar-icon-list-item",
+      "name": "Sidebar Icon List Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }, {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        }, {
+          "type": "text",
+          "id": "tag",
+          "label": "Collection handle"
+        }
+      ]
+    }
+  ]
+}
+
+{% endschema %}
+
+{{ 'collection.js' | asset_url | script_tag }}

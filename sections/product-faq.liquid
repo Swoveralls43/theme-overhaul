@@ -1,0 +1,238 @@
+
+<style>
+    #section-child-{{ section.id }}{
+        background-color: #bcddd0;
+    }
+
+    #section-child-{{ section.id }}{
+        row-gap: 80px;
+        position: relative;
+        max-width: 100%;
+        min-width: auto;
+        align-self: stretch;
+        column-gap: 80px;
+        flex-basis: auto;
+        min-height: 1px;
+        align-items: center;
+        flex-shrink: 0;
+        padding: 18px;
+        justify-content: center;
+        background-color: #bcddd0;
+        background-image: none;
+    }
+    #section-picture-{{ section.id }}{
+        display: flex;
+        overflow: hidden;
+        flex-grow: 1;
+        max-width: 560px;
+        min-width: var(0px, 0px);
+        flex-basis: 0;
+        min-height: 0;
+        object-fit: cover;
+        overflow-x: auto;
+        overflow-y: hidden;
+        align-items: center;
+        flex-shrink: 1;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+    #section-description-{{ section.id }}{
+        flex: 1;
+    }
+
+    .section-accordion-{{ section.id }}{
+        margin-top: 5px;
+    }
+
+    .accordion-header-{{ section.id }}{
+        font-family: var(--font-heading);
+        font-weight: var(--font-heading-weight);
+        font-size: 20px;
+    }
+
+    .accordion-{{ section.id }}{
+        cursor: pointer;
+        padding: 0px 14px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        transition: 0.4s;
+        border-bottom: 1px solid white;
+        margin: 32px 0px;
+    }
+
+    .accordion-text-{{ section.id }}{
+        height: 20px;
+        width: 20px;
+    }
+
+    .panel-{{ section.id }}{
+        padding: 16px;
+        display: none;
+        overflow: hidden;
+    }
+    .panel-{{ section.id }} p{
+        margin-top: 0;
+        padding: 0;
+    }
+
+    #header-text-{{ section.id }}{
+      font-size: 27px;
+      font-weight: 400;
+      margin-left: 12px;
+      text-align: center;
+      width: 100%;
+      display: block;
+    }
+
+    @media screen and (min-width: 768px) {
+        #section-child-{{ section.id }}{
+            display: flex;
+            flex-direction: row-reverse;
+            padding-top: 80px;
+            padding-left: 64px;
+            padding-right: 64px;
+            padding-bottom: 80px;
+        }
+
+        #header-text-{{ section.id }}{
+          font-size: 40px;
+          font-weight: 400;
+          margin-left: 12px;
+          text-align: left;
+          width: 100%;
+          display: initial;
+        }
+
+    }
+
+</style>
+<section id="product-faq" style="padding-top: 80px; margin-top: -80px; ">
+  <div id="section-child-{{ section.id }}">
+    <div id="section-picture-{{ section.id }}">
+        <img src="{{ section.settings.faq_image | image_url }}" class="r-10n5dmf" loading="eager" style="width:100%;height:100%" alt="{{ section.settings.faq_image.alt }}">
+    </div>
+    <div id="section-description-{{ section.id }}">
+        <div>
+            <span id="header-text-{{ section.id }}">{{ section.settings.header }}</span>
+        </div>
+        <div style="margin-bottom: 12px;margin-left: 12px;">
+            <span>{{ section.settings.sub_header }}</span>
+        </div>
+        <div>
+
+            <div class="section-accordion-{{ section.id }}">
+                {% for block in section.blocks %}
+                    {% case block.type %}
+                        {% when 'faq_accordion' %}
+                        <div class="accordion-{{ section.id }}">
+                            <div style="display: flex;justify-content: space-between;padding-bottom: 12px">
+                            <div class="accordion-header-{{ section.id }}">{{ block.settings.faq_accordion_header }}</div>
+                            <div class="accordion-text-{{ section.id }}">
+                                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" role="img" aria-label="Collapse/Expand" class="r-1dojebr" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" style="width: var(--rsw, 100%); height: 100%;"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path></svg>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="panel-{{ section.id }}">
+                            {{ block.settings.faq_accordion_content }}
+                        </div>
+                    {% endcase %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+<script>
+        var acc = document.getElementsByClassName("accordion-{{ section.id }}");
+        var i;
+
+        for (let i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+          var panel = this.nextElementSibling;
+          const isOpen = panel.style.display === "block"; // Check if clicked panel is already open
+
+          // Close all panels and remove active classes
+          for (let j = 0; j < acc.length; j++) {
+            let p = acc[j].nextElementSibling;
+            p.style.display = "none";
+            acc[j].classList.remove("active");
+
+            let icon = acc[j].querySelector('div').children[1];
+            icon.innerHTML = `
+              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" role="img" aria-label="Collapse/Expand" class="r-1dojebr" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" style="width: var(--rsw, 100%); height: 100%;">
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path>
+              </svg>`;
+          }
+
+          if (!isOpen) {
+            // If it was not open, open it now
+            this.classList.add("active");
+
+            let productAccordionRight = this.querySelector('div').children[1];
+            productAccordionRight.innerHTML = `
+              <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1"  fill="none">
+                <path d="M6 15L12 9L18 15" 
+                      stroke="black" 
+                      stroke-width="2" 
+                      stroke-linecap="round" 
+                      stroke-linejoin="round"/>
+              </svg>`;
+
+            panel.style.display = "block";
+          }
+          // If it was open, do nothing more (panel already closed by loop)
+        });
+      }
+      </script>
+
+{% schema %}
+{
+  "name": "Product FAQ",
+  "settings": [
+    {
+      "type": "text",
+      "label": "Header",
+      "id": "header",
+    },
+    {
+      "type": "text",
+      "label": "Sub Header",
+      "id": "sub_header",
+    },
+    {
+      "type": "image_picker",
+      "label": "Image",
+      "id": "faq_image",
+    },
+  ],
+  "blocks": [
+    {
+      "type": "faq_accordion",
+      "name": "FAQ Accordion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "faq_accordion_header",
+          "label": "Header"
+        },
+        {
+          "type": "richtext",
+          "id": "faq_accordion_content",
+          "label": "Contents"
+        },
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product FAQ"
+    }
+  ]
+}
+{% endschema %}

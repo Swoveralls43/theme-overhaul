@@ -1,0 +1,93 @@
+<link rel="stylesheet" href="{{ 'slick.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'content-slider.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-collection-slider.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-collection-grid-item.css' | asset_url }}" media="print" onload="this.media='all'">
+
+<script src="{{ 'vendor.js' | asset_url }}" defer></script>
+<script src="{{ 'component-collection-slider.js' | asset_url }}"></script>
+
+{% assign title = section.settings.title %}
+
+<div class="collection-slider-wrapper">
+  <div class="collection-slider-container page-width">
+    {% if title != blank %}
+      <h2 class="h2 collection-slider__title">
+        {{ title | escape }}
+      </h2>
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="collection-slider content-slider js-collection-slider">
+        {% for block in section.blocks %}
+          {% assign collection       = block.settings.collection %}
+          {% assign collection_image = block.settings.collection_image %}
+          {% assign title = block.settings.collection_title %}
+          
+          {% if collection != blank %}
+            <div class="collection-slider__slide js-collection-slides">
+              {% include 'collection-grid-item', collection: collection, collection_url: block.settings.url, open_tab: block.settings.open_tab, collection_title: title, collection_image: collection_image %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="collection-slider-scrollbar-wrapper">
+        <div class="collection-slider-scrollbar js-collection-slider-scrollbar">
+          <span class="collection-slider-scrollbar-widget js-collection-slider-scrollbar-widget"></span>
+        </div>
+      </div>
+
+    {% endif %}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Collection Slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_tab",
+          "label": "Open in new tab",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "collection_image",
+          "label": "Collection image"
+        },
+        {
+          "type": "text",
+          "id": "collection_title",
+          "label": "Title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Slider"
+    }
+  ]
+}
+{% endschema %}

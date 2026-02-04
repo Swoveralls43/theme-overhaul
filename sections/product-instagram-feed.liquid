@@ -1,0 +1,59 @@
+{{ 'section-product-instagram-feed.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'section-product-instagram-feed.js' | asset_url }}"></script>
+
+{% assign product_images_length = section.blocks.size | times: 1.0 %}
+{% assign images_progress_length = 100 | divided_by: product_images_length %}
+
+<div class="product__instagram__feed__wrapper page-width">
+  <h2 class="product__instagram__feed__title">{{ section.settings.instagram_feed_title }}</h2>
+  {% if section.settings.ugc_html != blank %}
+    {{ section.settings.ugc_html }}
+  {% elsif section.blocks.size > 1 %}
+    <div class="product__instagram__feed js-product-instagram-feed-slider">
+      {% for block in section.blocks %}
+        <img class="product__instagram__feed__image" src="{{ block.settings.instagram_feed_image | image_url }}"/>
+      {% endfor %}
+    </div>
+  {% endif %}
+  <div class="product__instagram__progress-bar js-product-instagram-progress">
+    <span style="width: {{ images_progress_length }}%;"></span>
+  </div>
+</div>
+
+{% schema %}
+{
+    "name": "Product Instagram Feed",
+    "settings": [
+      {
+        "type": "html",
+        "id": "ugc_html",
+        "label": "Yotpo Instagram Feed Snippet"
+      },
+      {
+        "type":"text",
+        "id":"instagram_feed_title",
+        "label":"Instagram Feed Title"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "instagram_feed_image",
+        "name": "Instagram Feed Image",
+        "limit": 6,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "instagram_feed_image",
+            "label": "Instagram Feed Image"
+          }
+        ] 
+      }
+    ],
+    "presets": [
+      {
+        "name": "Instagram Feed"
+      }
+    ]
+  }
+{% endschema %}

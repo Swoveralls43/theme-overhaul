@@ -1,0 +1,68 @@
+{%- liquid
+  assign desktop_img = section.settings.desktop_image
+  assign mobile_img  = section.settings.mobile_image | default: desktop_img
+  assign fallback_img = mobile_img | default: desktop_img
+
+  assign widths = "320,480,640,750,828,960,1080,1280,1440,1680,1920,2048,2560"
+  assign widths_array = widths | split: ','
+
+  assign sizes_attr = "(max-width: 749px) 100vw, 100vw"
+  assign alt_text = section.settings.alt | default: fallback_img.alt | default: shop.name
+-%}
+
+{%- if desktop_img != blank -%}
+  {%- capture desktop_srcset -%}
+    {%- for w in widths_array -%}
+      {%- assign w_int = w | strip | plus: 0 -%}
+      {{ desktop_img | image_url: width: w_int }} {{ w_int }}w{% unless forloop.last %}, {% endunless %}
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  <picture>
+    {%- if mobile_img != blank -%}
+      {%- capture mobile_srcset -%}
+        {%- for w in widths_array -%}
+          {%- assign w_int = w | strip | plus: 0 -%}
+          {{ mobile_img | image_url: width: w_int }} {{ w_int }}w{% unless forloop.last %}, {% endunless %}
+        {%- endfor -%}
+      {%- endcapture -%}
+      <source
+        media="(max-width: 749px)"
+        srcset="{{ mobile_srcset | strip }}"
+        sizes="{{ sizes_attr }}"
+      >
+    {%- endif -%}
+
+    <img
+      src="{{ fallback_img | image_url: width: 960 }}"
+      srcset="{{ desktop_srcset | strip }}"
+      sizes="{{ sizes_attr }}"
+      alt="{{ alt_text | escape }}"
+      width="{{ fallback_img.width }}"
+      height="{{ fallback_img.height }}"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+      style="display:block;inline-size:100%;block-size:auto;"
+    >
+  </picture>
+{%- else -%}
+  <div style="aspect-ratio:16/9;background:#f3f3f3;display:grid;place-items:center;">
+    <p style="margin:0;font:500 14px/1.2 system-ui;">Add a desktop image in the section settings</p>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Hero — Optimized Image",
+  "tag": "section",
+  "class": "section-hero-optimized",
+  "settings": [
+    { "type": "image_picker", "id": "desktop_image", "label": "Desktop image", "info": "Used for screens ≥ 750px." },
+    { "type": "image_picker", "id": "mobile_image", "label": "Mobile image", "info": "Optional. If empty, desktop image is used on mobile." },
+    { "type": "text", "id": "alt", "label": "Alt text", "info": "Falls back to image alt or store name." }
+  ],
+  "blocks": [],
+  "presets": [{ "name": "Hero — Optimized Image" }]
+}
+{% endschema %}

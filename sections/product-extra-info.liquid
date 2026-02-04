@@ -1,0 +1,58 @@
+{% for block in section.blocks %}
+  {% case block.type %}
+  {% when 'product_extra_info' %}
+    <div class="product__description__considerations" data-product-description-considerations>
+      <div class="product__description__considerations__left">
+        <p>{{ block.settings.info_text }}</p>
+        {% if block.settings.info_text2 != blank %}
+          <p>•</p>
+          <p>{{ block.settings.info_text2 }}</p>
+        {% endif %}
+      </div>
+      <div class="product__description__considerations__right">
+        <img src="{{ block.settings.extra_info_logo | image_url }}" class="product__description__considerations__icon" />
+      </div>
+    </div>
+  {% endcase %}
+{% endfor %}
+
+<div class="product__description__considerations" data-product-description-considerations>
+  <div class="product__description__considerations__left">
+    <p>60 days returns and exchanges</p>
+  </div>
+  <div class="product__description__considerations__right">
+    <img src="{{ 'icon-arrow-return.svg' | asset_url }}" class="product__description__considerations__icon" />
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Product Extra Info",
+    "settings": [],
+    "blocks": [
+      {
+        "type": "product_extra_info",
+        "name": "Product Extra Info",
+        "settings": [
+          {
+            "type": "text",
+            "id": "info_text",
+            "label": "Text 1",
+            "info": "First text to display in the extra info"
+          },
+          {
+            "type": "text",
+            "id": "info_text2",
+            "label": "Text 1",
+            "info": "Second text to display in the extra info"
+          },
+          {
+            "type": "image_picker",
+            "id": "extra_info_logo",
+            "label": "Extra info logo"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

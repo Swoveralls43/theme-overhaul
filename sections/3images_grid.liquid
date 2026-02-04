@@ -1,0 +1,62 @@
+<!-- sections/3images_grid -->
+{{ 'section-3images_grid.css' | asset_url | stylesheet_tag }}
+
+<div class="gallery__image-container">
+    {%- for block in section.blocks -%}
+        <div class="gallery__image-container-{{ forloop.index0 }}">
+            <img class="gallery__img lazyload" src="{{ block.settings.image | img_url: '1400x' }}"/>
+            <div class="gallery__texts-box">
+              {% if block.settings.Image_sub_heading != blank %}
+                <h2 class="gallery__image-sub-heading" style="color: {{ block.settings.image_texts_color }}">{{ block.settings.Image_sub_heading }} </h2>
+              {% endif %}
+                <h2 class="gallery__image-heading" style="color: {{ block.settings.image_texts_color }}">{{ block.settings.image_heading }} </h2> 
+            </div>
+        </div>
+    {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "3 images grid",
+  "class": "three-images-grid",
+  "max_blocks": 3,
+  "settings": [
+          
+    ],
+    "blocks": [
+    {
+      "type": "image",
+      "name": "grid-image",
+      "settings": [
+        {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image",
+        "info": "1800 x 800px .jpg recommended"
+        },
+        {
+        "type": "color",
+        "id": "image_texts_color",
+        "label": "Text color",
+        "default": "#ffffff"
+        },
+        {
+        "type": "text",
+        "id": "image_heading",
+        "label": "Image heading",
+        "default": "heading image title"
+          
+        },
+        {
+        "type": "text",
+          "id": "Image_sub_heading",
+          "label": "Image Sub-heading",
+          "default": "sub heading image title"
+        }
+       
+      ]
+    }
+    ]
+}
+{% endschema %}
+

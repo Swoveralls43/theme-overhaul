@@ -1,0 +1,144 @@
+{{ 'slick.css' | asset_url | stylesheet_tag }}
+{{ 'section-styles.css' | asset_url | stylesheet_tag }}
+
+<div class="styles__page__header">
+  <h1 class="styles__page__header__title">{{ section.settings.style_page_title }}</h1>
+  <p class="styles__page__header__description">{{ section.settings.style_page_description }}</p>
+</div>
+
+<div class="styles__page__body">
+  {% for block in section.blocks %}
+
+    {% assign banner1_image = block.settings.banner1_image %}
+    {% assign banner2_image = block.settings.banner2_image %}
+    {% assign banner3_image = block.settings.banner3_image %}
+    {% assign banner4_image = block.settings.banner4_image %}
+
+    <div class="styles__page__card">
+      <div class="styles__page__card__left">
+        <h2 class="styles__page__card__title">{{ block.settings.style_title }}</h2>
+        <p class="styles__page__card__description">{{ block.settings.style_description }}</p>
+        <button class="styles__page__card__button">{{ block.settings.style_button_text }}</button>
+      </div>
+      <div class="styles__page__card__right">
+        <h2 class="styles__page__card__title">{{ block.settings.style_title }}</h2>
+        <div class="styles__page__card__slider js-styles-image-slider">
+          {% if banner1_image != blank %}
+            <img
+              class="styles__page__card__banner__img"
+              src="{{ block.settings.banner1_image | image_url }}"
+            />
+          {% endif %}
+          {% if banner2_image != blank %}
+            <img
+              class="styles__page__card__banner__img"
+              src="{{ block.settings.banner2_image | image_url }}"
+            />
+          {% endif %}
+          {% if banner3_image != blank %}
+            <img
+              class="styles__page__card__banner__img"
+              src="{{ block.settings.banner3_image | image_url }}"
+            />
+          {% endif %}
+          {% if banner4_image != blank %}
+            <img
+              class="styles__page__card__banner__img"
+              src="{{ block.settings.banner4_image | image_url }}"
+            />
+          {% endif %}
+        </div>
+        <p class="styles__page__card__description">{{ block.settings.style_description }}</p>
+        <button class="styles__page__card__button">{{ block.settings.style_button_text }}</button>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+  {
+    "name": "Styles Page",
+    "settings": [
+      {
+        "type": "text",
+        "id": "style_page_title",
+        "label": "Style Page Title"
+      },
+      {
+        "type": "text",
+        "id": "style_page_description",
+        "label": "Style Page Description"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "style_detail",
+        "name": "Style Detail",
+        "limit": 6,
+        "settings": [
+          {
+            "type":"text",
+            "id":"style_title",
+            "label":"Style Title"
+          },
+          {
+            "type":"text",
+            "id":"style_description",
+            "label":"Style Description"
+          },
+          {
+            "type": "text",
+            "id": "style_button_text",
+            "label": "Button text",
+            "default": "SHOP NOW"
+          },
+          {
+            "type": "image_picker",
+            "id": "banner1_image",
+            "label": "Banner 1 Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "banner2_image",
+            "label": "Banner 2 Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "banner3_image",
+            "label": "Banner 3 Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "banner4_image",
+            "label": "Banner 4 Image"
+          }
+        ] 
+      }
+    ]
+  }
+{% endschema %}
+
+{% javascript %}
+  var $stylesSlider = $('.js-styles-image-slider');
+
+  /* ======= Product Slider ======= */
+
+  $stylesSlider.slick({
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    infinite: false,
+    arrows: true,
+    rows: 0,
+    responsive: [{
+      breakpoint: 1200,
+      settings: {
+        slidesToShow: 1.2,
+        slidesToScroll: 1,
+        infinite: false,
+        arrows: false,
+        rows: 0
+      }
+    }]
+  });
+
+{% endjavascript %}

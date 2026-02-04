@@ -1,0 +1,480 @@
+{% assign product_link = collection.products.first.url %}
+
+<div
+  class="hero-container"
+  style="display: flex; flex-direction: row; height: 525px; margin: 0; border: none; background-color: #f9f9f2; cursor: pointer;"
+  onclick="window.location.href='{{ product_link }}';"
+>
+  <div
+    class="hero-image"
+    style="width: 50%; height: 100%; margin: 0; border: none;"
+  >
+    <img
+      src="https://swoveralls.com/cdn/shop/files/Slate_Hero.png"
+      alt="Slate Hero"
+      style="width: 100%; height: 100%; object-fit: cover; display: block; margin: 0;"
+      width="525"
+      height="525"
+    >
+  </div>
+  <div
+    class="hero-text"
+    style="width: 50%; padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; text-align: left; background-color: #f9f9f2;"
+  >
+    <h1 style="font-size: 36px; margin-bottom: 10px; font-weight: 600;">
+      Sweatpants + Overalls = <br>
+      Swoveralls
+    </h1>
+    <div style="font-size: 21px; margin-bottom: 20px;">The comfiest thing ya never knew you needed.</div>
+    <a
+      href="{{ product_link }}"
+      style="display: inline-block; margin-top: 10px; padding: 10px 30px; text-decoration: none; background-color: #2A3348; color: #fff; border-radius: 10px; font-size: 13px;"
+    >
+      Shop Now
+    </a>
+  </div>
+</div>
+
+<style>
+  /* Adjust the breakpoint as needed */
+  @media (max-width: 768px) {
+    .hero-container {
+      flex-direction: column !important;
+      height: auto !important;
+      padding-bottom: 20px !important;
+    }
+    .hero-image {
+      width: 100% !important;
+      height: 402px !important;
+    }
+    .hero-text {
+      width: 100% !important;
+      height: 208px !important;
+    }
+    .hero-text h1 {
+      font-size: 18px !important;
+    }
+    .hero-text div {
+      font-size: 14px !important;
+    }
+    .hero-text a {
+      font-size: 14px !important;
+    }
+  }
+</style>
+
+<div
+  class="banner"
+  style="background-color: #2A3348; padding: 43px; text-align: center; font-style: normal; font-weight: 550; font-size: 16px; color: white; line-height: 1.2;"
+>
+  <div class="banner-header" style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h2 style="font-size: 24px; margin: 0;">Why Swoveralls?</h2>
+  </div>
+  <div
+    class="banner-sections"
+    style="display: flex; justify-content: space-around; max-width: 1200px; margin: 0 auto; font-size: 16px; text-align: left; gap: 60px;"
+  >
+    <div class="section" style="flex: 1; padding: 0 30px;">
+      <h3 style="margin-bottom: 8px;"><b>Materials</b></h3>
+      <p style="margin-top: 0;">
+        Buttery soft blend of french terry cotton and recycled poly with just a hint of spandex for the perfect stretch
+      </p>
+    </div>
+    <div class="section" style="flex: 1; padding: 0 30px;">
+      <h3 style="margin-bottom: 8px;"><b>Pockets</b></h3>
+      <p style="margin-top: 0;">SIX and they are DEEP, including an inside secret zippered front pocket</p>
+    </div>
+    <div class="section" style="flex: 1; padding: 0 30px;">
+      <h3 style="margin-bottom: 8px;"><b>Sizing</b></h3>
+      <p style="margin-top: 0;">Gender-neutral with options from XXS-4XL</p>
+    </div>
+  </div>
+
+  <style>
+    @media (max-width: 768px) {
+      .banner {
+        padding: 40px 10px !important;
+      }
+      .banner-sections {
+        flex-direction: column;
+        gap: 0px !important;
+      }
+      .section {
+        padding: 0px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .banner .section p {
+        font-size: 14px !important;
+      }
+    }
+  </style>
+</div>
+
+<div class="image-carousel-container" style="overflow-x: visible;">
+  <h2 style="font-size: 24px; text-align: center; padding: 15px 15px;">Shop by Color</h2>
+  <div
+    class="image-carousel"
+    style="position: relative; padding-bottom: 40px;"
+  >
+    <div
+      class="image-slides"
+      style="display: flex; overflow-x: scroll; overflow-y: hidden; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 0 16px;"
+    >
+      {% for product in collection.products %}
+        <div class="image-slide" style="flex: 0 0 175px; padding-left: 20px;">
+          <a href="{{ product.url }}" style="text-decoration: none;">
+            <div style="position: relative; width: 175px;">
+              <img
+                src="{{ product.featured_image | img_url: '1400x' }}"
+                style="width: 100%; height: 289px; object-fit: cover;"
+                alt="{{ product.title | remove: 'Swoveralls - ' }}"
+              >
+              <div style="text-align: left; font-size: 18px;">
+                {{ product.title | remove: 'Swoveralls - ' }}
+              </div>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <style>
+    @media screen and (min-width: 768px) {
+      .image-slides {
+        justify-content: center !important;
+      }
+      .image-slide {
+        flex: 0 0 250px !important;
+      }
+      .image-slide > a > div {
+        width: 250px !important;
+      }
+      .image-slide img {
+        height: 480px !important;
+      }
+    }
+    .image-slides::-webkit-scrollbar {
+      display: none;
+    }
+
+    .image-slide {
+      scroll-snap-align: start;
+    }
+  </style>
+</div>
+<div style="background-color: #C2DCD1; overflow-x: hidden;">
+  <div class="video-carousel-container">
+    <h2
+      class="video-carousel-header"
+      style="font-size: 24px; text-align: center; padding-top: 40px; margin: 0"
+    >
+      Don't take our word for it...
+    </h2>
+
+    <div
+      class="banner"
+      style="background-color: #C2DCD1; text-align: center; font-style: normal; font-weight: 550; font-size: 16px; color: #000; line-height: 1.2;"
+    >
+      <div
+        class="junip-stars-container"
+        style="display: flex; align-items: center; position: relative; justify-content: center; margin: 0 auto;"
+      >
+        <div class="junip-stars-outline" style="display: flex; align-items: center;">
+          {% for i in (1..5) %}
+            <div
+              class="junip-product-summary-star junip-star-filled"
+              style="height: 20px; width: 20px; padding: 2px; z-index: inherit;"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M5.98633 1.69512C6.06644 1.49039 6.20704 1.31447 6.38968 1.19042C6.57233 1.06638 6.7885 1 7.00983 1C7.23116 1 7.44733 1.06638 7.62997 1.19042C7.81262 1.31447 7.95322 1.49039 8.03333 1.69512L9.22431 4.72334H12.4065C12.6327 4.72664 12.8528 4.79696 13.0385 4.92528C13.2242 5.05359 13.367 5.23404 13.4486 5.44346C13.5114 5.63993 13.5168 5.85005 13.4641 6.04942C13.4114 6.2488 13.3027 6.42925 13.1508 6.56981L10.3408 9.04409L11.5318 11.4076C11.6396 11.6151 11.6762 11.8518 11.6359 12.0818C11.5955 12.3118 11.4806 12.5225 11.3085 12.6816C11.1406 12.8479 10.923 12.9558 10.6882 12.989C10.4533 13.0223 10.214 12.9793 10.0059 12.8663L7.00983 11.2414L4.01377 12.8663C3.80568 12.9793 3.56631 13.0223 3.33149 12.989C3.09667 12.9558 2.87903 12.8479 2.71114 12.6816C2.53906 12.5225 2.42412 12.3118 2.3838 12.0818C2.34349 11.8518 2.38002 11.6151 2.48783 11.4076L3.67881 9.04409L0.868846 6.56981C0.702523 6.42324 0.584994 6.22999 0.531824 6.01566C0.478654 5.80134 0.492351 5.57604 0.571101 5.36961C0.663963 5.174 0.811605 5.00904 0.996395 4.89445C1.18119 4.77985 1.39531 4.72045 1.61321 4.72334H4.79535L5.98633 1.69512Z" fill="#2F4635" stroke="#2F4635" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="testimonial-text" style="margin-bottom: 10px;">
+        <p style="font-size: 18px; font-weight: 300; line-height: 140%; max-width: 750px;">
+          So comfy!! I wore these to a party and I got so many compliments. They are comfortable, the amount of pockets
+          is perfect, and they are super cute. I am trying to figure out which pair to get next!
+        </p>
+        <p style="font-size: 18px;">— Brenna C</p>
+      </div>
+
+      <style>
+        @media screen and (min-width: 768px) {
+          .banner .testimonial-text p {
+            max-width: 40%;
+            margin-left: auto;
+            margin-right: auto;
+          }
+          .video-carousel-header {
+            padding: 30px 0 40px 0 !important;
+          }
+          .testimonial-text {
+            margin-bottom: 30px !important;
+          }
+        }
+      </style>
+    </div>
+    <div class="video-carousel" style="position: relative; padding-bottom: 40px;">
+      <div
+        class="video-slides"
+        style="display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; margin: 0 auto; max-width: 100%;"
+      >
+        <div
+          class="video-slide"
+          style="flex: 0 0 175px; scroll-snap-align: start; min-width: 175px; margin-left: 0;"
+        >
+          <div style="position: relative; width: 175px; height: 289px; padding-left: 20px;">
+            <video
+              class="promo-video"
+              src="https://cdn.shopify.com/videos/c/o/v/bcbd4738f17a4ac18c0661bf72db6402.mp4#t=0.001"
+              style="width: 100%; height: 100%; object-fit: cover; border-radius: 24px;"
+              preload="metadata"
+              playsinline
+              webkit-playsinline
+              x5-playsinline
+            ></video>
+            <button
+              class="play-pause-btn"
+              style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.3); border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center;"
+            >
+              <svg
+                class="play-icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <svg
+                class="pause-icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+                style="display: none;"
+              >
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="video-slide" style="flex: 0 0 175px; scroll-snap-align: start; min-width: 175px;">
+          <div style="position: relative; width: 175px; height: 289px; padding-left: 20px;">
+            <video
+              class="promo-video"
+              src="https://cdn.shopify.com/videos/c/o/v/550f45bb98554d83a3876fbc155ad401.mp4#t=0.001"
+              style="width: 100%; height: 100%; object-fit: cover; border-radius: 24px;"
+              preload="metadata"
+              playsinline
+              webkit-playsinline
+              x5-playsinline
+            ></video>
+            <button
+              class="play-pause-btn"
+              style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.3); border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center;"
+            >
+              <svg
+                class="play-icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <svg
+                class="pause-icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+                style="display: none;"
+              >
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="video-slide" style="flex: 0 0 175px; scroll-snap-align: start; min-width: 175px;">
+          <div style="position: relative; width: 175px; height: 289px; padding-left: 20px;">
+            <video
+              class="promo-video"
+              src="https://cdn.shopify.com/videos/c/o/v/7614ac4fdc2e4c9fb1314c4df1f5aa25.mp4#t=0.001"
+              style="width: 100%; height: 100%; object-fit: cover; border-radius: 24px;"
+              preload="metadata"
+              playsinline
+              webkit-playsinline
+              x5-playsinline
+            ></video>
+            <button
+              class="play-pause-btn"
+              style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.3); border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center;"
+            >
+              <svg
+                class="play-icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <svg
+                class="pause-icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+                style="display: none;"
+              >
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="video-slide" style="flex: 0 0 175px; scroll-snap-align: start; min-width: 175px;">
+          <div style="position: relative; width: 175px; height: 289px; padding-left: 20px;">
+            <video
+              class="promo-video"
+              src="https://cdn.shopify.com/videos/c/o/v/24f2e0d63df149c8a4f8d82180e60544.mp4#t=0.001"
+              style="width: 100%; height: 100%; object-fit: cover; border-radius: 24px;"
+              preload="metadata"
+              playsinline
+              webkit-playsinline
+              x5-playsinline
+            ></video>
+            <button
+              class="play-pause-btn"
+              style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.3); border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center;"
+            >
+              <svg
+                class="play-icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <svg
+                class="pause-icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+                style="display: none;"
+              >
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="video-slide" style="flex: 0 0 175px; scroll-snap-align: start; min-width: 175px;">
+          <div style="position: relative; width: 175px; height: 289px; padding-left: 20px; padding-right: 20px;">
+            <video
+              class="promo-video"
+              src="https://cdn.shopify.com/videos/c/o/v/44016558bf32426184dec3b4c82e7751.mp4#t=0.001"
+              style="width: 100%; height: 100%; object-fit: cover; border-radius: 24px;"
+              preload="metadata"
+              playsinline
+              webkit-playsinline
+              x5-playsinline
+            ></video>
+            <button
+              class="play-pause-btn"
+              style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.3); border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center;"
+            >
+              <svg
+                class="play-icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <svg
+                class="pause-icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+                style="display: none;"
+              >
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @media screen and (min-width: 768px) {
+      .video-slide > div {
+        width: 250px !important;
+        height: 489px !important;
+      }
+      .video-slide {
+        flex: 0 0 250px !important;
+      }
+      .video-slides {
+        justify-content: center !important;
+      }
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const videos = document.querySelectorAll('.promo-video');
+      const playPauseBtns = document.querySelectorAll('.play-pause-btn');
+
+      // Handle play/pause for each video
+      playPauseBtns.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+          const video = videos[index];
+          const playIcon = btn.querySelector('.play-icon');
+          const pauseIcon = btn.querySelector('.pause-icon');
+
+          if (video.paused) {
+            // Pause all other videos first
+            videos.forEach((v) => v.pause());
+            playPauseBtns.forEach((b) => {
+              b.querySelector('.play-icon').style.display = 'block';
+              b.querySelector('.pause-icon').style.display = 'none';
+            });
+
+            // Play the clicked video
+            video.play();
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'block';
+          } else {
+            video.pause();
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</div>

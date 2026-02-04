@@ -1,0 +1,901 @@
+<header class="header__wrapper" id="header__wrapper">
+  <div class="page-width">
+    <nav class="header__nav header__nav--left" id="header__nav--left">
+      <div class="header__actions--mobile">
+        <div class="header__mobile--open">
+          <img src="{{ 'icon-menu.svg' | asset_url }}" alt="menu bars mobile" />
+        </div>
+        <a class="js-header-search-mobile">
+          <img class="header__search__icon--mobile" alt="search icon" src="{{ 'icon-search.svg' | asset_url }}"/>
+        </a>
+        <div class="header__search__mobile__wrapper">
+          <div class="header__search__mobile__header">
+            <form class="header__search header__search__mobile" onsubmit="event.preventDefault();" role="search">
+              <input autocomplete="off" class="header__search__input js-header-search-input" data-search-type="mobile" placeholder="Search" type="text"/>
+              <button class="header__search__btn js-submit-search" type="submit">
+                <img src="{{ 'icon-search.svg' | asset_url }}" class="header__search__icon"/>
+              </button>
+            </form>
+            <div class="header__search__mobile__close">
+              <img src="{{ 'icon-close.svg' | asset_url }}"/>
+            </div>
+          </div>
+          <div class="header__search__mobile__results js-header-results-modal" data-search-type="mobile">
+            <div class="header__search__mobile__results__sidebar js-search-results-sidebar">
+              <div class="header__search__mobile__results__teams-list js-search-teams-list"></div>
+              <div class="header__search__mobile__results__suggestions js-search-collections-list"></div>
+            </div>
+            <div class="header__search__mobile__results__grid js-header-results"></div>
+          </div>
+        </div>
+      </div>
+      <ul class="header__nav__main-list">
+        {% for link in section.settings.menu_linklist.links %}
+          <li class="header__nav__main__link tabs__button" data-name="{{ link.title }}">
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    <div class="header__logo" id="header__logo">
+      <a href="/" aria-label="Homepage">
+        {% if section.settings.logo != blank and section.settings.use_svg_logo == false %}
+        <img src="{{ section.settings.logo | image_url: width: 400 }}" alt="{{ shop.name }} logo" class="header__logo__image"/>
+        {% else %}
+          <div class="header__logo__image">
+            {% render 'logo' %}
+          </div>
+        {% endif %} 
+      </a>
+    </div>
+
+    <div class="header__nav header__nav--right" id="header__nav--right">
+      
+      <div class="header__search__container js-header-search">
+        <form class="header__search" role="search">
+          <img src="{{ 'icon-search.svg' | asset_url }}" class="header__search__icon js-search-icon"/>
+          <input type="submit" hidden>
+          <input autocomplete="off" class="header__search__input js-header-search-input" data-search-type="desktop" placeholder="Search" type="text"/>
+        </form>
+      </div>
+
+      <div class="search-overlay js-search-overlay"></div>
+
+      
+      <ul class="header__nav__main-list header__icon__list">
+        {% if customer %}
+          <li class="open__right__drawer">
+            {% assign current_url = canonical_url %}
+            <a class="header__icon__user" href="/account">
+              <span class="header__icon__title">Account</span>
+            </a>
+          </li>
+        {% else %}
+          <li class="open__right__drawer" data-right-drawer-renderer="account-actions">
+            {% assign current_url = canonical_url %}
+            <a class="header__icon__user" {% if current_url contains 'register' %} href="/account/login" {% endif %}>
+              <span class="header__icon__title">Login</span>
+            </a>
+          </li>
+        {% endif %}
+        <li>
+          <a class="header__icon--count" data-toggle-bag href="/">
+            <img src="{{ 'icon-bag.svg' | asset_url }}" class="header__icon__image" alt="shopping bag icon" />
+            <span class="header__icon-count" data-cart-count>{{
+              cart.item_count
+            }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+{% for block in section.blocks %}
+  {% case block.type %}
+    {% when 'menu_dropdown' %}
+      {% if block.settings.title != "" %}
+        <div id="{{ block.settings.title | downcase }}__dropdown" class="dropdown__wrapper tabs__content">
+          <div class="nav__main__dropdown">
+
+            <div class="dropdown__menus">
+              <div class="dropdown__menu">
+                {% for link in linklists[block.settings.dropdown_main_menu].links %}
+                  {% assign link_title_downcase = link.title | downcase %}
+
+                  {% if link_title_downcase contains 'leagues' %}
+                    <div class="dropdown__division__line">
+                      <ul class="dropdown__menu dropdown__menu--inner">
+                        {% for child_link in link.links %}
+                          <li>
+                            <a class="promoted__collection__link dropdown__submenu__link" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {% else %}
+                    <div {% if forloop.last %} class="dropdown__menu--last" {% endif %}>
+                      <a class="dropdown__menu__link" href="{{ link.url }}">
+                        {{ link.title | upcase }}
+                      </a>
+                      {% if link.links != blank %}
+                        <ul class="dropdown__menu dropdown__menu--inner">
+                          {% for child_link in link.links %}
+                            <li>
+                              <a class="promoted__collection__link dropdown__submenu__link" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+
+            {% assign banner_img = block.settings.banner_image %}
+            {% assign banner_text = block.settings.banner_text %}
+            {% assign banner_url = block.settings.banner_url %}
+
+            {% if banner_img %}
+              <div class="dropdown__right__panel--main">
+                <div class="dropdown__banner__1">
+                  <a class="dropdown__banner__link" href="{{ banner_url }}">
+                    <img class="dropdown__banner__img" src="{{ banner_img | image_url: width: 400 }}"/>
+                    <span class="dropdown__banner__title">{{ banner_text | upcase }}</span>
+                  </a>
+                </div>
+              </div>
+            {% endif %}
+
+          </div>
+        </div>
+      {% endif %}
+    {% when 'league_dropdown' %}
+      {% if block.settings.title != "" %}
+        <div id="{{ block.settings.title | downcase }}__dropdown" class="dropdown__wrapper tabs__content{% if block.settings.title == 'NCAA' %} tabs__content--tall{% endif %}">
+          <div class="nav__main__dropdown">
+
+            {% assign banner1_image = block.settings.banner1_image %}
+            {% assign banner2_image = block.settings.banner2_image %}
+
+            {% assign banner1_link = block.settings.banner1_link %}
+            {% assign banner2_link = block.settings.banner2_link %}
+
+            <ul class="dropdown__teams
+                                                                                                            {% if banner2_image != blank %} dropdown__teams--double {% endif %}">
+              {% if banner1_image != blank %}
+                {% if banner2_image != blank %}
+                  {% assign product_limit = 30 %}
+                {% else %}
+                  {% assign product_limit = 40 %}
+                {% endif %}
+
+                {% if block.settings.title == 'NCAA' %}
+                  {% assign product_limit = 70 %}
+                {% endif %}
+
+                {% assign team_products = block.settings.team_collection.products | sort: "title" %}
+
+                {% for product in team_products limit: product_limit %}
+                  {% assign team_handle = product.handle | remove: 'logo-' %}
+                  <li class="dropdown__teams__link__wrapper">
+                    <a class="dropdown__teams__link" href="/collections/{{ team_handle }}">
+                      {{ product.description }}
+                      <span class="dropdown__teams__link__title">{{ product.title | split: '|' | last | strip | escape }}</span>
+                    </a>
+                  </li>
+                {% endfor %}
+              {% endif %}
+            </ul>
+
+            {% if banner1_image %}
+              {% if banner2_image %}
+
+                <div class="dropdown__right__panel--double">
+                  <div class="dropdown__double__banner">
+                    <div class="dropdown__promoted__collection">
+                      <h3 class="promoted__collection__title--top">{{ block.settings.promoted_collection_title }}</h3>
+                      <ul class="promoted__collection__links">
+                        {% for link in linklists[block.settings.promoted_collection_menu].links %}
+                          <li>
+                            <a class="promoted__collection__link" href="{{ link.url }}">{{ link.title | escape }}</a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    <div class="dropdown__banner__wrapper">
+                      <div class="dropdown__banner__1">
+                        <a class="dropdown__banner__link" href="{{ banner1_link }}">
+                          <img class="dropdown__banner__img" src="{{ banner1_image | image_url }}"/>
+                          <span class="dropdown__banner__title">{{ block.settings.banner1_title | upcase }}</span>
+                        </a>
+                      </div>
+                      <div class="dropdown__banner__2">
+                        <a class="dropdown__banner__link" href="{{ banner2_link }}">
+                          <img class="dropdown__banner__img" src="{{ banner2_image | image_url }}"/>
+                          <span class="dropdown__banner__title">{{ block.settings.banner2_title | upcase }}</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              {% else %}
+
+                <div class="dropdown__right__panel">
+                  <div class="dropdown__banner__1">
+                    <a class="dropdown__banner__link" href="{{ banner1_link }}">
+                      <img class="dropdown__banner__img" src="{{ banner1_image | image_url }}"/>
+                      <span class="dropdown__banner__title">{{ block.settings.banner1_title | upcase }}</span>
+                    </a>
+                  </div>
+                  <div class="dropdown__promoted__collection">
+                    <h3 class="promoted__collection__title">{{ block.settings.promoted_collection_title }}</h3>
+                    <ul class="promoted__collection__links">
+                      {% for link in linklists[block.settings.promoted_collection_menu].links %}
+                        <li>
+                          <a class="promoted__collection__link" href="{{ link.url }}">{{ link.title | escape }}</a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+  {% endcase %}
+{% endfor %}
+
+<style>
+  #floating-add-to-cart{
+    top: 140px;
+    display: flex;
+    row-gap: 24px;
+    z-index: 100;
+    position: sticky;
+    max-width: 100%;
+    min-width: auto;
+    transform: none;
+    align-self: stretch;
+    column-gap: 24px;
+    flex-basis: auto;
+    min-height: 1px;
+    align-items: center;
+    flex-shrink: 0;
+    padding-top: 16px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 16px;
+    justify-content: space-between;
+    background-color: #F5F5F5FF;
+    background-image: none;
+  }
+  #floating-add-to-cart div div{
+    display: flex;
+  }
+
+  .floating-add-to-cart-right{
+    width: 80%;
+    margin: auto;
+  }
+
+  #floating-add-to-cart div{
+    width: 95%;
+  }
+
+  .floating-add-to-cart-left-menu{
+    flex: 1;
+    justify-content: center;
+    text-decoration: underline;
+    text-align:center;
+    margin: 0;
+  }
+  #floating-atc-button{
+    background-color: #28334a;
+    color: #FFFFFF
+  }
+
+  #floating-atc-button:hover{
+    background-color: #d24c2b;
+  }
+
+
+  @media screen and (min-width: 768px) {
+    #floating-add-to-cart{
+      width: 100%;
+      padding-left: 80px;
+      padding-right: 80px;
+    }
+    #floating-add-to-cart div{
+      width: 70%;
+    }
+  }
+
+</style>
+
+{% if template.name == 'product' %}
+
+  <div id="floating-add-to-cart" class="hidden">
+    <div style="display: flex;justify-content: space-between;margin-left: auto;margin-right: auto;">
+      <div style="flex: 1;display: flex">
+        <h2 class="floating-add-to-cart-left-menu">
+          <a href="#product-reviews" style="font-family: inherit; font-weight: inherit;">Reviews</a>
+        </h2>
+        <h2 class="floating-add-to-cart-left-menu">
+          <a href="#product-faq" style="font-family: inherit; font-weight: inherit;">FAQ</a>
+        </h2>
+      </div>
+      <div style="flex: 1;">
+        <div class="product__description__form__right floating-add-to-cart-right">
+          <button
+            id="floating-atc-button"
+            type="button"
+            data-action="floating-add-to-cart"
+            name="add"
+            class="ancatc js-add-to-cart font-heading"
+            style="padding: 8px 0; font-size: calc(var(--font-heading-scale) * 2rem);"
+          >
+            
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endif %}
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const floatingATC = document.getElementById("floating-add-to-cart");
+    const productImages = document.getElementById("product-images");
+    const productDescription = document.querySelector('.product__description__page');
+    const mainATC = document.querySelector('form[action^="/cart/add"]');
+    const floatingBtn = document.querySelector('[data-action="floating-add-to-cart"]');
+
+    if (!floatingATC || !mainATC) return;
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          floatingATC.classList.add("show");
+          floatingATC.classList.remove("hidden");
+        } else {
+          floatingATC.classList.remove("show");
+          floatingATC.classList.add("hidden");
+        }
+      });
+    }, { threshold: 0 });
+
+    observer.observe(productDescription);
+    floatingBtn.addEventListener('click', function() {
+        document.querySelector('[data-action="add-to-cart"]').click();
+    });
+  });
+</script>
+
+<div class="header__mobile">
+  <div class="header__mobile__main">
+    <div class="header__mobile__head">
+      <div class="header__mobile__logo">
+        <a href="/">
+          <img {% if section.settings.logo != blank %} src="{{ section.settings.logo | image_url: width: 100, height: 100 }}" {% else %} src="{{ 'logo.svg' | asset_url }}" {% endif %} alt="{{ shop.name }} logo" class="header__logo__image"/>
+        </a>
+      </div>
+      <div class="header__mobile--close">
+        <img src="{{ 'icon-close.svg' | asset_url }}" alt="close menu button"/>
+      </div>
+    </div>
+
+    <ul class="header__mobile__main__menu">
+      {% for link in section.settings.menu_linklist.links %}
+        {% assign is_league = false %}
+        {% assign has_children = false %}
+        {% assign link_downcase = link.title | downcase %}
+
+        {% for block in section.blocks %}
+          {% assign menu_title_downcase = block.settings.title | downcase %}
+          {% if link_downcase == menu_title_downcase and block.type == 'league_dropdown' %}
+            {% assign is_league = true %}
+          {% endif %}
+          {% if link_downcase == menu_title_downcase %}
+            {% assign has_children = true %}
+          {% endif %}
+        {% endfor %}
+
+        <li class="mobile__main__menu__link {% if is_league %}js-mobile-league-menu-toggle{% endif %}" data-name="{{ link.title | handleize }}" {% if is_league %} data-league="{{ link.title }}" {% endif %}>
+          <a href="{{ link.url }}" class="mobile__main__menu__title">{{ link.title }}</a>
+          {% unless forloop.last or has_children == false %}
+            <img loading="lazy" width="16" height="16" src="{{ 'icon-chevron.svg' | asset_url }}"/>
+          {% endunless %}
+        </li>
+      {% endfor %}
+    </ul>
+
+    <ul class="header__mobile__icon__list">
+      <li class="header__mobile__icon__item">
+        <a class="header__mobile__icon__wrapper" data-toggle-bag href="#">
+          <div class="header__mobile__icon--left">
+            <img src="{{ 'icon-bag.svg' | asset_url }}" class="header__mobile__icon__image" alt="shopping bag icon"/>
+            <span class="header__mobile__icon__title">Bag</span>
+          </div>
+          <div class="header__mobile__icon--right">
+            <span class="header__mobile__icon__count" data-cart-count>
+              {{ cart.item_count }}
+            </span>
+            <img src="{{ 'icon-chevron.svg' | asset_url }}" alt="right icon"/>
+          </div>
+        </a>
+      </li>
+      <li class="header__mobile__icon__item open__right__drawer" data-right-drawer-renderer="account-actions">
+        <a class="header__mobile__icon__wrapper" {% if current_url contains 'register' %} href="/account/login" {% endif %}>
+          <div class="header__mobile__icon--left">
+            <img src="{{ 'icon-user.svg' | asset_url }}" class="header__mobile__icon__image" alt="user icon"/>
+            <span class="header__mobile__icon__title">Account</span>
+          </div>
+          <img src="{{ 'icon-chevron.svg' | asset_url }}" alt="chevron right icon"/>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'menu_dropdown' %}
+        {% if block.settings.title != "" %}
+          <div class="header__mobile__dropdown__wrapper" id="{{ block.settings.title | handleize }}__mobile__menu">
+            <div class="mobile__dropdown__wrapper__header">
+              <img class="mobile__dropdown__wrapper--back" src="{{ 'icon-chevron.svg' | asset_url }}"/>
+              <h3>{{ block.settings.title | handleize }}</h3>
+              <img src="{{ 'icon-close.svg' | asset_url }}" class="header__mobile--close"/>
+            </div>
+
+            <div class="mobile__dropdown__menus">
+              {% for link in linklists[block.settings.dropdown_main_menu].links %}
+                {% assign link_title_downcase = link.title | downcase %}
+
+                {% unless link_title_downcase contains 'leagues' %}
+                  {% assign double_row = '' | split: '' %}
+
+                  {% for secondLink in linklists[block.settings.dropdown_main_menu].links %}
+                    {% assign secondlink_title_downcase = secondLink.title | downcase %}
+
+                    {% if secondlink_title_downcase contains 'leagues' and  secondlink_title_downcase contains link_title_downcase %}
+                      {% assign double_row = secondLink %}
+                    {% endif %}
+                  {% endfor %}
+                  <div class="mobile__dropdown__menu">
+                    <div class="mobile__dropdown__menu__link">
+                      {% if link.links != blank %}
+                        {{ link.title | upcase }}
+                        <div class="mobile__dropdown__menu__toggles">
+                          <img class="mobile__dropdown__menu__toggle--open" src="{{ 'icon-plus.svg' | asset_url }}"/>
+                          <img class="mobile__dropdown__menu__toggle--close" src="{{ 'icon-minus.svg' | asset_url }}"/>
+                        </div>
+                      {% endif %}
+                    </div>
+
+                    <div class="mobile__dropdown__menu__wrapper">
+                      {% if link.links != blank %}
+                        <div class="mobile__dropdown__submenu">
+                          {% if double_row.size != 0 %}STYLES
+                          {% endif %}
+                          <ul class="mobile__dropdown__inner">
+                            {% for child_link in link.links %}
+                              <li class="mobile__dropdown__submenu__link__wrapper">
+                                <a class="mobile__dropdown__submenu__link" href="{{ child_link.url }}">
+                                  {{ child_link.title }}
+                                </a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                          {% assign link_title = link.title | downcase %}
+                          {% if link_title != 'collections' %}
+                            <a class="promoted__collection__link promoted__collection__link--all" href="/">
+                              <span>
+                                View All
+                              </span>
+                              <img src="{{ 'icon-arrow.svg' | asset_url }}" class="header__mobile__icon__image--arrow" alt="arrow icon"/>
+                            </a>
+                          {% endif %}
+                        </div>
+                      {% endif %}
+
+                      {% if double_row.size != 0 %}
+                        <div class="mobile__dropdown__submenu">
+                          LEAGUE
+                          <ul class="mobile__dropdown__inner">
+                            {% for child_link in double_row.links %}
+                              <li class="mobile__dropdown__submenu__link__wrapper">
+                                <a class="mobile__dropdown__submenu__link" href="{{ child_link.url }}">
+                                  {{ child_link.title }}
+                                </a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                {% endunless %}
+                
+                {% if forloop.last %}
+                  {% assign shop_all_url = '' %}
+                  {% assign block_title_downcase = block.settings.title | downcase %}
+                  
+                  {% for main_link in section.settings.menu_linklist.links %}
+                    {% assign link_downcase = main_link.title | downcase %}
+                    
+                    {% if link_downcase == block_title_downcase %}
+                      {% assign shop_all_url = main_link.url %}
+                      {% break %}
+                    {% endif %}
+                  {% endfor %}
+                  
+                  {% if shop_all_url != '' %}
+                    <div class="mobile__dropdown__menu">
+                      <a class="mobile__dropdown__menu__link mobile__dropdown__menu__link--all" href="{{ shop_all_url }}">
+                        SHOP ALL
+                      </a>
+                    </div>
+                  {% endif %}
+                  
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            {% assign banner_img = block.settings.banner_image %}
+            {% assign banner_text = block.settings.banner_text %}
+            {% assign banner_url = block.settings.banner_url %}
+
+            {% if banner_img %}
+              <div class="mobile__dropdown__banner__panel">
+                <div class="dropdown__banner__1">
+                  <a class="mobile__dropdown__banner__link" href="{{ banner_url }}">
+                    <img class="dropdown__banner__img mobile__dropdown__banner__img" src="{{ banner_img | image_url: width: 450 }}"/>
+                    <span class="mobile__dropdown__banner__title">
+                      {{ banner_text | upcase }}
+                    </span>
+                  </a>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% when 'league_dropdown' %}
+        {% if block.settings.title != "" %}
+          <div class="header__mobile__dropdown__wrapper" id="{{ block.settings.title | handleize }}__mobile__menu">
+            <div class="mobile__dropdown__wrapper__header">
+              <img loading="lazy" width="16" height="16" class="mobile__dropdown__wrapper--back" src="{{ 'icon-chevron.svg' | asset_url }}"/>
+              <h3>{{ block.settings.title | handleize }}</h3>
+              <img loading="lazy" width="16" height="16" src="{{ 'icon-close.svg' | asset_url }}" class="header__mobile--close"/>
+            </div>
+
+            <div class="mobile__dropdown__menus">
+              <form class="header__search" onsubmit="event.preventDefault();" role="search">
+                <input class="header__search__input js-dropdown-search" data-league="{{ block.settings.title }}" type="text" placeholder="Search {{ block.settings.title | upcase }} teams"/>
+                <button class="header__search__btn" type="submit">
+                  <img loading="lazy" width="16" height="16" src="{{ 'icon-search.svg' | asset_url }}" class="header__search__icon"/>
+                </button>
+              </form>
+            </div>
+          </div>
+        {% endif %}
+    {% endcase %}
+  {% endfor %}
+</div>
+
+{% style %}
+  {% if section.settings.is_transparent and template == 'index' %}
+    .header__wrapper {
+      animation: fadeOut 0.5s both;
+      border: 0;
+    }
+    .at-top .header__wrapper form,
+    .at-top .header__wrapper form input,
+    .at-top .header__wrapper {
+      animation: fadeIn 0.5s both;
+    }
+    .at-top .header__wrapper {
+      background: transparent;
+      border-color: transparent;
+      transition: border-color 0.5s;
+    }
+    #MainContent {
+      margin-top: 42px;
+    }
+    #MainContentOverlay,
+    .header__overlay {
+      top: 140px !important;
+    }
+
+    @keyframes fadeIn {
+      from { 
+        background: transparent;
+      }
+      to {
+        background: transparent; 
+        {% if section.settings.invert_at_top %}
+          filter: invert(1) grayscale(1) contrast(200%);
+        {% endif %}
+      }
+    }
+    @keyframes fadeOut {
+      from { 
+        background: transparent; 
+      }
+      to {
+        {% if section.settings.invert_at_top %}
+          filter: invert(0) grayscale(0) contrast(100%);
+        {% endif %}
+      }
+    }
+  {% endif %}
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_svg_logo",
+      "label": "Use SVG logo?",
+      "info": "This version is an SVG asset named 'logo.svg' within the assets folfer of the theme. It is not editable from the customizer.",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "menu_linklist",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "is_transparent",
+      "label": "Transparent Nav?",
+      "info": "This will only apply on the homepage. The nav will be transparent at the top and then shift to a white background on scroll."
+    },
+    {
+      "type": "checkbox",
+      "id": "invert_at_top",
+      "label": "Invert nav colors while transparent?"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu_dropdown",
+      "name": "Menu Dropdown",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "info": "Should be equal to the name of the navigation bar link it's related to"
+        },
+        {
+          "type": "link_list",
+          "id": "dropdown_main_menu",
+          "label": "Dropdown Main Menu"
+        },
+        {
+          "type": "image_picker",
+          "id": "banner_image",
+          "label": "Banner Image"
+        },
+        {
+          "type": "text",
+          "id": "banner_text",
+          "label": "Banner Text"
+        },
+        {
+          "type": "url",
+          "id": "banner_url",
+          "label": "Banner URL"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% javascript %}
+
+const headerWrapper = document.getElementById("HeaderWrapper");
+const header = document.getElementById("shopify-section-header");
+const body = document.getElementById("MainContent");
+const overlay = document.querySelector(".header__overlay");
+const tabButton = document.querySelectorAll(".tabs__button");
+const contents = document.querySelectorAll(".tabs__content");
+const mobileMenuIcon = document.querySelector(".header__mobile--open");
+const mobileMenuButtons = document.querySelectorAll(".mobile__main__menu__link");
+const mobileMenuMainContent = document.querySelector(".header__mobile__main");
+const mobileSubMenus = document.querySelectorAll(".mobile__dropdown__menu__link");
+const backToMainMenuButtons = document.querySelectorAll(".mobile__dropdown__wrapper--back");
+const closeMobileMenuButtons = document.querySelectorAll(".header__mobile--close");
+const openRightDrawer = document.querySelectorAll(".open__right__drawer");
+const closeRightDrawer = document.querySelectorAll(".right__drawer--close");
+const rightDrawerTogglers = document.querySelectorAll("[data-right-drawer-toggle]");
+const rightDrawerRenderers = document.querySelectorAll("[data-right-drawer-renderer]");
+
+tabButton.forEach((tab) => {
+  tab.addEventListener("mouseenter", (e) => {
+
+    // Clear hover state for other tabs
+    tabButton.forEach((othertab) => {
+      othertab.classList.remove('hover');
+    });
+
+    const listItem = e.currentTarget;
+    const id = listItem.dataset.name;
+    listItem.classList.add('hover');
+
+    if (! id) 
+      return;
+    
+
+    const element = document.getElementById(`${
+      id.toLowerCase()
+    }__dropdown`);
+    contents.forEach((content) => {
+      content.classList.remove("tabs__content--active");
+    });
+    if (!! element) {
+      overlay.classList.add("visible");
+      element.classList.add("tabs__content--active");
+      const activeDropdown = document.querySelectorAll(".tabs__content--active");
+      [
+        header,
+        activeDropdown[0]
+      ].forEach((element) => {
+        element.addEventListener("mouseleave", (e) => {
+          listItem.classList.remove('hover');
+          const contentsActive = document.querySelector(".tabs__content--active");
+          if (contentsActive) {
+            contentsActive.classList.remove("tabs__content--active");
+            headerWrapper.classList.remove("navbar-active");
+          }
+
+          overlay.classList.remove("visible");
+        });
+      });
+      headerWrapper.classList.add("navbar-active");
+    } else {
+      overlay.classList.remove("visible");
+    }
+  });
+  tab.addEventListener("mouseleave", (e) => {
+    tab.classList.remove('hover');
+  })
+});
+
+mobileMenuIcon.addEventListener("click", function (e) {
+  document.body.classList.add("mobile__menu--active");
+  document.body.classList.add("no-scroll");
+});
+
+mobileMenuButtons.forEach((button) => {
+  button.addEventListener("click", function (e) {
+    const id = e.currentTarget.dataset.name;
+    if (! id) 
+      return;
+    
+
+    const element = document.querySelector(`#${
+      id.toLowerCase()
+    }__mobile__menu`);
+    if (! element) 
+      return;
+    
+
+    element.classList.add("header__mobile__dropdown__wrapper--active");
+    mobileMenuMainContent.classList.add("header__mobile__main--child-active");
+  });
+});
+
+backToMainMenuButtons.forEach((button) => {
+  button.addEventListener("click", function (e) {
+    const element = document.querySelector(".header__mobile__dropdown__wrapper--active");
+    element.classList.remove("header__mobile__dropdown__wrapper--active");
+    mobileMenuMainContent.classList.remove("header__mobile__main--child-active");
+  });
+});
+
+closeMobileMenuButtons.forEach((button) => {
+  button.addEventListener("click", function (e) {
+    document.body.classList.remove("mobile__menu--active");
+    document.body.classList.remove("no-scroll");
+  });
+});
+
+mobileSubMenus.forEach((subMenu) => {
+  subMenu.addEventListener("click", function (e) {
+    const subMenuWrapper = e.currentTarget.parentElement;
+
+    if (subMenuWrapper.classList.contains('mobile__dropdown__menu--active')) {
+      subMenuWrapper.classList.remove("mobile__dropdown__menu--active");
+      return;
+    }
+
+    const activeSubMenu = document.querySelector(".mobile__dropdown__menu--active");
+    if (!! activeSubMenu) 
+      activeSubMenu.classList.remove("mobile__dropdown__menu--active");
+    
+
+    subMenuWrapper.classList.add("mobile__dropdown__menu--active");
+  });
+});
+
+openRightDrawer.forEach((button) => {
+  setOpenDrawerListeners(button);
+});
+
+closeRightDrawer.forEach((button) => {
+  button.addEventListener("click", function (e) {
+    document.body.classList.remove("right__drawer--active");
+    document.body.classList.remove("no-scroll");
+  });
+});
+
+rightDrawerTogglers.forEach((button) => {
+  button.addEventListener("click", function (e) {
+    const togglerTarget = e.currentTarget.dataset.rightDrawerToggle;
+    const togglerTargetContainer = document.querySelector(`[data-right-drawer-content="${togglerTarget}"]`);
+    if (! togglerTargetContainer) 
+      return;
+    if (!document.body.classList.contains('right__drawer--active')) {
+      document.body.classList.add("right__drawer--active");
+      document.body.classList.add("no-scroll");
+    }
+    document.querySelector(".right__drawer__content--active").classList.remove("right__drawer__content--active");
+    togglerTargetContainer.classList.add("right__drawer__content--active");
+  });
+});
+
+document.querySelector('.js-ft-add')?.addEventListener("click", function (e) {
+  document.querySelector('[data-right-drawer-content="favorite-teams-logged"]').classList.remove("right__drawer__content--active");
+  const togglerTargetContainer = document.querySelector(`[data-right-drawer-content="favorite-teams-add-team"]`);
+  togglerTargetContainer.classList.add("right__drawer__content--active");
+});
+
+window.addEventListener('DOMContentLoaded', (event) => {
+  if (window.location.href.indexOf("#account-addresses") > -1) {
+    renderRightDrawerType('account-addresses');
+    document.body.classList.add("right__drawer--active");
+    document.body.classList.add("no-scroll");
+  }
+});
+
+ window.addEventListener('load', () => {
+  const body = document.querySelector('body');
+  const header = document.getElementById('shopify-section-header');
+
+  header.addEventListener('mouseenter', () => {
+    if (window.scrollY < 100) body.classList.remove('at-top');
+  })
+
+  header.addEventListener('mouseleave', () => {
+    if (window.scrollY < 100) body.classList.add('at-top');
+  })
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 100 && !body.classList.contains('at-top')) return;
+    if (window.scrollY > 100) {
+      body.classList.remove('at-top');
+      return;
+    }
+    if (!body.classList.contains('at-top')) body.classList.add('at-top');
+  })
+})
+
+{% endjavascript %}

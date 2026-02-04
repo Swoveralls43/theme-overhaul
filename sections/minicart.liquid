@@ -1,0 +1,230 @@
+{{ 'component-minicart.css' | asset_url | stylesheet_tag }}
+{{ 'component-minicart-item.css' | asset_url | stylesheet_tag }}
+{{ 'component-minicart-upsell.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'vendor.js' | asset_url }}"></script>
+<script src="{{ 'component-money-format.js' | asset_url }}"></script>
+<script src="{{ 'minicart.js' | asset_url }}" defer></script>
+
+{% assign title = section.settings.title %}
+{% assign show_progress_bar = section.settings.show_progress_bar %}
+{% assign free_threshold = section.settings.free_threshold %}
+{% assign bar_in_process_text = section.settings.bar_in_process_text %}
+{% assign bar_in_success_text = section.settings.bar_in_success_text %}
+{% assign shipping_text = section.settings.shipping_text %}
+{% assign checkout_text = section.settings.checkout_text %}
+{% assign show_upsell = section.settings.show_upsell %}
+{% assign upsell_collection = section.settings.upsell_collection %}
+{% assign upsell_limit = section.settings.upsell_limit | plus: 1 %}
+{% assign upsell_title = section.settings.upsell_title %}
+{% assign upsell_btn_text = section.settings.upsell_btn_text %}
+
+<section class="minicart js-minicart {% if cart.item_count == 0 %}empty{% endif %}">
+  <div class="minicart__container">
+    <div class="minicart__wrapper">
+      <header class="minicart__header">
+        <h4 class="minicart__title">{{ title }}</h4>
+        <button class="js-close-minicart minicart__btn-close" aria-label="Close Minicart">
+          <img src="{{ 'icon-close.svg' | asset_url }}">
+        </button>
+      </header>
+
+      <div class="minicart__empty">
+        <h3>Cart is empty</h3>
+      </div>
+
+      <div class="minicart__body">
+        {% if show_progress_bar %}
+          {{ compare_bar_price }}
+          <div class="minicart__progress-bar">
+            <p class="js-bar-progress-text minicart__progress-bar-text"
+               data-treshold="{{ free_threshold }}"
+               data-process-text="{{ bar_in_process_text }}"
+               data-success-text="{{ bar_in_success_text }}">
+            </p>
+
+            <div class="minicart__progress-bar-line">
+              <div class="js-minicart-progress-bar minicart__progress-bar-fill"></div>
+            </div>
+          </div>
+        {% endif %}
+
+        <div class="js-minicart-items minicart__items"></div>
+
+        <div class="minicart__checkout">
+          <div class="minicart__subtotal">
+            <p class="minicart__subtotal-text">
+              Subtotal (<span class="js-cart-count">{{ cart.item_count }}</span> Item<span
+                  class="js-cart-count-ending minicart__count-ending {% if cart.item_count > 1 %}active{% endif %}">s</span>)
+            </p>
+
+            <span
+                class="js-minicart-subtotal-price minicart__subtotal-price">{{ cart.items_subtotal_price | money }}</span>
+          </div>
+
+          <p class="minicart__checkout-shipping">{{ shipping_text }}</p>
+          <a href="/checkout" class="minicart__checkout-button">
+            {{ checkout_text }}
+
+            <img class="minicart__checkout-button-chevron" src="{{ 'icon-chevron-right.svg' | asset_url }}">
+          </a>
+        </div>
+      </div>
+    </div>
+
+    {% if show_upsell and upsell_collection != blank %}
+      {% assign count = 0 %}
+
+      <div class="minicart-upsell">
+        <h4 class="minicart__title minicart-upsell__title">{{ upsell_title }}</h4>
+
+        <div class="minicart-upsell__items">
+          {% for product in upsell_collection.products %}
+            {% if product.available %}
+              {% assign count = count | plus: 1 %}
+
+              {% if count < upsell_limit %}
+                <div class="minicart-upsell-item">
+                  <div class="minicart-upsell-item__image-container">
+                    <div class="minicart-upsell-item__image-wrapper">
+                      <img
+                          src="{{ product.featured_image | img_url: '100x' }}"
+                          srcset="{{ product.featured_image | img_url: '100x' }} 1x, {{ product.featured_image | img_url: '100x' }} 2x"
+                          alt="{{ product.title }}"
+                          class="minicart-upsell-item__image"
+                      >
+                    </div>
+                  </div>
+
+                  <div class="minicart-upsell-item__meta">
+                    <h5 class="minicart-upsell-item__title">{{ product.title }}</h5>
+
+                    <p class="minicart-upsell-item__price">{{ product.price | money }}</p>
+
+                    <div class="minicart-upsell-item__btn-group">
+                      <div class="minicart-upsell-item__btn-wrapper">
+                        <select
+                            id="ProductSelect-{{ forloop.index0 }}"
+                            data-index="option{{ forloop.index }}"
+                            class="js-upsell-variant minicart-item__quantity minicart-upsell-item__select"
+                            style="background-image: url('{{ 'icon-chevron-down-black.svg' | asset_url }}')"
+                        >
+                          <option value="" disabled selected>Select size</option>
+                          {%- for variant in product.variants -%}
+                            <option
+                                {% if variant == current_variant %}selected="selected"{% endif %}
+                                {% unless variant.available %}disabled="disabled"{% endunless %}
+                                value="{{ variant.id }}">
+                              {{- variant.option1 -}}
+                            </option>
+                          {%- endfor -%}
+                        </select>
+                      </div>
+
+                      <div class="minicart-upsell-item__btn-wrapper">
+                        <button class="js-upsell-btn minicart-upsell-item__btn">{{ upsell_btn_text }}</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+    <div class="js-minicart-loader minicart__loader">
+      <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+  </div>
+</section>
+
+
+<div class="js-close-minicart js-minicart-overlay minicart__overlay"></div>
+<div class="js-header-overlay header__overlay"></div>
+
+{% schema %}
+{
+  "name": "Minicart",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Minicart title",
+      "default": "My bag"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress_bar",
+      "label": "Show Progress bar",
+      "default": true
+    },
+    {
+      "type": "number",
+      "id": "free_threshold",
+      "label": "Free Shipping Threshold",
+      "default": 200
+    },
+    {
+      "type": "text",
+      "id": "bar_in_process_text",
+      "label": "Bar process text",
+      "default": "from free shipping, you're almost there!"
+    },
+    {
+      "type": "text",
+      "id": "bar_in_success_text",
+      "label": "Bar success text",
+      "default": "Congrats! You qualified for FREE SHIPPING"
+    },
+    {
+      "type": "text",
+      "id": "shipping_text",
+      "label": "Checkout shipping text",
+      "default": "Shipping and taxes will be calculated at Checkout."
+    },
+    {
+      "type": "text",
+      "id": "checkout_text",
+      "label": "Checkout button text",
+      "default": "GO TO CHECKOUT"
+    },
+    {
+      "type": "header",
+      "content": "Upsell"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_upsell",
+      "label": "Show Upsell product",
+      "default": true
+    },
+    {
+      "type": "collection",
+      "id": "upsell_collection",
+      "label": "Upsell collection"
+    },
+    {
+      "type": "range",
+      "id": "upsell_limit",
+      "label": "Upsell products limit",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "text",
+      "id": "upsell_title",
+      "label": "Upsell title",
+      "default": "Don't miss out on these"
+    },
+    {
+      "type": "text",
+      "id": "upsell_btn_text",
+      "label": "Upsell button text",
+      "default": "Add to bag"
+    }
+  ]
+}
+{% endschema %}

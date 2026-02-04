@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="{{ 'component-page-template.css' | asset_url }}">
+
+<div class="page-template">
+  <header class="page-template__heading-wrapper">
+    <h1 class="h1 page-template__heading">
+      {{ page.title }}
+    </h1>
+  </header>
+  <div class="page-template__container">
+    <div class="rte">
+      {{ page.content }}
+    </div>
+    
+    {% if page.handle == 'careers' %}
+      <script id="gnewtonjs" type="text/javascript" src="//newton.newtonsoftware.com/career/iframe.action?clientId=8a7883c6618de00c01619654557130ec"></script>
+    {% endif %}
+  </div>
+ 
+</div>

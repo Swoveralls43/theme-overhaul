@@ -1,0 +1,29 @@
+<section>
+  {{ section.settings.custom_liquid }}
+</section>
+
+{% schema %}
+{
+  "name": "Custom Liquid",
+  "settings": [
+    {
+      "type": "liquid",
+      "id": "custom_liquid",
+      "label": "Custom Liquid",
+      "info": "Add app snippets, other Liquid code, or HTML to create advanced customizations.",
+      "default": "<p>Add custom Liquid code.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Liquid"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

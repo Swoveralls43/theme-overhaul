@@ -1,0 +1,991 @@
+{%- comment -%}
+  This Section could feasibly be applied to multiple templates, e.g.:
+  * A Unified Workshop Overview "Collection"
+  * Gender Collections
+  * Active Projects Collection
+  * In-Production Listing
+{%- endcomment -%}
+{% schema %}
+  {
+    "name": "Workshop Overview",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Page Banner"
+      },
+      {
+        "type": "image_picker",
+        "id": "ws_banner_mobile",
+        "label": "Mobile Banner image"
+      },
+      {
+        "type": "image_picker",
+        "id": "ws_banner_desktop",
+        "label": "Desktop Banner image"
+      },
+      {
+        "type": "text",
+        "id": "ws_banner_heading",
+        "label": "Banner Heading",
+        "default": "Workshop"
+      },
+      {
+        "type": "textarea",
+        "id": "ws_banner_text",
+        "label": "Banner Text",
+        "default": "We design new products. You crowd fund them and save 20%. Our planet takes on less waste. We deliver them when they’re seasonally appropriate. Everybody wins."
+      },
+      {
+        "type": "header",
+        "content": "Progress Bar"
+      },
+      {
+        "id": "ws_bar_color_progress",
+        "type": "color",
+        "label": "Bar Color",
+        "default": "#0f2130"
+      },
+      {
+        "id": "ws_bar_height",
+        "type": "text",
+        "label": "Bar Height",
+        "default": "10px"
+      },
+      {
+        "id": "ws_bar_border_width",
+        "type": "text",
+        "label": "Bar Border Width",
+        "default": "0"
+      },
+      {
+        "id": "ws_bar_border_radius",
+        "type": "text",
+        "label": "Bar Border Radius",
+        "default": "0"
+      },
+      {
+        "id": "ws_bar_border_color",
+        "type": "color",
+        "label": "Bar Border Color",
+        "default": "#fafafa"
+      },
+      {
+        "id": "ws_bar_color_bg",
+        "type": "color",
+        "label": "Bar Background",
+        "default": "#f2f2f2"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "lifecycle-step",
+        "name": "Lifecycle Step",
+        "settings": [
+          {
+            "type": "text",
+            "id": "ws_step_preheading",
+            "label": "Pre-Heading",
+            "default": "Step One",
+            "placeholder": "Step One"
+          },
+          {
+            "type": "text",
+            "id": "ws_step_heading",
+            "label": "Heading",
+            "default": "Development",
+            "placeholder": "Development"
+          },
+          {
+            "type": "textarea",
+            "id":  "ws_step_content",
+            "label": "Description",
+            "default": "We design new products. You crowd fund them and save 20%. Our planet takes on less waste. We deliver them when they’re seasonally appropriate. Everybody wins.",
+            "placeholder": "We design new products. You crowd fund them and save 20%. Our planet takes on less waste. We deliver them when they’re seasonally appropriate. Everybody wins."
+          }
+        ]
+      },
+      {
+        "type": "additional-panel",
+        "name": "Image CTA Panel",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "ws_panel_img_mobile",
+            "label": "Mobile Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "ws_panel_img_desktop",
+            "label": "Desktop Image"
+          },
+          {
+            "type": "text",
+            "id": "ws_panel_img_alt",
+            "label": "Image Alt Text"
+          },
+          {
+            "type": "text",
+            "id": "ws_panel_heading",
+            "label": "Heading",
+            "default": "Knowledge Base",
+            "placeholder": "Knowledge Base"
+          },
+          {
+            "type": "textarea",
+            "id":  "ws_panel_content",
+            "label": "Text",
+            "default": "You’ve got questions? We’ve got answers about our Workshop platform. Dig into our knowledge-base or reach out to a member of our team.",
+            "placeholder": "You’ve got questions? We’ve got answers about our Workshop platform. Dig into our knowledge-base or reach out to a member of our team."
+          },
+          {
+            "type": "text",
+            "id": "ws_panel_cta",
+            "label": "CTA",
+            "default": "Learn More",
+            "placeholder": "Learn More"
+          },
+          {
+            "type": "url",
+            "id": "ws_panel_link",
+            "label": "CTA Link"
+          }
+        ]
+      }
+    ],
+    "default": {
+      "blocks": [
+        {
+          "type": "lifecycle-step"
+        },
+        {
+          "type": "lifecycle-step"
+        },
+        {
+          "type": "lifecycle-step"
+        },
+        {
+          "type": "lifecycle-step"
+        },
+        {
+          "type": "additional-panel"
+        }
+      ]
+    }
+  }
+{% endschema %}
+{% stylesheet 'scss' %}
+
+  $padding: 10px;
+
+  $break-tablet-portrait-up: 800px; //{{ settings.break_tablet_portrait_up }};
+  $break-tablet-landscape-up: 960px; //{{ settings.break_tablet_landscape_up }};
+  $break-desktop-up: 1180px; //{{ settings.break_desktop_up }};
+  $break-big-desktop-up: 1440px; //{{ settings.break_big_desktop_up }};
+
+  @mixin for-tablet-portrait-up{ @media (min-width: $break-tablet-portrait-up){ @content;}}
+  @mixin for-tablet-landscape-up{ @media (min-width: $break-tablet-landscape-up){ @content;}}
+  @mixin for-desktop-up{ @media (min-width: $break-desktop-up){ @content;}}
+  @mixin for-big-desktop-up { @media (min-width: $break-big-desktop-up){ @content;}}
+
+  .hidden{
+    display: none;
+    visibility: hidden;
+  }
+
+  figure{ margin: 0;}
+
+  /* Hero Banner */
+
+  .ws-hero{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column nowrap;
+    overflow: hidden;
+    // height: 100vh;
+    // min-height: 568px;
+    // max-height: 800px;
+
+    img{
+      // position: absolute;
+      // z-index: 1;
+      // top: 50%;
+      // left: 50%;
+      // transform: translate(-50%, -50%);
+      // height: calc(100% + 1px);
+      // width: calc(100% + 1px);
+      // object-fit: cover;
+      // object-position: 50% 50%;
+      width: 100%;
+    }
+    figcaption{
+      position: relative;
+      z-index: 2;
+      padding-left: $padding;
+      padding-right: $padding;
+      text-align: center;
+
+      @include for-desktop-up{
+        position: relative;
+        z-index: 2;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: $break-desktop-up;
+        margin-right: auto;
+        padding-left: $padding;
+        padding-right: $padding;
+        text-align: center;
+      }
+
+      > *{
+        @include for-tablet-portrait-up{
+          max-width: 50%;
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+    }
+    .ws-hero-heading,
+    .ws-hero-intro{ color: #fff;}
+  }
+
+  /* Summary Stats */
+
+  .ws-stats{
+    position: relative;
+    z-index: 2;
+    top: calc(#{$padding} * -3);
+    margin-left: $padding;
+    margin-right: $padding;
+    padding-top: $padding;
+    padding-bottom: $padding;
+    padding-left: $padding;
+    padding-right: $padding;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.08);
+    border-radius: 10px;
+    background: #fff;
+    text-align: center;
+
+    @include for-tablet-portrait-up{
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-around;
+      align-items: center;
+      top: calc(#{$padding} * -7);
+      max-width: $break-desktop-up;
+      margin-left: auto;
+      margin-right: auto;
+      padding-top: calc(#{$padding} * 2);
+    }
+
+    p{ margin: 0;}
+
+    .ws-stat{
+      display: block;
+      margin-top: calc(#{$padding} * 2);
+      margin-bottom: $padding;
+    }
+    .ws-label{
+      display: block;
+      margin-top: $padding;
+      margin-bottom: calc(#{$padding} * 3);
+      line-height: 1;
+    }
+  }
+
+  /* Inline Collection Menu */
+
+  .ws-inline-menu{
+    margin: 1em auto;
+    padding: 0;
+    text-align: center;
+
+    @include for-tablet-landscape-up{
+      max-width: $break-desktop-up;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: $padding;
+      padding-right: $padding;
+      text-align: left;
+    }
+
+    li{
+      display: inline-block;
+      margin-left: 1em;
+      margin-right: 1em;
+
+      @include for-tablet-landscape-up{
+        margin-left: 0;
+        margin-right: 4em;
+      }
+    }
+
+    .ws-inline-menu-active{
+      font-weight: bold;
+
+      a:hover,
+      a:focus{
+        cursor: default;
+        color: inherit;
+      }
+    }
+  }
+
+  /* Project Panels */
+
+  .ws-matrix{
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+
+    @include for-tablet-portrait-up{
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+      max-width: $break-desktop-up;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: $padding;
+      padding-right: $padding;
+      text-align: left;
+
+      $width: percentage(1/2);
+      li{ flex-basis: calc(#{$width} - #{$padding});}
+    }
+
+    @include for-tablet-landscape-up{
+      $width: percentage(1/3);
+      li{ flex-basis: calc(#{$width} - #{$padding});}
+    }
+
+    @include for-desktop-up{
+      display: block;
+
+      li{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        margin-bottom: 5em;
+
+        > figure{ flex-basis: percentage(9/12);}
+        > a{
+          position: relative;
+          flex-basis: percentage(3/12);
+        }
+      }
+    }
+
+    @include for-big-desktop-up{
+      li{ display: block;}
+    }
+
+    ul, li{ list-style: none;}
+    li, figure{ position: relative;}
+
+    figure{
+      &[data-ws-progress]{
+        padding-bottom: 0;
+
+        &:before, &:after{
+          // display: none;
+
+          // @include for-big-desktop-up{ display: block;}
+        }
+      }
+    }
+    img{ width: 100%;}
+
+    .ws-ship-dates,
+    .ws-pricing,
+    .ws-period{ flex-basis: 50%;}
+    .ws-pricing{
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+    }
+    .ws-label,
+    .ws-price,
+    .ws-msrp,
+    .ws-countdown,
+    .ws-progress{
+      display: block;
+      flex-basis: 100%;
+    }
+
+    .ws-btn{
+      padding-top: 0;
+      padding-bottom: 10px;
+      background: #000;
+      color: #fff;
+
+      @include for-desktop-up{
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+    }
+
+    .ws-overlay{
+      position: absolute;
+      top: $padding;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-flow: column-reverse nowrap;
+      justify-content: space-between;
+
+      .ws-project-heading,
+      .ws-funding span{
+        // color: #fff;
+        margin-left: $padding;
+        margin-right: $padding;
+      }
+      .ws-project-heading{
+        display: none;
+        margin-top: auto;
+        margin-bottom: 1em;
+        padding-bottom: 1em;
+      }
+
+      @include for-desktop-up{ display: none;}
+      @include for-big-desktop-up{
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+
+        // [data-ws-progress]:before,
+        // [data-ws-progress]:after,
+        .ws-funding,
+        .ws-btn{ display: none;}
+        .ws-project-heading{
+          width: percentage(5/12);
+          margin-top: 0;
+          margin-left: percentage(1/12);
+          text-align: center;
+        }
+      }
+    }
+    .ws-dash{
+      display: flex;
+      flex-flow: row-reverse nowrap;
+      justify-content: space-between;
+      padding: $padding;
+
+      .ws-project-heading,
+      .ws-ship-dates,
+      .ws-funding,
+      .ws-btn{ display: none;}
+
+      @include for-desktop-up{
+        position: initial;
+        flex-flow: row wrap;
+        padding-top: 0;
+
+        .ws-project-heading,
+        .ws-ship-dates,
+        .ws-pricing,
+        .ws-funding,
+        .ws-period,
+        .ws-btn{
+          display: inline-flex;
+          flex-flow: row wrap;
+        }
+
+        .ws-project-heading,
+        .ws-pricing,
+        .ws-btn{ flex-basis: 100%;}
+
+        .ws-pricing{ margin-bottom: 1em;}
+
+        .ws-funding,
+        .ws-pre-sale,
+        .ws-regular{ flex-basis: percentage(1/3);}
+
+        .ws-btn{
+          position: absolute;
+          bottom: 0;
+          left: $padding;
+          right: $padding;
+        }
+      }
+      @include for-big-desktop-up{
+        flex-flow: row nowrap;
+        padding-top: calc(#{$padding} * 2);
+
+        .ws-funding{ display: inline-block;}
+        .ws-project-heading{ display: none;}
+        .ws-pricing{
+          order: 1;
+          flex-basis: percentage(3/12);
+          margin-bottom: 0;
+        }
+        .ws-period{
+          order: 2;
+          flex-basis: percentage(2/12);
+        }
+        .ws-ship-dates{
+          order: 3;
+          flex-basis: percentage(2/12);
+        }
+        .ws-btn{
+          order: 4;
+          position: relative;
+          flex-basis: percentage(3/12);
+        }
+      }
+    }
+  }
+
+  /* Lifecycle Steps List */
+
+  .ws-lifecycle-steps{
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 0;
+    padding: 0;
+
+    @include for-tablet-landscape-up{
+      display: flex;
+      flex-flow: row wrap;
+    }
+
+    li{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-flow: column nowrap;
+      /* min-height: 100vh; */
+      margin: 0;
+      padding-left: $padding;
+      padding-right: $padding;
+      border-bottom: 1px solid;
+      text-align: center;
+
+      &:first-child{ border-top: 1px solid;}
+
+      @include for-tablet-portrait-up{
+
+      }
+
+      @include for-tablet-landscape-up{
+        flex-basis: 33%;
+        min-height: 35vh;
+      
+        &:nth-child(1){ flex-basis: 100%;}
+        &:nth-child(2){ border-right: 1px solid;}
+        &:nth-child(3){ border-right: 1px solid;}
+      }
+    }
+
+    .ws-lifecycle-step-heading{
+      margin-left: 0;
+      margin-right: 0;
+      font-weight: 600;
+      color: #28334a;
+    }
+  }
+
+  /* Bottom "Additional" Panel */
+
+  .ws-additional-panel{
+    display: flex;
+    flex-flow: column-reverse nowrap;
+
+    @include for-tablet-landscape-up{
+      position: relative;
+      display: block;
+      margin-top: 5em;
+    }
+
+    figcaption{
+      display: inline-flex;
+      flex-flow: column nowrap;
+      justify-content: flex-end;
+      align-items: center;
+      min-height: 50vh;
+      padding-left: $padding;
+      padding-right: $padding;
+      text-align: center;
+
+      @include for-tablet-landscape-up{
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        display: block;
+        width: 100%;
+        max-width: $break-desktop-up;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: $padding;
+        padding-right: $padding;
+        text-align: left;
+      }
+
+      > *{
+        margin-left: auto;
+        margin-right: auto;
+
+        @include for-tablet-portrait-up{
+          max-width: 50%;
+        }
+
+        @include for-tablet-landscape-up{
+          max-width: percentage(1/3);
+          margin-left: 0;
+        }
+      }
+    }
+  }
+
+  /* Global Progress Bar & Countdown styles */
+
+  @mixin keyframes($animationName){
+    @-webkit-keyframes $animationName { @content;}
+    @keyframes $animationName { @content;}
+  }
+
+  @for $i from 0 through 100 {
+    @include keyframes(progress-#{$i}){
+      from { width: 0;}
+      to { width: percentage($i / 100);}
+    }
+  }
+
+  [data-ws-progress]{
+    position: relative;
+    overflow: hidden;
+
+    &:before,
+    &:after{
+      content: '';
+      display: block;
+      position: absolute;
+      z-index: 1;
+      bottom: 0;
+      left: 0;
+    }
+    &:before{ width: 100%;}
+    &:after{
+      z-index: 2;
+      animation-name: progress-100;
+      animation-delay: 1s;
+      animation-duration: 0.7s;
+      animation-timing-function: ease-in-out;
+      animation-fill-mode: forwards;
+    }
+  }
+  @for $i from 0 through 100 {
+    [data-ws-progress="#{$i}%"]:after{ animation-name: progress-#{$i};}
+  }
+{% endstylesheet %}
+{%- comment -%}
+  Theme-configurable Progress Bar & Countdown styles
+{%- endcomment -%}
+<style>
+  {%- assign wsBarHeight = section.settings.ws_bar_height -%}
+  {%- assign wsBarColor = section.settings.ws_bar_color_progress -%}
+  {%- assign wsBarColorBg = section.settings.ws_bar_color_bg -%}
+  {%- assign wsBarBorderWidth = section.settings.ws_bar_border_width -%}
+  {%- assign wsBarBorderColor = section.settings.ws_bar_border_color -%}
+  {%- assign wsBarBorderRadius = section.settings.ws_bar_border_radius -%}
+  [data-ws-progress]{ padding-bottom: {{ wsBarHeight }};}
+  [data-ws-progress]:before,
+  [data-ws-progress]:after{
+    height: {{ wsBarHeight }};
+    border: {{ wsBarBorderWidth }} solid {{ wsBarBorderColor }};
+    border-radius: {{ wsBarBorderRadius }};
+  }
+  [data-ws-progress]:before{ background: {{ wsBarColorBg }};}
+  [data-ws-progress]:after{ background: {{ wsBarColor }};}
+</style>
+<script src="{{ 'lazysizes.min.js' | asset_url }}" async></script>
+{%- comment -%}
+  These are app-generated and -maintained Collections
+{%- endcomment -%}
+{%- assign workshopActiveProjectsCollection = collections['the-comfy-lab'] -%}
+{%- assign workshopActivePreOrdersCollection = collections['the-comfy-lab-pre-orders'] -%}
+{%- assign workshopInProductionCollection = collections['the-comfy-lab-in-production'] -%}
+
+{%- comment -%}
+  Initiate empty variables for population...
+{%- endcomment -%}
+{%- assign theProject = '' -%}
+{%- assign activeProjects = '' -%}
+{%- assign inProduction = '' -%}
+{%- assign preOrders = '' -%}
+{%- comment -%}
+  Capture all the Project objects and build their individual HTML templates
+{%- endcomment -%}
+{%- capture theWorkshop -%}
+  {%- comment -%} Check for Active Workshop projects {%- endcomment -%}
+  {%- for product in workshopActiveProjectsCollection.products -%}
+    {%- capture theProject -%}
+      {%- comment -%}
+        NOTE:
+        This include contains all the <li> html contents to display a "project
+        panel", a variation on what most themes have contained in a snippet
+        called product-grid-item.liquid
+        {%- endcomment -%}
+      {%- include 'tsio-workshop-product-grid-item-panel' -%}
+    {%- endcapture -%}
+    {%- comment -%} Capture all Active projects {%- endcomment -%}
+    {%- capture activeProjects -%}{%- unless activeProjects == '' -%}{{ activeProjects }}{%- endunless -%}
+      {{ theProject }}
+    {%- endcapture -%}
+  {%- endfor -%}
+  {%- comment -%} Check for Pre-Order projects {%- endcomment -%}
+  {%- for product in workshopActivePreOrdersCollection.products -%}
+    {%- comment -%} Capture all Active Pre-Order projects {%- endcomment -%}
+    {%- capture preOrders -%}{%- unless preOrders == '' -%}{{ preOrders }}{%- endunless -%}{%- include 'tsio-workshop-product-grid-item-panel' -%}{%- endcapture -%}
+  {%- endfor -%}
+  {%- comment -%} Check for In-Production Products {%- endcomment -%}
+  {%- for product in workshopInProductionCollection.products -%}
+    {%- comment -%} Capture all In-Production Products {%- endcomment -%}
+    {%- capture inProduction -%}{%- unless inProduction == '' -%}{{ inProduction }}{%- endunless -%}{%- include 'tsio-workshop-product-grid-item-panel' -%}{%- endcapture -%}
+  {%- endfor -%}
+  {%- comment -%}
+    NOTE: We are still inside a capture(!)
+  {%- endcomment -%}
+  {%- comment -%} Create & capture Active Projects Sorting Elements DOM{%- endcomment -%}
+  {%- unless activeProjects == '' -%}
+    <div id="ws-active-projects-tab"{% if collection.id != workshopActiveProjectsCollection.id %} class="hidden" hidden{% endif %}>
+      {%- comment -%}
+        NOTE: JS used to implement sorting fn not implemented, currently hidden
+      {%- endcomment -%}
+      <ul id="active-workshop-sort" class="tabs-right hidden" hidden>
+        <li>
+          <a href="/collections/workshop?sorted=end-date-asc" data-sort-val="end-date-asc">
+            {{ 'tsio.workshop.ui_ending_date_asc' | t }}
+          </a>
+        </li>
+        <li>
+          <a href="/collections/workshop?sorted=end-date-desc" data-sort-val="end-date-desc">
+            {{ 'tsio.workshop.ui_ending_date_desc' | t }}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div id="active-projects-content"{% if collection.id != workshopActiveProjectsCollection.id %} class="hidden" hidden{% endif %}>
+      <h2 class="hidden" hidden>{{ 'tsio.workshop.title_active' | t }}</h2>
+      <ul class="ws-matrix">
+        {{ activeProjects }}
+      </ul>
+    </div>
+  {%- endunless -%}
+  {%- comment -%} Create & capture Active Pre-Orders DOM {%- endcomment -%}
+  {%- unless preOrders == '' -%}
+    <div id="ws-active-preorders-content"{% if collection.id != workshopActivePreOrdersCollection.id %} class="hidden" hidden{% endif %}>
+      <h2 class="hidden" hidden>{{ 'tsio.workshop.title_pre_order' | t }}</h2>
+      <ul class="ws-matrix">
+        {{ preOrders }}
+      </ul>
+    </div>
+  {%- endunless -%}
+  {%- comment -%} Create & capture In-Production DOM {%- endcomment -%}
+  {%- unless inProduction == '' -%}
+    <div id="ws-in-production-content"{% if collection.id != workshopInProductionCollection.id %} class="hidden" hidden{% endif %}>
+      <h2 class="hidden" hidden>{{ 'tsio.workshop.title_in_production' | t }}</h2>
+      <ul class="ws-matrix">
+        {{ inProduction }}
+      </ul>
+    </div>
+  {%- endunless -%}
+{%- endcapture -%}
+{%- comment -%}
+  NOTE: Here is the primary page-wrapping HTML!
+{%- endcomment -%}
+<article>
+  <figure class="ws-hero">
+    {%- if section.settings.ws_banner_mobile == nil and section.settings.ws_banner_desktop -%}
+      <picture>
+        <source srcset="https://placehold.it/1440x650.jpg" media="(min-width: 768px)">
+        <img src="https://placehold.it/320x568.jpg" />
+      </picture>
+    {%- else -%}
+      {%- include 'tsio-workshop-responsive-image', imgSmall: section.settings.ws_banner_mobile, imgLarge: section.settings.ws_banner_desktop -%}
+    {%- endif -%}
+    <figcaption>
+      <h1 class="ws-hero-heading"><span>{{ section.settings.ws_banner_heading }}</span></h1>
+      <p class="ws-hero-intro">{{ section.settings.ws_banner_text }}</p>
+    </figcaption>
+  </figure>
+  {%- include 'tsio-workshop-data-shop' -%}
+  {%- if wsProjects > 0 -%}
+    <aside class="ws-stats">
+      <p>
+        <span class="ws-stat h2">${%- include 'tsio-workshop-format-thousands' with wsSavings -%}</span>
+        <span class="ws-label">{{ 'tsio.workshop.highlight_customer_savings' | t }}</span>
+      </p>
+      <p>
+        <span class="ws-stat h2">{%- include 'tsio-workshop-format-thousands' with wsMembers -%}</span>
+        <span class="ws-label">{{ 'tsio.workshop.highlight_members_count' | t }}</span>
+      </p>
+      <p>
+        <span class="ws-stat h2">{{ wsProjects }}</span>
+        <span class="ws-label">{{ 'tsio.workshop.highlight_projects_launched' | t }}</span>
+      </p>
+    </aside>
+  {%- endif -%}
+  <nav>
+    <ul class="ws-inline-menu">
+      {%- unless activeProjects == '' -%}
+        <li{% if collection.id == workshopActiveProjectsCollection.id %} class="ws-inline-menu-active"{% endif %}>
+          <a href="{{ workshopActiveProjectsCollection.url }}" data-target="#ws-active-projects-tab">
+            {{ 'tsio.workshop.title_active_truncated' | t }}
+          </a>
+        </li>
+      {%- endunless -%}
+      {%- unless preOrders == '' -%}
+        <li{% if collection.id == workshopActivePreOrdersCollection.id %} class="ws-inline-menu-active"{% endif %}>
+          <a href="{{ workshopActivePreOrdersCollection.url }}" data-target="#ws-active-preorders-tab">
+            {{ 'tsio.workshop.title_pre_order' | t }}
+          </a>
+        </li>
+      {%- endunless -%}
+      {%- unless inProduction == '' -%}
+        <li{% if collection.id == workshopInProductionCollection.id %} class="ws-inline-menu-active"{% endif %}>
+          <a href="{{ workshopInProductionCollection.url }}" data-target="#ws-in-production-tab">
+            {{ 'tsio.workshop.title_in_production' | t }}
+          </a>
+        </li>
+      {%- endunless -%}
+    </ul>
+  </nav>
+  <section class="ws-collections">
+    {%- comment -%}
+      NOTE: This is where the massive capture from above gets included!
+    {%- endcomment -%}
+    {{ theWorkshop }}
+  </section>
+  {%- if section.blocks.size > 0 -%}
+    {%- assign lifecycleSteps = '' -%}
+    {%- assign additionalPanels = '' -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == "lifecycle-step" -%}
+        {%- capture lifecycleSteps -%}
+          {%- unless lifecycleSteps == '' -%}{{ lifecycleSteps }}{%- endunless -%}
+          <li>
+            <span class="ws-lifecycle-step-pre-heading">{{ block.settings.ws_step_preheading }}</span>
+            <h3 class="ws-lifecycle-step-heading">{{ block.settings.ws_step_heading }}</h3>
+            <p>{{ block.settings.ws_step_content }}</p>
+          </li>
+        {%- endcapture -%}
+      {%- endif -%}
+      {%- if block.type == "additional-panel" -%}
+        {%- assign imgName = block.settings.ws_panel_img_mobile -%}
+        {%- assign imgNameDesktop = block.settings.ws_panel_img_desktop -%}
+        {%- assign imgAlt = block.settings.ws_panel_img_alt -%}
+        {%- if imgName != nil -%}
+          {%- capture additionalPanels -%}
+            {%- unless additionalPanels == '' -%}{{ additionalPanels }}{%- endunless -%}
+            <figure class="ws-additional-panel">
+
+
+              {%- assign imgSizeLoRes = '414x' -%}
+              {%- assign imgSizeIphonePlusUp = '600x' -%}
+              {%- assign imgSizeTabletPortraitUp = '900x' -%}
+              {%- assign imgSizeTabletLandscapeUp = '1200x' -%}
+              {%- assign imgSizeDesktopUp = '1442x' -%}
+              {%- assign imgSizeBigDesktopUp = 'master' -%}
+
+              {%- assign isArtDirected = false -%}
+              {%- if imgNameDesktop != nil -%}
+                {%- assign isArtDirected = true -%}
+              {%- endif -%}
+
+              {%- assign imgName = imgName | remove: 'files/' -%}
+              {%- assign imgLoRes = imgName | file_img_url: imgSizeLoRes, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+              {%- assign imgIphonePlusUp = imgName | file_img_url: imgSizeIphonePlusUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+              {%- assign imgTabletPortraitUp = imgName | file_img_url: imgSizeTabletPortraitUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+              {%- if isArtDirected -%}
+                {% assign imgName = imgNameDesktop | remove: 'files/' %}
+              {%- endif -%}
+              {%- assign imgTabletLandscapeUp = imgName | file_img_url: imgSizeTabletLandscapeUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+              {%- assign imgDesktopUp = imgName | file_img_url: imgSizeDesktopUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+              {%- assign imgBigDesktopUp = imgName | file_img_url: imgSizeBigDesktopUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+              {%- comment -%}
+                For debug:
+                <!-- fileName: {{ fileName }} -->
+                <!-- imgName: {{ imgName }} -->
+                <!-- imgLoRes: {{ imgLoRes }} -->
+              {%- endcomment -%}
+              <img alt="{{ imgAlt }}"
+                class="lazyload"
+                src="{{ imgLoRes }}"
+                data-src="{{ imgIphonePlusUp }}"
+                data-srcset="{{ imgLoRes }} {{ imgSizeLoRes | replace: 'x', 'w' }},
+                  {{ imgIphonePlusUp }} {{ imgSizeIphonePlusUp | replace: 'x', 'w' }},
+                  {{ imgTabletPortraitUp }} {{ imgSizeTabletPortraitUp | replace: 'x', 'w' }},
+                  {{ imgTabletLandscapeUp }} {{ imgSizeTabletLandscapeUp | replace: 'x', 'w' }},
+                  {{ imgDesktopUp }} {{ imgSizeDesktopUp | replace: 'x', 'w' }},
+                  {{ imgBigDesktopUp }} 1980w"
+                data-sizes="auto"
+              />
+              <figcaption>
+                <h3 class="ws-additional-panel-heading">{{ block.settings.ws_panel_heading }}</h3>
+                <p class="ws-additional-panel-content">{{ block.settings.ws_panel_content }}</p>
+                <a href="{{ block.settings.ws_panel_link }}" class="ws-additional-panel-link button btn">
+                  {{ block.settings.ws_panel_cta }}
+                </a>
+              </figcaption>
+            </figure>
+          {%- endcapture -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- unless lifecycleSteps == '' -%}
+      <ol class="ws-lifecycle-steps">{{ lifecycleSteps }}</ol>
+    {%- endunless -%}
+    {%- unless additionalPanels == '' -%}{{ additionalPanels }}{%- endunless -%}
+  {%- endif -%}
+</article>
+<script>
+  var timezoneOffset = '{{ 'now' | date: "%z" }}';
+</script>
+{% javascript %}
+  (function(){
+    var countDownsAvailable = document.querySelectorAll('.ws-countdown');
+    var loadScript = function(url, cb){
+        var script = document.createElement('script');
+        script.async = true;
+        script.onerror = function() {
+            console.log('workshop error loading script', url);
+        };
+        script.onload = cb;
+        script.src = url;
+
+        document.getElementsByTagName("head")[0].appendChild(script);
+    };
+
+    var initCountdowns = function($){
+      !function(t){"use strict";var e=[],s=[],i={precision:100,elapse:!1,defer:!1};s.push(/^[0-9]*$/.source),s.push(/([0-9]{1,2}\/){2}[0-9]{4}( [0-9]{1,2}(:[0-9]{2}){2})?/.source),s.push(/[0-9]{4}([\/\-][0-9]{1,2}){2}( [0-9]{1,2}(:[0-9]{2}){2})?/.source),s=new RegExp(s.join("|"));var o={Y:"years",m:"months",n:"daysToMonth",d:"daysToWeek",w:"weeks",W:"weeksToMonth",H:"hours",M:"minutes",S:"seconds",D:"totalDays",I:"totalHours",N:"totalMinutes",T:"totalSeconds"};var n=function(s,o,n){this.el=s,this.$el=t(s),this.interval=null,this.offset={},this.options=t.extend({},i),this.firstTick=!0,this.instanceNumber=e.length,e.push(this),this.$el.data("tsiocountdown-instance",this.instanceNumber),n&&("function"==typeof n?(this.$el.on("update.tsiocountdown",n),this.$el.on("stoped.tsiocountdown",n),this.$el.on("finish.tsiocountdown",n)):this.options=t.extend({},i,n)),this.setFinalDate(o),!1===this.options.defer&&this.start()};t.extend(n.prototype,{start:function(){null!==this.interval&&clearInterval(this.interval);var t=this;this.update(),this.interval=setInterval(function(){t.update.call(t)},this.options.precision)},stop:function(){clearInterval(this.interval),this.interval=null,this.dispatchEvent("stoped")},toggle:function(){this.interval?this.stop():this.start()},pause:function(){this.stop()},resume:function(){this.start()},remove:function(){this.stop.call(this),e[this.instanceNumber]=null,delete this.$el.data().tsioCountdownInstance},setFinalDate:function(t){this.finalDate=function(t){if(t instanceof Date)return t;if(String(t).match(s))return String(t).match(/^[0-9]*$/)&&(t=Number(t)),String(t).match(/\-/)&&(t=String(t).replace(/\-/g,"/")),new Date(t);throw new Error("Couldn't cast `"+t+"` to a date object.")}(t)},update:function(){if(0!==this.$el.closest("html").length){var t,e=new Date;t=this.finalDate.getTime()-e.getTime(),t=Math.ceil(t/1e3),t=!this.options.elapse&&t<0?0:Math.abs(t),this.totalSecsLeft===t||this.firstTick?this.firstTick=!1:(this.totalSecsLeft=t,this.elapsed=e>=this.finalDate,this.offset={seconds:this.totalSecsLeft%60,minutes:Math.floor(this.totalSecsLeft/60)%60,hours:Math.floor(this.totalSecsLeft/60/60)%24,days:Math.floor(this.totalSecsLeft/60/60/24)%7,daysToWeek:Math.floor(this.totalSecsLeft/60/60/24)%7,daysToMonth:Math.floor(this.totalSecsLeft/60/60/24%30.4368),weeks:Math.floor(this.totalSecsLeft/60/60/24/7),weeksToMonth:Math.floor(this.totalSecsLeft/60/60/24/7)%4,months:Math.floor(this.totalSecsLeft/60/60/24/30.4368),years:Math.abs(this.finalDate.getFullYear()-e.getFullYear()),totalDays:Math.floor(this.totalSecsLeft/60/60/24),totalHours:Math.floor(this.totalSecsLeft/60/60),totalMinutes:Math.floor(this.totalSecsLeft/60),totalSeconds:this.totalSecsLeft},this.options.elapse||0!==this.totalSecsLeft?this.dispatchEvent("update"):(this.stop(),this.dispatchEvent("finish")))}else this.remove()},dispatchEvent:function(e){var s,i=t.Event(e+".tsiocountdown");i.finalDate=this.finalDate,i.elapsed=this.elapsed,i.offset=t.extend({},this.offset),i.strftime=(s=this.offset,function(t){var e,i,n,a,h,l,r=t.match(/%(-|!)?[A-Z]{1}(:[^;]+;)?/gi);if(r)for(var c=0,f=r.length;c<f;++c){var u=r[c].match(/%(-|!)?([a-zA-Z]{1})(:[^;]+;)?/),p=(e=u[0],i=e.toString().replace(/([.?*+^$[\]\\(){}|-])/g,"\\$1"),new RegExp(i)),d=u[1]||"",v=u[3]||"",g=null;u=u[2],o.hasOwnProperty(u)&&(g=o[u],g=Number(s[g])),null!==g&&("!"===d&&(a=g,h=void 0,l=void 0,h="s",l="",(n=v)&&(1===(n=n.replace(/(:|;|\s)/gi,"").split(/\,/)).length?h=n[0]:(l=n[0],h=n[1])),g=Math.abs(a)>1?h:l),""===d&&g<10&&(g="0"+g.toString()),t=t.replace(p,g.toString()))}return t=t.replace(/%%/,"%")}),this.$el.trigger(i)}}),t.fn.tsioCountdown=function(){var s=Array.prototype.slice.call(arguments,0);return this.each(function(){var i=t(this).data("tsiocountdown-instance");if(void 0!==i){var o=e[i],a=s[0];n.prototype.hasOwnProperty(a)?o[a].apply(o,s.slice(1)):null===String(a).match(/^[$A-Z_][0-9A-Z_$]*$/i)?(o.setFinalDate.call(o,a),o.start()):t.error("Method %s does not exist on jQuery.tsioCountdown".replace(/\%s/gi,a))}else new n(this,s[0],s[1])})}}($);
+
+      $(function(){
+        $('.ws-period time').each(function(){
+		    var dateString = $(this).attr('datetime').replace(/\//g,'-') + 'T23:59:59.000';
+			if(timezoneOffset){
+				dateString += timezoneOffset;
+			}
+            var dateObj = new Date(dateString);
+            $(this).tsioCountdown(dateObj, function(event) {
+              $(this).html(event.strftime('%-Dd %Hh %Mm %Ss'));
+            });
+        });
+      });
+    };
+
+    if(countDownsAvailable.length){
+      if ((typeof jQuery === 'undefined') || (parseFloat(jQuery.fn.jquery) < 1.7)) {
+        loadScript('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js', function(){
+          jQueryTSIOWorkshop = jQuery.noConflict(true);
+          initCountdowns(jQueryTSIOWorkshop);
+        });
+      } else {
+        initCountdowns(jQuery);
+      }
+    }
+  })();
+{% endjavascript %}

@@ -1,0 +1,38 @@
+{% render 'product-finder' with section %}
+
+{% schema %}
+  {
+    "name": "Product Finder",
+    "settings": [
+
+    ],
+    "blocks": [
+      {
+        "type": "product-finder-type",
+        "name": "Product Type",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "text",
+            "id": "description",
+            "label": "Short Description"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Product Finder"
+      }
+    ]
+  }
+{% endschema %}

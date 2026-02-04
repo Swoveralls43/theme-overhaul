@@ -1,0 +1,119 @@
+{%- if section.blocks.size > 0 and section.settings.show_marquee_bar -%}
+  <a href="{{ section.settings.url }}">
+    <div class="hura-marquee-bar hura-messages" style="background:{{ section.settings.background-color }}">
+      <marquee behavior="alternate" width="100%" scrollamount="{{ section.settings.speed }}" direction="left" {% if section.settings.pause_on_hover %}onmouseover="this.stop();" onmouseout="this.start();"{% endif %}>
+        {% for block in section.blocks %}
+          <img src="{{ block.settings.image | img_url }}" class="marquee-img">
+          <div class="hura-message" style="background:{{ block.settings.colorBackground }};color:{{ block.settings.colorText }};">{{ block.settings.message }}</div>
+        {% endfor %}
+        {% for i in (1..10) %} <!-- Repeat the contents 10 times -->
+          {% for block in section.blocks %}
+            <img src="{{ block.settings.image | img_url }}" class="marquee-img">
+            <div class="hura-message" style="background:{{ block.settings.colorBackground }};color:{{ block.settings.colorText }};">{{ block.settings.message }}</div>
+          {% endfor %}
+        {% endfor %}
+      </marquee>
+    </div>
+  </a>
+  <style>
+    .hura-marquee-bar.hura-messages{    
+      position: relative;
+      overflow: hidden;
+      display: flex;
+    }
+    .hura-marquee-bar .hura-message{
+      text-align: center;    
+      padding: 2px 7%;
+      display: inline-block;
+    }
+  </style>
+{%- endif -%}
+
+
+
+
+{% schema %}
+{
+  "name": "Custom Marquee",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_marquee_bar",
+      "label": "Show"
+    },
+    {
+      "type": "url",
+      "id": "url",
+      "label": "Section Link"
+    },   
+    {
+      "type": "select",
+      "id": "direction",
+      "options": [
+        {
+          "value": "left",
+          "label": "Right to Left"
+        },
+        {
+          "value": "right",
+          "label": "Left to Right"
+        }
+      ],
+      "default": "right",
+      "label": "Direction"
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on hover"
+    },    
+    {
+      "type": "text",
+      "id": "speed",
+      "label": "Speed",
+      "default": "15"
+    },
+    {
+      "type": "color",
+      "id": "background-color",
+      "label": "Background Color",
+      "default": "#bcddd0"
+    }   
+],
+"blocks": [
+    {
+      "type": "header",
+      "name": "Message",
+      "settings": [
+        {
+            "id": "image",
+            "type": "image_picker",
+           "label": "Image"
+          },
+          {
+            "id": "message",
+            "type": "textarea",
+           "label": "Message"
+          },
+          {
+            "type": "color",
+            "id": "colorBackground",
+            "label": "Background color",
+            "default": "#ffffff"
+          },
+          {
+            "type": "color",
+            "id": "colorText",
+            "label": "Text color",
+            "default": "#000"
+          }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Marquee"
+    }
+  ]
+}
+{% endschema %}

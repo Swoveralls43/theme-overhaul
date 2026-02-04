@@ -1,0 +1,152 @@
+{{ 'section-collection-list-grid.css' | asset_url | stylesheet_tag }}
+
+
+
+{%- if section.settings.enable_grid_title -%}
+  
+  <style>
+    #collections-list-grid{{ section.id }}{
+      margin:auto!important;
+    }
+  </style>
+
+  <div class="collections-list-grid-title-container">
+    <div class="collections-list-grid-title-wrapper"><h2>{{ section.settings.title}}</h2></div>
+  </div>
+{%- endif -%} 
+
+
+
+
+<div id="collections-list-grid{{ section.id }}" class="collections-list-grid page-width">
+  <div class="collections-list-grid__container">
+    {%- for block in section.blocks -%}
+      <div class="collections-list__item arrow-parent" >
+        <a href="{% if block.settings.custom_collection_link != blank %}{{ block.settings.custom_collection_link }}{% else %}{{ block.settings.collection.url }}{% endif %}" aria-label="{{ block.settings.collection.title }}"></a>
+        {%- assign img = block.settings.image -%}
+
+        {%- assign img = block.settings.image -%}
+        {%- if img -%}
+
+          {% render 'responsive-file-image',
+            img: img,
+            alt: img.alt,
+            class: 'collection__img' %}
+        {%- else -%}
+          <img src="{{ block.settings.collection.image | img_url: '1400x' }}" loading="lazy"/>
+        {% endif %}
+        
+        <h2>
+          <span>
+            {% if block.settings.custom_collection_title != blank %}
+              {{  block.settings.custom_collection_title }}
+            {% else %}
+              {{  block.settings.collection.title }}
+            {% endif %}
+          </span>
+          
+          <span class="arrow"></span>
+        </h2>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  {% assign total_images_length = section.blocks | size %}
+
+  {% assign block_images = block_images | split: ',' %}
+
+  {% assign block_images_length = total_images_length | minus: 1 | times: 1.0 %}
+  {% assign block_images_mobile_length = total_images_length | times: 1.0 %}
+
+  {% assign block_images_progress_length = 100 | divided_by: block_images_length %}
+  {% assign block_images_progress_mobile_length = 100 | divided_by: block_images_mobile_length %}
+
+  <div class="ls__images__progress images__progress--mobile js-image-progress-mobile">
+    <span style="width: {{ block_images_progress_mobile_length }}%;"></span>
+  </div> 
+</div>
+
+<script type="text/javascript">
+  const gridContainer = document.querySelector('.collections-list-grid__container');
+  const gridContainerScrollBar = document.querySelector('.js-image-progress-mobile > span');
+  const mediaSliderScrollBarWidth = document.querySelector('.js-image-progress-mobile').offsetWidth;
+  const images = document.querySelectorAll('.collections-list__item');
+  
+  let scrollWidth = 0;
+  
+  for (var i=0, max=images.length; i < max; i++) {
+    const imageStyle = images[i].currentStyle || window.getComputedStyle(images[i]);
+    
+    scrollWidth += images[i].offsetWidth + parseFloat(imageStyle.marginLeft) + parseFloat(imageStyle.marginRight);
+  }
+
+  let scrollRatio = scrollWidth / mediaSliderScrollBarWidth;
+  let scrollBarWidth = (100 / (scrollWidth / gridContainer.offsetWidth)) + '%';
+
+  //Set scrollbar width
+  gridContainerScrollBar.style.width = scrollBarWidth;
+
+  gridContainer.addEventListener('scroll', function() {
+    let scrollLeft = gridContainer.scrollLeft / scrollRatio;
+    scrollLeft = scrollLeft + 'px';
+    gridContainerScrollBar.style.left = scrollLeft;
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Grid Collections",
+    "class": "featured-collections",
+    "max_blocks": 3,
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_grid_title",
+        "label": "Show Title",
+        "default": true
+      }
+    ],
+    "blocks": [
+      {
+        "type": "collections",
+        "name": "Collection Block",
+        "settings": [
+          {
+            "id": "collection",
+            "type": "collection",
+            "label": "Collection"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "custom_collection_title",
+            "label": "Block title",
+            "info": "Leaving empty will display collection title."
+          }, 
+          {
+            "type": "url",
+            "id": "custom_collection_link",
+            "label": "Image link",
+            "info": "Leaving empty will use collection link."
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured Collections",
+        "category": "homepage"
+      }
+    ]
+  }
+{% endschema %}
+

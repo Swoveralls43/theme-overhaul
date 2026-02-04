@@ -1,0 +1,53 @@
+<!-- sections/productstory -->
+
+{{ 'section-productstory.css' | asset_url | stylesheet_tag }}
+
+<div class="container_product_story">
+  <div class="container_texts_icons">
+    <p class="text-heading">{{ product.metafields.story.header }} </p> 
+    <p class="text-sub_heading">{{ product.metafields.story.subheader }} </p>
+    <div class="container_icons">
+      {% assign svg_icon_urls = product.metafields.story.icon_urls | split: ',' %}
+      {% assign svg_labels = product.metafields.story.icon_labels | split: ',' %}
+
+      {% for url in svg_icon_urls %}
+        {% assign url_index = forloop.index %}
+    
+        <img src="{{ product.metafields.story.icon_urls }}">
+    
+        {% for label in svg_label %}
+          {% assign label_index = forloop.index %}
+      
+          {% if url_index == label_index %}
+            <p class="text_icon" >{{ product.metafields.story.icon_labels }}</p>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+  {% if product.metafields.story.image_desktop != blank %}
+    <div class="container_image">
+      <picture>
+        <source media="(min-width: 600px)" srcset="{{ product.metafields.story.image_desktop | img_url: '800x' }}">
+        <img src="{{ product.metafields.story.image_mobile | img_url: '250x' }}" alt="{{ product.metafields.story.image_desktop.alt }}">
+      </picture>
+    </div>
+  {% endif %}
+</div>  
+
+
+
+
+
+{% schema %}
+{
+    "presets": [
+        {
+            "category": "Product story",
+            "name": "Product story"
+        }
+    ],
+    "name": "Product story",
+    "settings": []
+}
+{% endschema %}

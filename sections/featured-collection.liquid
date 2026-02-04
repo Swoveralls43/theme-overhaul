@@ -1,0 +1,92 @@
+{% if section.blocks.size > 0 %}
+
+  <link rel="stylesheet" href="{{ 'component-featured-collection.css' | asset_url }}">
+  <link rel="stylesheet" href="{{ 'component-collection-grid-item.css' | asset_url }}">
+
+  <script src="{{ 'component-featured-collection.js' | asset_url }}"></script>
+
+  <section class="featured-collection">
+    <div class="featured-collection__container">
+      <div class="featured-collection__row" data-featured-row>
+        {% for block in section.blocks %}
+          {% assign collection       = block.settings.collection %}
+          {% assign collection_image = block.settings.collection_image %}
+          {% assign collection_title = block.settings.collection_title %}
+          {% assign collection_url   = block.settings.collection_url %}
+
+          {% if collection != blank %}
+            <div class="featured-collection__col" data-featured-col>
+              {% include 'collection-grid-item',
+                collection: collection,
+	              open_tab: block.settings.open_tab,
+                collection_image: collection_image,
+                collection_title: collection_title,
+                collection_url: collection_url,
+                featured_collection: true,
+                color_black: true %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="featured-collection__scrollbar-wrapper" data-featured-scrollbar-wrapper>
+        <div class="featured-collection__scrollbar">
+          <span class="featured-collection__scrollbar-widget" data-featured-scrollbar-widget></span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+{% endif %}
+
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        },
+		    {
+          "type": "checkbox",
+          "id": "open_tab",
+          "label": "Open in new tab",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "collection_image",
+          "label": "Collection image"
+        },
+        {
+          "type": "text",
+          "id": "collection_title",
+          "label": "Collection title"
+        },
+        {
+          "type": "url",
+          "id": "collection_url",
+          "label": "Collection url"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection"
+    }
+  ]
+}
+{% endschema %}

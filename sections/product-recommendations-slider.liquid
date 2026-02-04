@@ -1,0 +1,72 @@
+<link rel="stylesheet" href="{{ 'slick.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'section-product-recommendations-slider.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'content-price.css' | asset_url }}" media="print" onload="this.media='all'">
+
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-product-grid.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'vendor.js' | asset_url }}"></script>
+<script src="{{ 'section-product-recommendations-slider.js' | asset_url }}"></script>
+
+{% assign product_rec = product %}
+{% assign title = section.settings.title %}
+{% assign limit = 5 %}
+{% assign show_section = section.settings.show_section %}
+
+<div
+    class="product-recommendations js-product-recommendations page-width"
+    data-base-url="{{- routes.product_recommendations_url -}}"
+    data-product-id="{{- product_rec.id -}}"
+    data-limit="{{ limit }}"
+    data-section-type="product-recommendations"
+    data-section-id="{{- section.id -}}"
+>
+  <div class="js-product-recommendations__container product-recommendations__container">
+    {% if title != blank %}
+      <h2 class="h2 product-recommendations__title">
+        {{ title | escape }} 
+      </h2>
+    {% endif %}
+
+    {% if recommendations.products_count > 0 %}
+      <div class="product-recommendations__slider content-slider js-product-recommendations-slider">
+        {% assign excluded_product_count = 1 %}
+        {% for product in recommendations.products %}
+          {% unless product.tags contains 'exclude_rebuy' %}
+            <div class="product-recommendations__slider-slide js-slide">
+              {% include 'product-grid-item', product: product %}
+            </div>
+          {% endunless %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Recommendations Slider",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Section title"
+      },
+      {
+        "type": "product",
+        "id": "product",
+        "label": "Product for recommendations"
+      },
+      {
+        "type": "number",
+        "id": "limit",
+        "label": "Products limit"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Recommendations Slider"
+      }
+    ]
+  }
+{% endschema %}

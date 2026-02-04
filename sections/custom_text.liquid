@@ -1,0 +1,26 @@
+<!-- sections/custom_text -->
+{{ 'section-custom-text.css' | asset_url | stylesheet_tag }}
+
+<div class="container_custom-text">
+    <p class="custom-text" style="color: {{ section.settings.custom_text_color }}">{{ section.settings.custom_text }} </p>  
+</div>  
+
+{% schema %}
+{
+  "name": "Custom text",
+  "class": "custom_text",
+  "settings": [
+       {
+            "type": "color",
+            "id": "custom_text_color",
+            "label": "text color",
+            "default": "#363636"
+        },
+        {
+            "type": "text",
+            "id": "custom_text",
+            "label": "heading"
+        }
+    ]
+}
+{% endschema %}

@@ -1,0 +1,37 @@
+<!-- sections/hero_text -->
+{{ 'section-hero-text.css' | asset_url | stylesheet_tag }}
+<div class="hero-container">
+    <img class="hero_text_image" src="{{ section.settings.hero_text_image | img_url: '1200x' }}"/>
+    <h1 class="hero_text_heading" style="color: {{ section.settings.hero_text_heading_color }}">{{ section.settings.hero_text_heading | newline_to_br }} </h1>                  
+</div>
+
+<style>
+
+
+</style>
+
+{% schema %}
+{
+  "name": "Hero and text",
+  "class": "hero_text",
+  "settings": [
+    {
+        "type": "image_picker",
+        "id": "hero_text_image",
+        "label": "Image",
+        "info": "1800 x 800px .jpg recommended"
+    },
+    {
+        "type": "color",
+        "id": "hero_text_heading_color",
+        "label": "text color",
+        "default": "#363636"
+    },
+    {
+        "type": "textarea",
+        "id": "hero_text_heading",
+        "label": "heading"
+    }
+  ]
+}
+{% endschema %}

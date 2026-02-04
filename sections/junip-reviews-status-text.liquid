@@ -1,0 +1,113 @@
+{%- if section.settings.enable_junip_custom_status_text -%}
+
+{% assign var_junip_avg_rating = section.settings.junip_average_rating %}
+{% assign var_junip_avg_rating_roundoff = section.settings.junip_average_rating | round %}
+
+{% if var_junip_avg_rating_roundoff == 1 %}
+    
+{% endif %}
+
+
+{% case var_junip_avg_rating_roundoff %}
+  {% when 1 %}
+    {% assign junip_star_content = '<i class="bx bxs-star"></i><i class="bx bx-star" ></i><i class="bx bx-star" ></i><i class="bx bx-star" ></i><i class="bx bx-star" ></i>' %}
+  {% when 2 %}
+    {% assign junip_star_content = '<i class="bx bxs-star"></i><i class="bx bxs-star" ></i><i class="bx bx-star" ></i><i class="bx bx-star" ></i><i class="bx bx-star" ></i>' %}
+  {% when 3 %}
+    {% assign junip_star_content = '<i class="bx bxs-star"></i><i class="bx bxs-star" ></i><i class="bx bxs-star" ></i><i class="bx bx-star" ></i><i class="bx bx-star" ></i>' %}
+  {% when 4 %}
+    {% assign junip_star_content = '<i class="bx bxs-star"></i><i class="bx bxs-star" ></i><i class="bx bxs-star" ></i><i class="bx bxs-star" ></i><i class="bx bx-star" ></i>' %}
+  {% when 5 %} 
+    {% assign junip_star_content = '<i class="bx bxs-star"></i><i class="bx bxs-star" ></i><i class="bx bxs-star" ></i><i class="bx bxs-star" ></i><i class="bx bxs-star" ></i>' %}   
+  {% else %}
+    {% assign junip_star_content = '<i class="bx bx-star"></i><i class="bx bx-star" ></i><i class="bx bx-star" ></i><i class="bx bx-star" ></i><i class="bx bx-star" ></i>' %}  
+{% endcase %}
+
+
+  <script>
+
+
+  $(document).ready(function() {
+   
+    const myInterval = setInterval(initiationJunipProcess, 2000);
+
+    function initiationJunipProcess() {
+      
+  
+
+        if ($( ".junip-review-carousel-summary-stats").length ) {
+                $( ".junip-review-carousel-summary-stats" ).before( '<div class="custom-junip-status"><p><span>{{ junip_star_content }}</span> {{var_junip_avg_rating}}/5 {% comment %}{{ section.settings.junip_rating_desc }}{% endcomment %}out of 95,000 customers</p></div>' );
+                clearInterval(myInterval);
+            //console.log('Found junip review carousel');
+        }else{
+            //console.log('NOT Found junip review carousel');
+        }
+        
+    }
+
+
+
+  
+     //setTimeout(initiationJunipProcess, 5000);
+  });
+  
+  </script>
+
+
+
+<style>
+
+  .junip-review-carousel-summary-stats{
+    display:none!important;
+  }
+
+  .custom-junip-status p{
+    font-size:18px;
+  }
+
+</style>
+
+
+{%- else -%} 
+
+<style>
+  
+  .custom-junip-status{
+    display:none!important;
+  }
+
+</style>
+
+
+{%- endif -%} 
+
+
+{% schema %}
+  {
+    "name": "Junip Reviews Status Text",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_junip_custom_status_text",
+        "label": "Enable Custom Status",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "junip_average_rating",
+        "min": 1,
+        "max": 5,
+        "step": 0.1,
+        "unit": "/5",
+        "label": "Average Rating",
+        "default": 5
+      },
+      {
+        "type": "text",
+        "id": "junip_rating_desc",
+        "label": "Description",
+        "default": "out of 95,000 customers"
+      }
+    ]
+  }
+{% endschema %}

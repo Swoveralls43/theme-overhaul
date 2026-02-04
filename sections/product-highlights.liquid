@@ -1,0 +1,207 @@
+
+<style>
+  .product-section{
+    display: flex;
+    position: relative;
+    max-width: 100%;
+    min-width: auto;
+    align-self: stretch;
+    flex-basis: auto;
+    min-height: 1px;
+    align-items: center;
+    flex-shrink: 0;
+    flex-direction: column;
+    justify-content: center;
+
+
+  }
+  .container{
+    color: #FFFFFFFF;
+    display: flex;
+    row-gap: 32px;
+    position: relative;
+    max-width: 100%;
+    min-width: auto;
+    align-self: stretch;
+    column-gap: 32px;
+    flex-basis: auto;
+    min-height: 1px;
+    align-items: center;
+    flex-shrink: 0;
+    padding-top: 27px;
+    padding-left: 30px;
+    padding-right: 30px;
+    flex-direction: column;
+    padding-bottom: 54px;
+    justify-content: center;
+    background-color: #FCFAF1FF;
+    background-image: none;
+  }
+  .heading{
+    color: #000000FF;
+    font-size: 40px;
+    align-self: stretch;
+    flex-basis: auto;
+    text-align: center;
+    flex-shrink: 0;
+    font-family: BryantPro-Bold, " sans-serif";
+    font-weight: 400;
+    line-height: 52px;
+    overflow-wrap: break-word;
+    text-align-last: center;
+
+  }
+  .card-container{
+    width: 100%;
+    display: flex;
+    flex-basis: auto;
+    align-items: center;
+    flex-shrink: 0;
+    justify-content: center;
+  }
+  .card-container .cards{
+    gap: 24px 24px;
+    width: 100%;
+    display: grid;
+    position: relative;
+    max-width: 1242px;
+    min-width: auto;
+    flex-basis: auto;
+    min-height: 1px;
+    --replo-gap: 24px;
+    align-items: center;
+    flex-shrink: 0;
+    justify-content: center;
+    {% comment %} grid-template-columns: repeat(3, minmax(0, 1fr)); {% endcomment %}
+  }
+  .card{
+    width: 100%;
+    display: flex
+;
+    overflow: hidden;
+    position: relative;
+    flex-grow: 1;
+    max-width: 100%;
+    min-width: var(--replo-flex-min-dimension, 0px);
+    align-self: stretch;
+    flex-basis: 0;
+    min-height: 1px;
+    align-items: center;
+    flex-shrink: 1;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-top-color: #000000;
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-left-color: #000000;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-right-color: #000000;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-color: #000000;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  .img-content{
+    left: 50.00%;
+    width: 100%;
+    bottom: 0px;
+    display: flex;
+    row-gap: 8px;
+    z-index: 1;
+    position: absolute;
+    min-width: auto;
+    transform: translate3d(-50%, 0px, 0px);
+    align-self: stretch;
+    column-gap: 8px;
+    flex-basis: auto;
+    min-height: 1px;
+    align-items: center;
+    flex-shrink: 0;
+    padding-top: 40px;
+    padding-left: 30px;
+    padding-right: 30px;
+    flex-direction: column;
+    padding-bottom: 40px;
+    justify-content: center;
+  }
+  .card .img-title{
+    font-size: 30px;
+    align-self: stretch;
+    flex-basis: auto;
+    text-align: center;
+    flex-shrink: 0;
+    font-weight: 600;
+    line-height: 39px;
+    overflow-wrap: break-word;
+    text-align-last: center;
+  }
+
+  p{
+  margin: 0px;
+  }
+    p .img-title{
+      margin: 0px;
+    }
+
+  .card .img-text{
+    font-size: 16px;
+    align-self: stretch;
+    flex-basis: auto;
+    text-align: center;
+    flex-shrink: 0;
+    font-weight: 400;
+    line-height: 24px;
+    overflow-wrap: break-word;
+    text-align-last: center;
+  }
+</style>
+<section class="product-custom-section">
+    <div class="container">
+      <p class="heading">The Comfiest Overalls On Earth</p>
+      <div class="card-container">
+        <div class="cards">
+          <div class="card">
+            <img src="https://assets.replocdn.com/projects/d07150be-e512-42ca-b981-f1de57b79468/1391b903-fc3b-4e3b-81aa-242aa8851467?width=1800" width="100%" height="100%" alt="image of close up fabrics">
+            <div class="img-content">
+              <p class="img-title">Ridiculously Soft.</p>
+              <p class="img-text">Our signature fabric is so soft it's silly. Like your favorite hoodie got promoted to full-body management.</p>
+            </div>
+          </div>
+            
+          <div class="card">
+            <img src="https://assets.replocdn.com/projects/d07150be-e512-42ca-b981-f1de57b79468/971a2f81-be50-4a08-be82-3dc63c676b22?width=1800" width="100%" height="100%" alt="man laying down with a phone in his hand">
+            <div class="img-content">
+              <p class="img-title">Functional, & Nap-able</p>
+              <p class="img-text">6 pockets (including a hidden zipper one), adjustable shoulder straps, and a discreet zipper fly (for those that need it).</p>
+            </div>
+          </div>
+          <div class="card"><img src="https://assets.replocdn.com/projects/d07150be-e512-42ca-b981-f1de57b79468/0167967e-e735-4a02-8a79-20acd1d22cb6?width=1800" width="100%" height="100%" alt="people sitting in front of an entrance">
+            <div class="img-content">
+              <div class="img-title">One Fit. All Welcome.</div>
+              <p class="img-text">Gender neutral. 8 sizes. 10+ colors and styles. For anyone who wants to be comfortable and still get compliments from strangers.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product highlights",
+  "settings": [
+
+  ],
+  "presets": [
+    {
+      "name": "Product highlights"
+    }
+  ]
+}
+{% endschema %}

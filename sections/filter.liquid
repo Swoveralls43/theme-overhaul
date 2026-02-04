@@ -1,0 +1,207 @@
+{{ 'component-filter.css' | asset_url | stylesheet_tag }}
+
+{% assign heading = section.settings.heading %}
+{% assign heading_mob = section.settings.heading_mob %}
+{% assign btn_clear = section.settings.btn_clear %}
+{% assign btn_show = section.settings.btn_show %}
+{% assign blocks = section.blocks %}
+{% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+
+<div class="filter js-filter">
+  <div class="filter__wrapper">
+    <div class="filter__header">
+      <h3 class="filter__header-heading filter__header-heading--desk">{{ heading }}</h3>
+      <h3 class="filter__header-heading filter__header-heading--mob">{{ heading_mob }}</h3>
+
+      <button class="filter__btn-close js-filter-btn-close" aria-label="Close filters" alt="close filters button">
+        <img src="{{ 'icon-close.svg' | asset_url }}"/>
+      </button>
+    </div>
+
+    <div class="filter__body">
+      <div class="filter__body-wrapper">
+        {% render 'sort-list-mobile' %}
+        <div class="js-filter-body-wrapper">
+          <form class="filter-form">
+            {%- for filter in collection.filters -%}
+              {% unless filter.label == 'More filters' %}
+                <div class="filter__item js-filter-group visible">
+                  <div class="js-filter-heading filter__heading"  data-filter-toggle="{{ filter.label }}-{{ forloop.index }}">
+                    <span class="filter__item-title">
+                      {{ filter.label }}
+                      <span data-filter-count="{{ filter.param_name }}">{%- if filter.active_values.size > 0 -%}({{ filter.active_values.size }}){%- endif -%}</span>
+                    </span>
+                    <div class="filter__item-chevron">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12">
+                          <path data-name="Right Chevron" d="M1.183 12 0 10.849 4.982 6 0 1.151 1.183 0l5.572 5.425a.8.8 0 0 1 0 1.151z"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="filter__item-applied-tags js-applied-tags" data-prefix="{{ filter_prefix }}"></div>
+                  <ul class="js-filter-list filter__list" style="display: none;">
+                    {%- for filter_value in filter.values -%}
+                      <li class="filter__list-item">
+                        <label class="filter__tag visible">
+                          <input 
+                            {% if filter_value.active %} checked {% endif %}
+                            data-param-name="{{ filter_value.param_name }}"
+                            value="{{ filter_value.value }}"
+                            class="filter__input js-filter-input"
+                            type="checkbox"
+                          >
+                          <div class="filter__tag-wrapper">
+                            <div class="filter__tag-heading">
+                              <span>{{ filter_value.label }}</span>
+                            </div>
+                            <div class="filter__checkbox">
+                              <div class="filter__checkmark">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                                    <path data-name="Checkmark Square" d="M18.913 0H1.087A1.087 1.087 0 0 0 0 1.087v17.826A1.087 1.087 0 0 0 1.087 20h17.826A1.087 1.087 0 0 0 20 18.913V1.087A1.087 1.087 0 0 0 18.913 0zM8.681 13.909a.609.609 0 0 1-.861 0l-3.156-3.157.862-.861 2.725 2.726 7.09-7.089.861.861z"></path>
+                                </svg>
+                              </div>
+                            </div>
+                          </div>
+                        </label>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </div>
+              {% elsif filter.label == 'More filters' %}
+                {% if settings.tag_filters_color != blank %}
+                  {% assign colors = settings.tag_filters_color | split: ',' %}
+                  <div class="filter__item js-filter-group visible filter-{{ filter.label }}-{{ forloop.index }}">
+                    <div class="js-filter-heading filter__heading" data-filter-toggle="{{ filter.label }}-{{ forloop.index }}">
+                      <span class="filter__item-title">
+                        Colors
+                        <span data-filter-count="{{ filter.param_name }}">{%- if filter.active_values.size > 0 -%}({{ filter.active_values.size }}){%- endif -%}</span>
+                      </span>
+                      <div class="filter__item-chevron">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12">
+                            <path data-name="Right Chevron" d="M1.183 12 0 10.849 4.982 6 0 1.151 1.183 0l5.572 5.425a.8.8 0 0 1 0 1.151z"></path>
+                        </svg>
+                      </div>
+                    </div>
+                    <div class="filter__item-applied-tags js-applied-tags"></div>
+                    <ul class="js-filter-list filter__list" style="display: none;">
+                      {%- for filter_value in filter.values -%}
+                        {% for color in colors %}
+                          {% liquid  
+                            assign label = color | split: '::' | first | strip
+                            assign value = color | split: '::' | last | downcase
+                            assign value_handle = filter_value.value | handleize
+                            assign filter_value_downcase = filter_value.value | downcase
+                          %}                    
+                          {%- if filter_value_downcase == value -%}
+                            {% assign has_children = true %}
+                            <li class="filter__list-item">
+                              <label class="filter__tag visible">
+                                <input 
+                                  {% if filter_value.active %} checked {% endif %}
+                                  data-param-name="{{ filter_value.param_name }}"
+                                  value="{{ filter_value.value }}"
+                                  class="filter__input js-filter-input"
+                                  type="checkbox"
+                                >
+
+                                <div class="filter__tag-wrapper color">
+                                  <div class="filter__checkbox">
+                                    <div class="filter__checkmark">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                                          <path data-name="Checkmark Square" d="M18.913 0H1.087A1.087 1.087 0 0 0 0 1.087v17.826A1.087 1.087 0 0 0 1.087 20h17.826A1.087 1.087 0 0 0 20 18.913V1.087A1.087 1.087 0 0 0 18.913 0zM8.681 13.909a.609.609 0 0 1-.861 0l-3.156-3.157.862-.861 2.725 2.726 7.09-7.089.861.861z"></path>
+                                      </svg>
+                                    </div>
+                                  </div>
+                                  <div 
+                                    for="{{ value_handle }}-{{ value_handle }}" 
+                                    class="
+                                      tw-w-8
+                                      tw-h-8
+                                      tw-flex
+                                      tw-items-center
+                                      tw-justify-center
+                                      tw-rounded-full
+                                      tw-overflow-hidden
+                                    "
+                                  >
+                                    <div style="background-color: {{ label }};" class="tw-w-full tw-h-full">
+                                      {%- capture filename -%}swatch-filters-{{ label | downcase }}.png{% endcapture %}
+                                      <img onerror="this.remove()" class="tw-block tw-w-full tw-h-full tw-object-cover tw-object-center" width="32" height="32" loading="lazy" src="{{ filename | file_img_url }}">
+                                    </div>
+                                  </div>
+                                  <div class="filter__tag-heading">
+                                    <span>{{ label }} ({{ filter_value.count }})</span>
+                                  </div>
+                                </div>
+                              </label>
+                            </li>
+                          {%- endif -%}
+                        {% endfor %}
+                      {%- endfor -%}
+                    </ul>
+                  </div>
+                {% endif %}
+              {% endunless %}
+            {%- endfor -%}
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter__btn-group">
+      {% if settings.enable_algolia_plp %}
+        <button type="button" class="js-filter-btn-algolia-clear filter__btn filter__btn--clear">Clear All</button>
+        <button type="button" class="js-filter-btn-close filter__btn filter__btn--show">Show results</a>
+      {% else %}
+        <a href="{{ collection.url }}" class="js-filter-btn-clear filter__btn filter__btn--clear">Clear All</a>
+        <a data-location="{{ collection.url }}" class="js-filter-btn-close filter__btn filter__btn--show">Show results</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="js-filter-overlay filter__overlay"></div>
+
+{% schema %}
+{
+  "name": "Collection Filters",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Filters heading",
+      "default": "Filter"
+    },
+    {
+      "type": "text",
+      "id": "heading_mob",
+      "label": "Filters mobile heading",
+      "default": "Filter & Sort"
+    },
+    {
+      "type": "text",
+      "id": "btn_clear",
+      "label": "Clear button text",
+      "default": "Clear all"
+    },
+    {
+      "type": "text",
+      "id": "btn_show",
+      "label": "Show button text",
+      "default": "Show Results"
+    }
+  ],
+  "blocks": [
+   {
+     "type": "filter-category",
+     "name": "Filter Category",
+     "settings": [
+       {
+         "type": "text",
+         "id": "filter_prefix",
+         "label": "Filter prefix"
+       }
+     ]
+   }
+  ]
+}
+{% endschema %}

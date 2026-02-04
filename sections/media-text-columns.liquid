@@ -1,0 +1,295 @@
+{{ 'section-media-text-columns.css' | asset_url | stylesheet_tag }}
+
+<section id="section-{{ section.id }}">
+    <div class="media-text-container">
+        <div class="media">
+            {% if section.settings.video_enabled %}
+                <div class="video-wrap">
+                    <iframe src="//www.youtube.com/embed/{{ section.settings.video_link.id }}" class="video_image_thumb" allow="autoplay; encrypted-media"></iframe>
+                </div>
+            {% elsif section.settings.image_enabled %}
+                {% if section.settings.image != blank  %}
+                    {{ section.settings.image | image_url: width: 1200 | image_tag: class: 'image', loading: 'lazy' }}
+                {% else %}
+                    {{ 'image' | placeholder_svg_tag }}
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="content">
+            {% if section.settings.title != blank %}
+                <h2 class="title">{{ section.settings.title }}</h2> 
+            {% endif %}
+            {% if section.settings.copy != blank %}
+                <div class="copy">{{ section.settings.copy }}</div>  
+            {% endif %}
+            {% if section.settings.cta_label != blank and section.settings.cta_url %}
+                <div class="cta">
+                    <a href="{{ section.settings.cta_url }}" class="button button--secondary">{{ section.settings.cta_label }}</a>  
+                </div>
+            {% endif %}
+        </div>              
+    </div>
+</section>
+
+{% style %}
+    #section-{{ section.id }} .media-text-container .content {
+        align-items: {{ section.settings.text_justification }};
+        justify-content: {{ section.settings.text_alignment }};
+    }
+    #section-{{ section.id }} .media-text-container img,
+    #section-{{ section.id }} .media-text-container iframe {
+        object-fit: {{ section.settings.image_fit }};
+        object-position: {{ section.settings.image_position }};
+    }
+    #section-{{ section.id }} .media-text-container .title {
+        color: {{ section.settings.title_color }};
+    }
+    {%  if section.settings.image_position_mb == 'bottom' %}
+        @media(max-width: 767px) {
+            #section-{{ section.id }} .media-text-container {
+                flex-direction: column-reverse;
+            }
+        }
+    {% endif %}
+    @media(min-width: 768px) {
+        #section-{{ section.id }} .media {
+            width: {{ section.settings.image_width }}%;
+        }
+        {%  if section.settings.image_position_dt == 'right' %}
+            #section-{{ section.id }} .media-text-container {
+                flex-direction: row-reverse;
+            }
+        {% endif %}
+    }
+{% endstyle %}
+
+
+{% schema %}
+{
+  "name": "Media/Text Columns",
+  "class": "media_text_columns",
+  "settings": [
+        {
+            "type": "header",
+            "content": "Content"
+        },
+        {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+        },
+        {
+            "type": "checkbox",
+            "label": "Enable Image?",
+            "id": "image_enabled",
+            "default": true
+        },
+        {
+            "type": "video_url",
+            "id": "video_link",
+            "label": "Video Link",
+            "accept": [
+                "youtube"
+            ]
+        },
+        {
+            "type": "checkbox",
+            "label": "Enable Video?",
+            "id": "video_enabled",
+            "default": false
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Your Title"
+        },
+        {
+            "type": "richtext",
+            "id": "copy",
+            "label": "Copy",
+            "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+        },
+        {
+            "type": "text",
+            "id": "cta_label",
+            "label": "Call to Action - Label",
+            "default": "Shop Now"
+        },
+        {
+            "type": "url",
+            "id": "cta_url",
+            "label": "Call to Action - URL",
+            "default": "/collections/all"
+        },
+        {
+            "type": "header",
+            "content": "Styles"
+        },
+        {
+            "type": "color",
+            "id": "title_color",
+            "label": "Title color",
+            "default": "#363636"
+        },
+        {
+            "type": "header",
+            "content": "Content Position"
+        },
+        {
+            "type": "select",
+            "id": "text_alignment",
+            "label": "Text - alignment",
+            "default": "center",
+            "options": [
+                {
+                    "label": "Top",
+                    "value": "flex-start"
+                },
+                {
+                    "label": "Center",
+                    "value": "center"
+                },
+                {
+                    "label": "Bottom",
+                    "value": "flex-end"
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "id": "text_justification",
+            "label": "Text - justification",
+            "default": "flex-start",
+            "options": [
+                {
+                    "label": "Left",
+                    "value": "flex-start"
+                },
+                {
+                    "label": "Center",
+                    "value": "center"
+                },
+                {
+                    "label": "Right",
+                    "value": "flex-end"
+                }
+            ]
+        },
+        {
+            "type": "header",
+            "content": "Image Fit & Position"
+        },
+        {
+            "type": "select",
+            "id": "image_fit",
+            "label": "Image - Fit",
+            "default": "contain",
+            "options": [
+                {
+                    "label": "Fill",
+                    "value": "fill"
+                },
+                {
+                    "label": "Contain",
+                    "value": "contain"
+                },
+                {
+                    "label": "Cover",
+                    "value": "cover"
+                },
+                {
+                    "label": "None",
+                    "value": "none"
+                },
+                {
+                    "label": "Scale down",
+                    "value": "scale-down"
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "id": "image_position",
+            "label": "Image - Position",
+            "default": "center",
+            "options": [
+                {
+                    "label": "Top",
+                    "value": "top"
+                },
+                {
+                    "label": "Bottom",
+                    "value": "bottom"
+                },
+                {
+                    "label": "Left",
+                    "value": "left"
+                },
+                {
+                    "label": "Right",
+                    "value": "right"
+                },
+                {
+                    "label": "Center",
+                    "value": "center"
+                }
+            ]
+        },
+        {
+            "type": "header",
+            "content": "Mobile"
+        },
+        {
+            "type": "radio",
+            "id": "image_position_mb",
+            "label": "Image layout",
+            "options": [
+                {
+                    "value": "top",
+                    "label": "Top"
+                },
+                {
+                    "value": "bottom",
+                    "label": "Bottom"
+                }
+            ],
+            "default": "top"
+        },
+        {
+            "type": "header",
+            "content": "Desktop"
+        },
+        {
+            "type": "range",
+            "label": "Image Width",
+            "id": "image_width",
+            "min": 25,
+            "max": 75,
+            "unit": "%",
+            "default": 53
+        },
+        {
+            "type": "radio",
+            "id": "image_position_dt",
+            "label": "Image layout",
+            "options": [
+                {
+                    "value": "left",
+                    "label": "Left"
+                },
+                {
+                    "value": "right",
+                    "label": "Right"
+                }
+            ],
+            "default": "left"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Media/Text Columns"
+        }
+    ]
+}
+{% endschema %}
