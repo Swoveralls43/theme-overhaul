@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+    <g data-name="Rectangle 13" style="stroke:rgba(255,255,255,.3);fill:none">
+        <rect width="50" height="50" rx="25" style="stroke:none"/>
+        <rect x=".5" y=".5" width="49" height="49" rx="24.5" style="fill:none"/>
+    </g>
+    <path data-name="Youtube" d="M307.007 53.654A2.486 2.486 0 0 0 304.653 52h-13.3a2.522 2.522 0 0 0-2.376 1.713 17.7 17.7 0 0 0 .021 11.632A2.486 2.486 0 0 0 291.347 67h13.3a2.522 2.522 0 0 0 2.376-1.713 17.7 17.7 0 0 0-.021-11.632zM295.5 63.667v-8.334l6.667 4.167z" transform="translate(-273 -34)" style="fill:#fff"/>
+</svg>

@@ -1,0 +1,104 @@
+.product-recommendations__wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.product-best-sellers .product-recommendations__slider-slide .product-grid__item {
+  opacity: 1;
+}
+
+.product-best-sellers .grid__item__image img {
+  display: block;
+}
+
+.product-best-sellers .product-grid__item h3 a {
+  font-family: var(--font-heading);
+}
+
+.product-best-sellers .grid__item__image > a::after {
+  display: none;
+}
+
+.product-best-sellers .slick-arrow {
+  top: 38%;
+  display: flex;
+  z-index: 1;
+  justify-content: center;
+  align-items: center;
+  width: 38px;
+  height: 38px;
+  background-color: #000;
+  border-radius: 50%;
+  transition: .3s ease-in-out all;
+}
+
+.product-best-sellers .slick-arrow.slick-prev {
+  left: -20px;
+}
+
+.product-best-sellers .slick-arrow.slick-next {
+  right: -20px;
+}
+
+.product-best-sellers .slick-arrow::before {
+  content: '';
+  position: relative;
+  display: inline-block;
+  height: 0.40em;
+  width: 0.40em;
+  border-style: solid;
+  border-width: 2px 2px 0 0;
+  transform: rotate(-45deg);
+  opacity: 1;
+}
+
+.product-best-sellers .slick-arrow.slick-next::before {
+  transform: rotate(45deg);
+  left: -1px;
+}
+
+.product-best-sellers .slick-arrow.slick-prev::before {
+  transform: rotate(-135deg);
+  left: 1px;
+}
+
+.product-best-sellers .slick-arrow.slick-disabled {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.product-best-sellers .slick-prev:hover,
+.product-best-sellers .slick-prev:focus,
+.product-best-sellers .slick-next:hover,
+.product-best-sellers .slick-next:focus {
+  color: #fff;
+  outline: none;
+  background: #000;
+}
+
+.product__images__progress-bar {
+	position: absolute;
+  bottom: 0;
+  width: calc(100% + 30px);
+  height: 2px;
+  background-color: rgba(0,0,0,0.1);
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  transform: none;
+  transition: all 0.3s;
+}
+
+.product__images__progress-bar > span {
+	height: 2px;
+	background-color: #000;
+	position: absolute;
+	left: 0;
+	z-index: 2;
+}
+
+@media screen and (min-width: 1200px) {
+  .product__images__progress-bar {
+    display: none;
+  }
+}

@@ -1,0 +1,74 @@
+html.pushbar_locked .pushbar_overlay {
+    opacity: 0.3!important;
+    z-index: 9999!important;
+}
+
+.pushbar_overlay {
+    background: #000000!important;
+}
+
+.pushbarreturnsdrawer::-webkit-scrollbar {
+    display: none;
+}
+
+.pushbarreturnsdrawer {
+    z-index: 999999!important;
+    background: #ffffff!important;
+    max-width: 376px!important;
+    width: 100%!important;
+    position: relative;
+    min-height: 100vh!important;
+    padding-top: 30px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 100px;
+}
+
+.pushbarreturnsdrawer .drawerreturn-pushbarclose {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    line-height: 0;
+}
+
+.pushbarreturnsdrawer .drawerreturn-pushbarclose i {
+    font-size: 32px;
+    color: #000!important;
+    transition: 0.5s ease;
+}
+
+.pushbarreturnsdrawer .drawerreturn-pushbarclose i:hover {
+    color: #9B111E!important;
+}
+
+.pushbarreturnsdrawer .returndrawer-title {
+    font-size: 24px;
+}
+
+.pushbarreturnsdrawer .returndrawer-desc {
+    font-size: 16px;
+}
+
+.pushbarreturnsdrawer .returndrawer-link {
+    color: #28334A!important;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.pushbarreturnsdrawer .returndrawer-btn {
+    font-size: 16px;
+    color: #fff;
+    background-color: #28334A;
+    width: 100%;
+    border-radius: 0px;
+    padding: 14px 20px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+}
+
+.pushbarreturnsdrawer .returndrawer-btn:hover {
+    background-color: #000;
+}

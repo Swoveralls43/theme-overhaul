@@ -1,0 +1,139 @@
+.container_hero_text_button {
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: hidden;
+    position: relative;
+}
+
+.video_hero {
+    width: auto; 
+    height: 100%;
+    position: absolute;
+    top: -9999px;
+    bottom: -9999px;
+    left: -9999px;
+    right: -9999px;
+    margin: auto;
+}
+
+@media only screen and (min-width: 880px) {
+    .video_hero {
+        display: grid; 
+        width: 100%; 
+        height: 100%;
+        position: unset;
+        top: unset;
+        bottom: unset;
+        left: unset;
+        right: unset;
+        margin: unset;
+    }
+    .container_hero_text_button {
+        display: grid;
+        grid-template-columns: 1fr;
+        overflow:unset;
+        position: unset;
+    }
+}
+
+.inner_hero {
+    grid-row-start: 1;
+    grid-column-start: 1;
+    z-index: 99;
+}
+
+.container_overlay {
+    grid-row-start: 1;
+    grid-column-start: 1;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.24));
+    z-index: 100;
+}
+
+.container_text_button {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    display: grid;
+    grid-row-start: 1;
+    grid-column-start: 1;
+    z-index: 101;
+}
+
+.inner_container_text_button {
+    justify-content: center;
+    padding: 0px 40px 40px 40px;
+    width: 350px;
+    margin: auto;
+}
+
+/* content position -> */
+
+.herobottomleft {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+}
+
+.herocentercenter {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+}
+
+.herobottomcenter {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+}
+
+.herobottomright {
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+}
+/*  end  */
+
+/* content alignment -> */
+.hero_align_center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero_align_left {
+    margin-right: auto;
+}
+
+.hero_align_right {
+    margin-left: auto;
+}
+/* end */
+
+.button_text {
+    font-size: 15px;
+    text-transform: uppercase;
+    height: 50px;
+    border-radius: 6px;
+    padding: 12px 37px;
+}
+
+.button_html {
+    width: fit-content;
+    display: flex;
+}
+
+.container_hero {
+    grid-row-start: 1;
+    grid-column-start: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
+
+.text {
+    font-family: var(--font-heading);
+}
+
+.hero_text {
+    font-size: 50px;
+    line-height: 50px;
+    margin-bottom: 24px;
+    margin-top: 0px;
+    white-space: nowrap;
+}

@@ -1,0 +1,218 @@
+.styles__page__header {
+  background-color: #242424;
+  color: #fff;
+  text-align: center;
+  padding: 60px 30px;
+}
+
+.styles__page__header__title {
+  font-size: 12px;
+  letter-spacing: 2.7px;
+  margin: 0 0 30px;
+}
+
+.styles__page__header__description {
+  font-size: 24px;
+  font-family: var(--font-heading-family);
+  line-height: 1.75;
+  letter-spacing: normal;
+  margin: 0;
+}
+
+.styles__page__card {
+  padding: 60px 18px;
+  display: block;
+  justify-content: space-between;
+  overflow-x: hidden;
+}
+
+.styles__page__card__images-mobile {
+  max-width: 372px;
+}
+
+.styles__page__card:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.04); 
+}
+
+.styles__page__card__left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.styles__page__card__right {
+  width: 100%;
+  max-width: 714px;
+}
+
+.styles__page__card__slider .slick-arrow {
+  top: 38%;
+  display: flex;
+  z-index: 1;
+  justify-content: center;
+  align-items: center;
+  width: 38px;
+  height: 38px;
+  background-color: #000;
+  border-radius: 50%;
+  transition: .3s ease-in-out all;
+}
+
+.styles__page__card__slider .slick-next, .styles__page__card__slider .slick-prev {
+  font-size: 0;
+  line-height: 0;
+  position: absolute;
+  top: 50%;
+  display: block;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  -webkit-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  cursor: pointer;
+}
+
+.styles__page__card__slider .slick-prev {
+  left: -20px;
+}
+
+.styles__page__card__slider .slick-arrow:before {
+  content: "";
+  position: relative;
+  display: inline-block;
+  height: .4em;
+  width: .4em;
+  border-style: solid;
+  border-width: 2px 2px 0 0;
+  transform: rotate(-45deg);
+  opacity: 1;
+}
+
+.styles__page__card__slider .slick-arrow.slick-next:before {
+  transform: rotate(45deg);
+  left: -1px;
+}
+
+.styles__page__card__slider .slick-arrow.slick-prev:before {
+  transform: rotate(-135deg);
+  left: 1px;
+}
+
+.styles__page__card__slider .slick-next {
+  right: -15px;
+}
+
+.styles__page__card__slider .slick-arrow.slick-disabled {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.styles__page__card__title {
+  margin: 0 0 30px;
+  font-size: 44px;
+  line-height: 1.23;
+  letter-spacing: normal;
+}
+
+.styles__page__card__left .styles__page__card__title {
+  display: none;
+  margin: 0 0 20px;
+}
+
+.styles__page__card__right .styles__page__card__title {
+  font-size: 36px;
+}
+
+.styles__page__card__description {
+  font-size: 16px;
+  font-family: var(--font-heading-family);
+  line-height: 1.88;
+  letter-spacing: normal;
+}
+
+.styles__page__card__right .styles__page__card__description {
+  display: block;
+  margin: 30px 0;
+}
+
+.styles__page__card__left .styles__page__card__description {
+  display: none;
+  margin: 0 0 40px;
+}
+
+.styles__page__card__button {
+  border: none;
+  border-radius: 4px;
+  background-color: #000;
+  color: #FFF;
+  padding: 17px 0;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.styles__page__card__right .styles__page__card__button {
+  display: block;
+  width: 100%;
+}
+
+.styles__page__card__left .styles__page__card__button {
+  display: none;
+  width: 137px;
+}
+
+.styles__page__card__banner__img {
+  max-width: 354px;
+  max-height: 442px;
+  width: 50%;
+  margin-right: 6px;
+}
+
+.styles__page__card__banner__img:last-of-type {
+  margin-right: 0;
+}
+
+@media screen and (min-width: 1200px) {
+  .styles__page__header {
+    padding: 148px 318px;
+  }
+
+  .styles__page__card {
+    padding: 80px 48px;
+    display: flex;
+  }
+
+  .styles__page__card__left {
+    width: 40%;
+  }
+
+  .styles__page__card__left .styles__page__card__title {
+    display: block;
+  }
+
+  .styles__page__card__right {
+    width: 54%;
+  }
+
+  .styles__page__card__right .styles__page__card__title {
+    display: none;
+  }
+  
+  .styles__page__card__left .styles__page__card__description {
+    display: block;
+  }
+
+  .styles__page__card__right .styles__page__card__description {
+    display: none;
+  }
+
+  .styles__page__card__left .styles__page__card__button {
+    display: block;
+  }
+
+  .styles__page__card__right .styles__page__card__button {
+    display: none;
+  }
+}

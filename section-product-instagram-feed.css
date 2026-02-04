@@ -1,0 +1,230 @@
+.product__instagram__feed__wrapper {
+  padding: 0 18px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.product__instagram__feed__title {
+  font-size: 30px;
+  margin: 0 0 10px;
+}
+
+.product__instagram__feed {
+  margin-bottom: 30px;
+}
+
+.product__instagram__progress-bar {
+  position: absolute;
+  bottom: 60px;
+  width: calc(100% - 30px);
+  height: 2px;
+  background-color: rgba(0, 0, 0, 0.1);
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  transform: none;
+  transition: all 0.3s;
+}
+
+.product__instagram__progress-bar > span {
+  height: 2px;
+  background-color: #000;
+  position: absolute;
+  left: 0;
+  z-index: 2;
+}
+
+.product__instagram__feed__image {
+  margin-right: 6px;
+  border-radius: 4px;
+}
+
+.product__instagram__feed .slick-dots {
+  bottom: initial;
+  top: -59px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  width: auto;
+}
+
+.product__instagram__feed .slick-dots li {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+}
+
+.product__instagram__feed .slick-dots li button:before {
+  width: 15px;
+  height: 15px;
+  font-size: 25px;
+}
+
+.product__instagram__feed__wrapper .slick-arrow {
+  top: 50%;
+  display: flex;
+  z-index: 1;
+  justify-content: center;
+  align-items: center;
+  width: 38px;
+  height: 38px;
+  background-color: #000;
+  border-radius: 50%;
+  transition: 0.3s ease-in-out all;
+}
+
+.product__instagram__feed__wrapper .slick-arrow.slick-prev {
+  left: -20px;
+}
+
+.product__instagram__feed__wrapper .slick-arrow.slick-next {
+  right: -20px;
+}
+
+.product__instagram__feed__wrapper .slick-arrow::before {
+  content: "";
+  position: relative;
+  display: inline-block;
+  height: 0.4em;
+  width: 0.4em;
+  border-style: solid;
+  border-width: 2px 2px 0 0;
+  transform: rotate(-45deg);
+  opacity: 1;
+}
+
+.product__instagram__feed__wrapper .slick-arrow.slick-next::before {
+  transform: rotate(45deg);
+  left: -1px;
+}
+
+.product__instagram__feed__wrapper .slick-arrow.slick-prev::before {
+  transform: rotate(-135deg);
+  left: 1px;
+}
+
+.product__instagram__feed__wrapper .slick-arrow.slick-disabled {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.product__instagram__feed__wrapper .slick-prev:hover,
+.product__instagram__feed__wrapper .slick-prev:focus,
+.product__instagram__feed__wrapper .slick-next:hover,
+.product__instagram__feed__wrapper .slick-next:focus {
+  color: #fff;
+  outline: none;
+  background: #000;
+}
+
+@media screen and (min-width: 1200px) {
+  .product__instagram__feed__wrapper {
+    padding: 0 50px 80px;
+  }
+
+  .product__instagram__progress-bar {
+    display: none;
+  }
+}
+
+/* Yotpo UGC */
+
+.yotpo-pictures-widget .yotpo-display-wrapper {
+  overflow: visible;
+  position: relative;
+}
+
+.yotpo .yotpo-single-image-container .y-image-overlay {
+  border-radius: 4px;
+}
+
+.yotpo-pictures-widget .yotpo-display-wrapper::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.yotpo-pictures-gallery,
+.yotpo-pictures-widget {
+  margin: 0;
+}
+
+.y-arrows::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  width: calc((100vw - 100%) / 2);
+  height: 100%;
+  z-index: 999;
+  background-color: #fff;
+}
+
+.y-arrows::before {
+  content: "";
+  position: absolute;
+  right: 100%;
+  width: calc((100vw - 100%) / 2);
+  height: 100%;
+  z-index: 999;
+  background-color: #fff;
+}
+
+.y-arrows .arrows-wrapper-right,
+.y-arrows .arrows-wrapper-left {
+  z-index: 1000 !important;
+}
+
+.product__instagram__feed__wrapper .yotpo-pictures-widget .yotpo-display-wrapper .y-arrows .yotpo-icon-right-arrow-light,
+.product__instagram__feed__wrapper .yotpo-pictures-widget .yotpo-display-wrapper .y-arrows .yotpo-icon-left-arrow-light {
+  color: #fff !important;
+  background-color: #000 !important;
+  opacity: 2 !important;
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 50% !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+.product__instagram__feed__wrapper .yotpo-pictures-widget .yotpo-display-wrapper .y-arrows .yotpo-icon-right-arrow-light {
+  right: -10px;
+}
+
+.product__instagram__feed__wrapper .yotpo-pictures-widget .yotpo-display-wrapper .y-arrows .yotpo-icon-left-arrow-light {
+  left: -10px;
+}
+
+@media screen and (min-width: 768px) {
+  .product__instagram__feed__wrapper .yotpo-pictures-widget .yotpo-display-wrapper .y-arrows .yotpo-icon-right-arrow-light {
+    right: -20px;
+  }
+  
+  .product__instagram__feed__wrapper .yotpo-pictures-widget .yotpo-display-wrapper .y-arrows .yotpo-icon-left-arrow-light {
+    left: -20px;
+  }
+}
+
+.product__instagram__feed__wrapper .yotpo-pictures-widget .yotpo-display-wrapper .y-arrows .yotpo-icon-right-arrow-light::before,
+.product__instagram__feed__wrapper .yotpo-pictures-widget .yotpo-display-wrapper .y-arrows .yotpo-icon-left-arrow-light::before {
+  content: "";
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  border-style: solid;
+  border-width: 2px 2px 0 0;
+  opacity: 1;
+  margin: 0 !important;
+  position: static !important;
+}
+
+.product__instagram__feed__wrapper .yotpo-pictures-widget .yotpo-display-wrapper .y-arrows .yotpo-icon-right-arrow-light::before {
+  transform: rotate(45deg);
+}
+
+.product__instagram__feed__wrapper .yotpo-pictures-widget .yotpo-display-wrapper .y-arrows .yotpo-icon-left-arrow-light::before {
+  transform: rotate(225deg);
+}

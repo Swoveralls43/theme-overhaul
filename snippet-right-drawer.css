@@ -1,0 +1,1037 @@
+/*================ Right Drawer ===============*/
+
+.right__drawer__head,
+.right__drawer__head-create,
+.right__drawer__form__wrapper,
+.right__drawer__actions__wrapper {
+  padding-right: 18px;
+  padding-left: 18px;
+}
+
+.right__drawer__content {
+  display: none;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.right__drawer__content-gradient.right__drawer__content {
+  background-image: linear-gradient(to bottom, #fff, #f5f5f5 71%);
+}
+
+.right__drawer__content--active {
+  display: block;
+}
+
+.account__preferences .right__drawer__content--active {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.right__drawer__subcontent__wrapper {
+  padding: 50px 48px 0;
+}
+
+.right__drawer__gray__subtitle {
+  line-height: 1.69;
+  letter-spacing: normal;
+  font-size: 13px;
+  opacity: 0.6;
+  font-family: var(--font-heading-family);
+  text-transform: capitalize;
+  margin: 0 0 10px;
+}
+
+.right__drawer__gray__subtitle:not(:first-child) {
+  margin-top: 30px;
+}
+
+.right__drawer__info {
+  font-size: 26px;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  line-height: 1.19;
+  letter-spacing: normal;
+  margin: 0;
+}
+
+.right__drawer__head,
+.right__drawer__head-create {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.right__drawer__head__title {
+  font-size: 16px;
+  font-family: var(--font-heading);
+  letter-spacing: normal;
+  text-transform: uppercase;
+  padding-top: 2px;
+}
+
+.right__drawer__actions__wrapper {
+  border-top: solid 1px rgba(0, 0, 0, 0.1);
+}
+
+.right__drawer__form__wrapper {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.account__preferences .right__drawer__form__wrapper {
+  overflow-y: auto;
+}
+
+.right__drawer__actions__wrapper {
+  padding-top: 50px;
+}
+
+.right__drawer__content__subtitle {
+  font-size: 20px;
+  margin: 0 0 30px;
+}
+
+.right__drawer__content__subtitle-light {
+  font-size: 24px;
+  font-family: var(--font-heading-family);
+  line-height: 1.42;
+  letter-spacing: normal;
+  margin: 0 0 30px;
+  text-transform: none;
+}
+
+.cf-form-inner .cf-fields-container {
+  width: 100%;
+  margin: 0;
+}
+
+.cf-field-container.right__drawer__form__input,
+.cf-field.right__drawer__form__input,
+.cf-field.right__drawer__checkbox {
+  padding: 0;
+  border: 0;
+  margin: 0;
+}
+
+.cf-field-container.right__drawer__form__input {
+  margin-bottom: 12px;
+}
+
+.right__drawer__form__input label {
+  display: none;
+}
+
+.cf-preference-form .cf-field {
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.right__drawer__form__input,
+.right__drawer__form__input input,
+.cf-preference-form select {
+  padding: 15px 20px;
+  margin-bottom: 12px;
+  border: solid 1px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  margin: 0;
+  width: 100%;
+}
+
+.cf-preference-form label,
+.cf-preference-form legend {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.cf-preference-form label span {
+  font-family: var(--font-body);
+  text-transform: none;
+  font-size: 13px;
+}
+
+.right__drawer__form__input-last {
+  margin-bottom: 0;
+  display: flex;
+  padding: 6px;
+}
+
+.right__drawer__form__input-select {
+  padding: 6px;
+}
+
+.right__drawer__form__input input::placeholder {
+  color: #000;
+  font-size: 13px;
+}
+
+.right__drawer__form__input::placeholder {
+  color: #000;
+  font-size: 13px;
+}
+
+.drawer__form__input__select-wrapper {
+  background-color: rgba(0, 0, 0, 0.04);
+  position: relative;
+  width: 56px;
+  border-radius: 4px;
+}
+
+.drawer__form__input__select-wrapper.drawer__form__input__select-large {
+  width: 100%;
+  background-color: transparent;
+}
+
+.drawer__form__input__select-wrapper img {
+  left: 18px;
+  top: 11px;
+  position: absolute;
+  padding: 0 20px;
+  color: #000;
+  pointer-events: none;
+}
+
+.drawer__form__input__select-wrapper.drawer__form__input__select-large img {
+  padding: 0 90%;
+}
+
+.drawer__form__input__select {
+  border: none;
+  background-color: transparent;
+  appearance: none;
+  width: 100%;
+  padding: 10px 12px;
+}
+
+.chevron__icon--down {
+  transform: rotate(90deg);
+}
+
+.cf-form-actions {
+  margin-top: 0 !important;
+}
+
+.right__drawer__form__button,
+.customer .right__drawer__form__button,
+.cf-submit-form {
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  background-color: #000;
+  color: #fff;
+  padding: 18px 0;
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.right__drawer__form__button:hover,
+.customer .right__drawer__form__button:hover,
+.cf-submit-form:hover {
+  background-color: var(--color-primary);
+}
+
+.cf-submit-form span {
+  text-transform: uppercase;
+}
+
+.right__drawer__form__button.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  text-align: center;
+  pointer-events: none;
+}
+
+.right__drawer__form__link {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  font-size: 13px;
+  font-weight: bold;
+  color: #000;
+  cursor: pointer;
+}
+
+.right__drawer__form__link.open__right__drawer {
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  width: 100%;
+  color: #000;
+  font-weight: bold;
+}
+
+.right__drawer__form__link.right__drawer__form__link-logout {
+  padding: 0;
+  justify-content: left;
+  font-size: 16px;
+  font-family: var(--font-heading-family);
+}
+
+.right__drawer__button,
+.customer .right__drawer__button {
+  background-color: transparent;
+  border: solid 1.5px #000;
+  border-radius: 4px;
+  padding: 18px 0;
+  width: 100%;
+  font-family: var(--font-heading);
+  cursor: pointer;
+}
+
+.right__drawer__button:hover,
+.customer .right__drawer__button:hover {
+  background-color: var(--color-secondary);
+}
+
+.right__drawer__checkbox {
+  display: flex;
+  align-items: center;
+  margin: 30px 0;
+}
+
+.cf-field-description {
+  width: auto;
+  padding: 0;
+  margin-left: 5px;
+  font-weight: bold;
+  opacity: 1;
+}
+
+.cf-field-description a {
+  font-weight: bold;
+}
+
+.cf-field-container.right__drawer__checkbox {
+  margin: 18px 0 30px;
+}
+
+.right__drawer__checkbox input[type="checkbox"] {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin: 0;
+  vertical-align: middle;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  background-color: #fff;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: 60%;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.right__drawer__checkbox input[type="checkbox"]:checked {
+  background-color: #000;
+  background-image: var(--checkbox-chevron);
+}
+
+.right__drawer__checkbox span {
+  font-family: var(--font-body);
+  display: block;
+  margin-left: 12px;
+}
+
+.right__drawer__checkbox .cf-enum-field__choice {
+  display: flex;
+  align-items: center;
+}
+
+.right__drawer__checkbox label {
+  display: inline-block;
+  margin-left: 12px;
+  font-size: 13px;
+  line-height: 1.46;
+  cursor: pointer;
+}
+
+.agree__terms__conditions__link {
+  font-weight: bold;
+}
+
+.right__drawer__overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  visibility: hidden;
+  opacity: 0.3;
+  background-color: #000;
+  transition-duration: 0.3s;
+  transition-property: visibility, opacity;
+}
+
+.right__drawer--active .right__drawer__overlay,
+.right__drawer__overlay.active {
+  visibility: visible;
+}
+
+.notify-panel .right__drawer__overlay.active {
+  z-index: 5000;
+}
+
+.right__drawer__wrapper,
+.notify-panel__wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  background-color: #fff;
+  z-index: 5001;
+  transform: translateX(100%);
+  transition-property: transform;
+  transition-duration: 0.3s;
+}
+
+.account__preferences .right__drawer__wrapper {
+  overflow-y: unset;
+}
+
+.right__drawer--active .right__drawer__wrapper,
+.notify-panel__wrapper.active {
+  transform: translateX(0);
+}
+
+.right__drawer {
+  position: relative;
+  z-index: 5001;
+}
+
+.right__drawer--close {
+  cursor: pointer;
+}
+
+.right__drawer__default__wrapper {
+  margin-top: 20px;
+}
+
+.right__drawer__address__default {
+  margin: 0 0 0 10px;
+  display: inline-block;
+  font-size: 11px;
+  font-family: var(--font-heading-family);
+  letter-spacing: normal;
+}
+
+.right__drawer__address__checkmark {
+  width: 10px;
+  height: 7px;
+  display: inline-block;
+}
+
+.right__drawer__address__header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.drawer__address__header__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  font-size: 26px;
+  letter-spacing: normal;
+  line-height: 0.77;
+}
+
+.right__drawer__address {
+  padding: 30px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 0.5px 0 0 rgb(0 0 0 / 16%);
+}
+
+.right__drawer__address:last-of-type {
+  margin-bottom: 20px;
+}
+
+.right__drawer__action__button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin-right: 20px;
+  padding: 0;
+}
+
+.address-delete-form {
+  display: unset;
+}
+
+.right__drawer__action__button.right__drawer__delete__address {
+  margin-right: 0;
+}
+
+.right__drawer__address__info {
+  font-size: 13px;
+  font-family: var(--font-heading-family);
+  line-height: 1.54;
+  letter-spacing: normal;
+  margin-bottom: 6px;
+  margin-top: 0;
+}
+
+.right__drawer__address__info:last-of-type {
+  margin-bottom: 0px;
+}
+
+.right__drawer__order {
+  margin-bottom: 12px;
+  padding: 30px;
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 0.5px 0 0 rgba(0, 0, 0, 0.16);
+  cursor: pointer;
+}
+
+.right__drawer__order:last-of-type {
+  margin-bottom: 0;
+}
+
+.right__drawer__order__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.right__drawer__order__status {
+  margin: 0;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  font-size: 26px;
+  letter-spacing: normal;
+  line-height: 0.77;
+}
+
+.right__drawer__order__content {
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  margin-bottom: 10px;
+}
+
+.right__drawer__order__content:last-of-type {
+  margin-bottom: 0;
+}
+
+.right__drawer__order__info {
+  font-size: 13px;
+  font-family: var(--font-heading-family);
+  line-height: 1.54;
+  letter-spacing: normal;
+  margin: 0;
+}
+
+.drawer__order__status__wrapper {
+  padding: 48px 48px 30px;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+}
+
+.drawer__order__status__columns {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.drawer__order__status__left,
+.drawer__order__status__right {
+  width: 50%;
+}
+
+.drawer__order__status__title {
+  font-family: var(--font-heading-family);
+  font-size: 13px;
+  line-height: 1.69;
+  letter-spacing: normal;
+  opacity: 0.6;
+  color: #000;
+  margin: 0 0 10px;
+}
+
+.right__drawer__order__summary {
+  padding: 30px 48px;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+}
+
+.drawer__order__summary__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  font-size: 16px;
+  letter-spacing: normal;
+  line-height: 1.13;
+}
+
+.drawer__order__li__card {
+  padding-top: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.drawer__order__li__card img {
+  width: 100px;
+  max-height: 125px;
+}
+
+.drawer__order__li__title {
+  margin: 0 0 8px;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: normal;
+}
+
+.drawer__order__li__info-wrapper {
+  margin-bottom: 6px;
+  line-height: 1;
+}
+
+.drawer__order__li__info {
+  margin: 0 0 8px;
+  font-family: var(--font-heading-family);
+  font-size: 12px;
+  letter-spacing: normal;
+  opacity: 0.64;
+}
+
+.drawer__order__li__info-sibling {
+  display: inline;
+}
+
+.drawer__order__li__info-sibling:nth-child(2) {
+  margin: 0 8px 8px;
+}
+
+.drawer__order__li__price {
+  margin: 0;
+  font-family: var(--font-heading-family);
+  font-size: 12px;
+  letter-spacing: normal;
+}
+
+.drawer__order__summary__section {
+  margin-top: 30px;
+}
+
+.drawer__order__summary__section .right__drawer__order__info {
+  margin-top: 6px;
+}
+
+.drawer__order__subtitle {
+  margin: 0;
+  font-family: var(--font-heading-family);
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 1.54;
+  letter-spacing: normal;
+}
+
+.drawer__order__info__wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.drawer__order__info__wrapper:last-of-type {
+  margin-top: 20px;
+}
+
+.right__drawer__order__info-bold {
+  margin: 0;
+  font-family: var(--font-heading-family);
+  font-size: 13px;
+  line-height: 1.54;
+  letter-spacing: normal;
+}
+
+.right__drawer__order__total {
+  margin: 0;
+  font-family: var(--font-heading-family);
+  font-size: 16px;
+  line-height: 1.25;
+  letter-spacing: normal;
+}
+
+.drawer__order__customer__section {
+  margin: 0 48px;
+}
+
+.drawer__order__customer__section .right__drawer__form__button:first-of-type {
+  margin: 30px 0 6px;
+}
+
+.account__orders .right__drawer__form__button {
+  margin: 0;
+}
+
+.account__preferences .right__drawer__content {
+  padding-bottom: 0;
+}
+
+.account__preferences .right__drawer__form__wrapper {
+  padding-bottom: 0;
+}
+
+.account__preferences .right__drawer__form__wrapper::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+}
+
+.account__preferences .drawer__form__input__wrapper {
+  margin: 0 0 30px;
+}
+
+.account__preferences .drawer__form__checkbox__group {
+  margin: 0 0 40px;
+}
+
+.account__preferences .right__drawer__form__button {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+.drawer__form__checkbox__wrapper {
+  margin-top: 20px;
+}
+
+.account__preferences .drawer__form__input__wrapper:last-of-type {
+  margin: 0;
+}
+
+.account__preferences .right__drawer__form__input,
+.account__preferences .drawer__form__double__select {
+  margin-top: 12px;
+}
+
+.drawer__form__double__select {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.drawer__form__double__select .right__drawer__form__input {
+  width: 50%;
+  margin-bottom: 0;
+}
+
+.drawer__form__double__select .drawer__form__input__select-wrapper.drawer__form__input__select-large img {
+  padding: 0 80%;
+}
+
+.drawer__preferences__form__label {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  line-height: 1.13;
+  letter-spacing: normal;
+  display: block;
+}
+
+input.right__drawer__form__input,
+.right__drawer__form__input-select {
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+/*================ Product drawer ================*/
+
+.right__drawer__product__info {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  line-height: 2;
+  letter-spacing: normal;
+  margin-bottom: 50px;
+}
+
+.right__drawer__product__info p {
+  margin: 0;
+}
+
+.right__drawer__product__info img {
+  max-width: 100%;
+}
+
+/*================ Team search drawer ================*/
+
+.right__drawer__teams__list {
+  margin: 30px 48px;
+}
+
+.right__drawer__team {
+  margin-top: 15px;
+}
+
+.right__drawer__team a {
+  display: flex;
+  align-items: center;
+}
+
+.right__drawer__team img {
+  display: block;
+  width: 46px;
+}
+
+.right__drawer__team:first-of-type {
+  margin-top: 0;
+}
+
+.right__drawer__team-info {
+  margin-left: 20px;
+  font-size: 16px;
+}
+
+.right__drawer__team-img {
+  width: 46px;
+  max-height: 46px;
+}
+
+/*================ Favorite teams drawer ================*/
+
+.right__drawer__favorite__teams {
+  background-image: linear-gradient(to bottom, #fff, #f5f5f5 71%);
+}
+
+.right__drawer__content__subtitle-light {
+  font-size: 24px;
+  font-family: var(--font-heading-family);
+  line-height: 1.42;
+  letter-spacing: normal;
+  margin: 0 0 30px;
+  text-transform: none;
+}
+
+.right__drawer__search__wrapper {
+  padding: 0 48px;
+}
+
+.right__drawer__search {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 5px;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: #000;
+  padding: 0 20px;
+  margin-top: 50px;
+}
+
+.right__drawer__suggested__teams {
+  margin: 40px 0;
+  padding: 0 48px;
+}
+
+.drawer__suggested__teams__title {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  line-height: 2.83;
+  letter-spacing: 1.2px;
+  margin: 0;
+}
+
+.drawer__suggested__favorite__team {
+  background-color: #fff;
+  box-shadow: 0 0.5px 0 0 rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  margin-top: 6px;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.current-team {
+  opacity: 1;
+  transform: none;
+  cursor: default;
+  transition: all 0.3s ease-in-out;
+}
+
+.current-team button {
+  background-color: transparent;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.current-team .empty-heart,
+.favorite-team-result .full-heart {
+  display: none;
+}
+
+.favorite-team-result .empty-heart {
+  display: block;
+}
+
+.favorite-team-result.selected .full-heart {
+  display: block;
+}
+
+.favorite-team-result.selected .empty-heart {
+  display: none;
+}
+
+.current-team.removed {
+  transform: translateX(150%);
+  opacity: 0;
+}
+
+.current-team.removed .full-heart {
+  display: none;
+}
+
+.current-team.removed .empty-heart {
+  display: block;
+}
+
+.current-team.hidden {
+  display: none;
+}
+
+.drawer__suggested__favorite__team:first-of-type {
+  margin-top: 20px;
+}
+
+.drawer__suggested__favorite__team-left {
+  display: flex;
+  position: relative;
+}
+
+.drawer__suggested__favorite__team-left a {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.drawer__suggested__favorite__team img {
+  display: block;
+  width: 40px;
+}
+
+.drawer__suggested__favorite__team-info {
+  margin: 0 20px;
+}
+
+.drawer__suggested__favorite__team-title {
+  margin: 0;
+  font-size: 15px;
+  font-family: var(--font-heading);
+  line-height: 1.13;
+  letter-spacing: normal;
+}
+
+.drawer__suggested__favorite__team-name {
+  margin: 0;
+  font-size: 12px;
+  font-family: var(--font-heading-family);
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: #8a8a8a;
+}
+
+.right__drawer__add__teams {
+  background-color: #fff;
+  box-shadow: 0 0.5px 0 0 rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  margin-top: 30px;
+  padding: 16px 20px;
+  position: relative;
+  text-align: center;
+  font-size: 13px;
+  font-family: var(--font-heading);
+  line-height: 1.15;
+  letter-spacing: normal;
+  cursor: pointer;
+}
+
+.right__drawer__add__teams-icon {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: 20px;
+  width: 20px;
+  max-height: 20px;
+}
+
+.right__drawer__add__teams-wrapper .right__drawer__search {
+  margin-top: 50px;
+}
+
+.favorite-teams__hidden {
+  display: none;
+}
+
+/*================ Notify me drawer ================*/
+
+.right__drawer__notify__me .right__drawer__form__wrapper {
+  padding-top: 0;
+}
+
+.right__drawer__notify__me .right__drawer__form__button {
+  position: relative;
+}
+
+.notify__me__icon-bell {
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+}
+
+@media screen and (min-width: 1200px) {
+  .right__drawer__wrapper,
+  .notify-panel__wrapper {
+    max-width: 460px;
+  }
+
+  .right__drawer__head,
+  .right__drawer__head-create,
+  .right__drawer__form__wrapper,
+  .right__drawer__actions__wrapper {
+    padding-right: 48px;
+    padding-left: 48px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .right__drawer__favorite__teams .right__drawer__head,
+  .right__drawer__favorite__teams .right__drawer__search__wrapper {
+    padding: 0 40px;
+  }
+
+  .right__drawer__favorite__teams .right__drawer__subcontent__wrapper {
+    padding: 37px 48px 0;
+  }
+
+  .right__drawer__content__subtitle-light.only__desktop {
+    display: none;
+  }
+
+  .right__drawer__content__subtitle-light {
+    font-size: 20px;
+  }
+}
+
+/* Notify panel */
+
+.notify__form {
+  display: none;
+}
+
+.notify__form.active {
+  display: block;
+}

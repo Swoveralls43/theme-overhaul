@@ -1,0 +1,21 @@
+.container_custom-text {
+    width: 804px;
+    margin: auto;
+    margin-top: 130px;
+    margin-bottom: 150px;
+}
+
+@media only screen and (max-width: 800px) {
+    .container_custom-text {
+      margin: 60px auto;
+      width: 90%;
+    }
+}
+
+.custom_text {
+    font-size: 24px;
+    font-family: var(--font-body);
+    text-align: center;
+    line-height: 1.75; 
+    margin: 0;
+}

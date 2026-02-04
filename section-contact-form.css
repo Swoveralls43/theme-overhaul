@@ -1,0 +1,25 @@
+#ContactForm {
+    padding: 0 0 100px 0;
+}
+
+.contact__fields {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    justify-content: stretch;
+    width: 100%;
+}
+
+.field {
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column-reverse;
+    flex-grow: 1;
+    padding: 8px 0;
+    overflow: hidden;
+}
+
+.field input, .field textarea {
+    font-family: inherit;
+    padding: 8px 10px;
+}
