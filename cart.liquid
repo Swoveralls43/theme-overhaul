@@ -1,0 +1,57 @@
+{{ 'component-minicart.css' | asset_url | stylesheet_tag }}
+{{ 'component-minicart-item.css' | asset_url | stylesheet_tag }}
+{{ 'component-minicart-upsell.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'vendor.js' | asset_url }}"></script>
+<script src="{{ 'component-money-format.js' | asset_url }}"></script>
+<script src="{{ 'minicart.js' | asset_url }}"></script>
+
+<div class="cart-page">
+  <div class="minicart__wrapper">
+    <header class="minicart__header">
+      <h4 class="minicart__title">{{ title }}</h4>
+    </header>
+
+    <div class="minicart__empty">
+      <h3>Cart is empty</h3>
+    </div>
+
+    <div class="minicart__body">
+
+      {{ compare_bar_price }}
+      <div class="minicart__progress-bar">
+        <p class="js-bar-progress-text minicart__progress-bar-text"
+           data-treshold="0"
+           data-process-text="You're so close to comfort!"
+           data-success-text="Almost there! A couple clicks from comf city...">
+        </p>
+
+        <div class="minicart__progress-bar-line">
+          <div class="js-minicart-progress-bar minicart__progress-bar-fill"></div>
+        </div>
+      </div>
+      <div data-rebuy-id="96237"></div>
+      <div class="js-minicart-items minicart__items"></div>
+
+      <div class="minicart__checkout">
+        <div class="minicart__subtotal">
+          <p class="minicart__subtotal-text">
+            Subtotal (<span class="js-cart-count">{{ cart.item_count }}</span> Item<span
+                class="js-cart-count-ending minicart__count-ending {% if cart.item_count > 1 %}active{% endif %}">s</span>)
+          </p>
+
+          <span
+              class="js-minicart-subtotal-price minicart__subtotal-price">{{ cart.items_subtotal_price | money }}</span>
+        </div>
+
+        <p class="minicart__checkout-shipping">{{ shipping_text }}</p>
+        <div id="corso-protection-placeholder" noex></div>
+        <a href="/checkout" class="minicart__checkout-button">
+          Checkout
+
+          <img class="minicart__checkout-button-chevron" src="{{ 'icon-chevron-right.svg' | asset_url }}">
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

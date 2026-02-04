@@ -1,0 +1,163 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "replo_1_swoveralls_hack_T4Ptnj": {
+      "type": "replo-1-swoveralls-hack",
+      "settings": {
+        "replo_text_f284ef9c-be35-4280-a5ad-fdeeaf8ed423": ""
+      }
+    },
+    "e1f7e547-0977-455e-9311-37c3684759e2": {
+      "type": "hero-banner",
+      "disabled": true,
+      "settings": {
+        "video": "",
+        "image": "shopify://shop_images/tiktok.jpg",
+        "title": "As Seen on TikTok",
+        "text": "",
+        "button_label": "",
+        "button_link": "",
+        "hero_clickable": false,
+        "text_position": "center",
+        "text_align": "center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 25,
+        "color_title": "#ffffff",
+        "background_button": "#000000",
+        "color_button_text": "#000000",
+        "color_button_border": "#ffffff",
+        "background_button_hover": "rgba(0,0,0,0)",
+        "color_button_text_hover": "#ffffff",
+        "overlay_button": 25
+      }
+    },
+    "page-template": {
+      "type": "page-template",
+      "disabled": true,
+      "settings": {}
+    },
+    "2390f0ec-5e65-4ae1-ab49-1dc897984f51": {
+      "type": "page",
+      "disabled": true,
+      "settings": {
+        "page": "tiktok"
+      }
+    },
+    "7004b620-ca30-4f70-a36a-cfcdc1ed9003": {
+      "type": "product-best-sellers-slider",
+      "disabled": true,
+      "settings": {
+        "best_sellers": "gotta-catch-em-all",
+        "title": "Collect Them All",
+        "limit": 11
+      }
+    },
+    "c3364e4e-3ec0-4c42-903b-ef099d4df197": {
+      "type": "page",
+      "disabled": true,
+      "settings": {
+        "page": "the-teddy-fleece-stays-on-at-the-gym-one"
+      }
+    },
+    "6c192ea6-0bf7-4e29-b66c-6bff0d44afb8": {
+      "type": "product-best-sellers-slider",
+      "disabled": true,
+      "settings": {
+        "best_sellers": "super-soft-swovies",
+        "title": "Super Soft Swovies",
+        "limit": 6
+      }
+    },
+    "e8ba5715-6803-44e4-9235-3dbc5444a4c0": {
+      "type": "page",
+      "disabled": true,
+      "settings": {
+        "page": "the-ill-wear-whatever-abby-wears-one"
+      }
+    },
+    "6840ac0a-3f5b-442c-8528-f3cecddd84ea": {
+      "type": "product-best-sellers-slider",
+      "disabled": true,
+      "settings": {
+        "best_sellers": "as-seen-on-theabbyhoy",
+        "title": "All the colors, all the time.",
+        "limit": 8
+      }
+    },
+    "610db5e4-d002-4270-88fd-b98a7a1de6c5": {
+      "type": "collection-slider",
+      "blocks": {
+        "cb039c9a-2ec7-47cf-8668-2a88040628fc": {
+          "type": "collection",
+          "settings": {
+            "collection": "new-arrivals",
+            "url": "",
+            "open_tab": false,
+            "collection_image": "shopify://shop_images/DSC06210-1368x2026-4365cd6.jpg",
+            "collection_title": "New Arrivals"
+          }
+        },
+        "aa45bbc4-f091-432f-8665-5fe2646cac87": {
+          "type": "collection",
+          "settings": {
+            "collection": "holiday",
+            "url": "",
+            "open_tab": false,
+            "collection_image": "shopify://shop_images/holiday_090d3835-d0ee-43a4-a83d-5de1798e09c7.jpg",
+            "collection_title": ""
+          }
+        },
+        "c4b5dcb1-12d1-42fe-b5c4-4645a7c11873": {
+          "type": "collection",
+          "settings": {
+            "collection": "game-day",
+            "url": "",
+            "open_tab": false,
+            "collection_image": "shopify://shop_images/Game-Day_Mobile.png",
+            "collection_title": ""
+          }
+        },
+        "b1f59b86-ae9f-4f02-848f-eb4c527e2f81": {
+          "type": "collection",
+          "settings": {
+            "collection": "kids-swoveralls",
+            "url": "",
+            "open_tab": false,
+            "collection_image": "shopify://shop_images/Mobile.png",
+            "collection_title": ""
+          }
+        }
+      },
+      "block_order": [
+        "cb039c9a-2ec7-47cf-8668-2a88040628fc",
+        "aa45bbc4-f091-432f-8665-5fe2646cac87",
+        "c4b5dcb1-12d1-42fe-b5c4-4645a7c11873",
+        "b1f59b86-ae9f-4f02-848f-eb4c527e2f81"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": ""
+      }
+    }
+  },
+  "order": [
+    "replo_1_swoveralls_hack_T4Ptnj",
+    "e1f7e547-0977-455e-9311-37c3684759e2",
+    "page-template",
+    "2390f0ec-5e65-4ae1-ab49-1dc897984f51",
+    "7004b620-ca30-4f70-a36a-cfcdc1ed9003",
+    "c3364e4e-3ec0-4c42-903b-ef099d4df197",
+    "6c192ea6-0bf7-4e29-b66c-6bff0d44afb8",
+    "e8ba5715-6803-44e4-9235-3dbc5444a4c0",
+    "6840ac0a-3f5b-442c-8528-f3cecddd84ea",
+    "610db5e4-d002-4270-88fd-b98a7a1de6c5"
+  ]
+}

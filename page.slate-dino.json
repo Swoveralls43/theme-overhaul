@@ -1,0 +1,97 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_banner_rafjQU": {
+      "type": "hero-banner",
+      "disabled": true,
+      "custom_css": [
+        "p {color: #28334a; width: 70%; font-size: 24px;}",
+        "h1 {font-size: 50px;}",
+        "@media only screen and (max-width: 600px) {h1 {font-size: 35px; position: relative; margin-left: 20px; margin-top: -550px; } p {font-size: 14px; margin-left: 30px; width: 90%; }}"
+      ],
+      "settings": {
+        "video": "",
+        "image": "shopify://shop_images/corporate_gift_BG.png",
+        "image_mobile": "shopify://shop_images/corporate_gift_mobBG.png",
+        "title": "Corporate Gifting",
+        "text": "\"Surprising our team with Swoveralls was probably the greatest morale booster we did last year. Nothing else says, 'you’re awesome and deserve comfort' like this epic gift. Highly recommend.” \n- Kevin W",
+        "button_label": "",
+        "button_link": "",
+        "hero_clickable": false,
+        "text_position": "left",
+        "text_align": "left",
+        "overlay_color": "#ffffff",
+        "overlay_opacity": 0,
+        "color_title": "#28334a",
+        "background_button": "#000000",
+        "color_button_text": "#000000",
+        "color_button_border": "#ffffff",
+        "background_button_hover": "rgba(0,0,0,0)",
+        "color_button_text_hover": "#ffffff",
+        "overlay_button": 25
+      }
+    },
+    "media_text_columns_TabTcV": {
+      "type": "media-text-columns",
+      "disabled": true,
+      "custom_css": [
+        ".button {display: none;}"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/IMG_6857.jpg",
+        "image_enabled": true,
+        "video_link": "",
+        "video_enabled": false,
+        "title": "Get custom branded Swoveralls for you and your team!",
+        "copy": "<p>Send us a message with the form below and tell us what you're looking for. Choose from our many colors and fabrics for orders of 25 units or more and we will get back to you with a quote. </p>",
+        "cta_label": "Shop Now",
+        "cta_url": "shopify://collections/all",
+        "title_color": "#363636",
+        "text_alignment": "center",
+        "text_justification": "flex-start",
+        "image_fit": "contain",
+        "image_position": "center",
+        "image_position_mb": "top",
+        "image_width": 45,
+        "image_position_dt": "left"
+      }
+    },
+    "page-template": {
+      "type": "page-template",
+      "custom_css": [
+        "h1 {display: none;}",
+        "header {display: none;}"
+      ],
+      "settings": {}
+    },
+    "contact_form_cUYwFc": {
+      "type": "contact-form",
+      "disabled": true,
+      "settings": {
+        "heading": ""
+      }
+    },
+    "replo_1_swoveralls_hack_pdPBKk": {
+      "type": "replo-1-swoveralls-hack",
+      "disabled": true,
+      "settings": {
+        "replo_text_f284ef9c-be35-4280-a5ad-fdeeaf8ed423": "<p>PRO TIP</p>"
+      }
+    }
+  },
+  "order": [
+    "hero_banner_rafjQU",
+    "media_text_columns_TabTcV",
+    "page-template",
+    "contact_form_cUYwFc",
+    "replo_1_swoveralls_hack_pdPBKk"
+  ]
+}

@@ -1,0 +1,108 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+<div class="customer login page-width page-margin">
+  <div id="recover__password" class="right__drawer__content customer__account__form__wrapper" data-right-drawer-content="recover">
+    {%- form 'recover_customer_password' -%}
+      {%- if form.posted_successfully? -%}
+        <h3 class="right__drawer__content__subtitle">
+          PASSWORD RECOVERED
+        </h3>
+      {%- else -%}
+        <h3 class="right__drawer__content__subtitle">
+          RECOVER PASSWORD
+        </h3>
+
+        {%- if form.errors -%}
+          <small id="RecoverEmail-email-error" class="right__drawer__form__errors">
+            <svg class="error__icon" aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 13 13">
+              <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"/>
+              <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7"/>
+              <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white"/>
+              <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7">
+            </svg>
+            {{ form.errors.messages['form'] }}
+          </small>
+        {%- endif -%}
+
+        <input
+          type="email"
+          class="right__drawer__form__input"
+          name="email"
+          required="required"
+          placeholder="Your Email"
+        />
+
+        <button
+          type="submit"
+          class="right__drawer__form__button"
+        >
+          RECOVER PASSWORD
+        </button>
+      {%- endif -%}
+
+      <div id="forgot_password">
+        <a class="right__drawer__form__link" href="#" onclick="hideRecoverPasswordForm();return false;">CANCEL</a>
+      </div>
+    {%- endform -%}
+  </div>
+
+  <div id="customer__login" class="right__drawer__content customer__account__form__wrapper right__drawer__content--active" data-right-drawer-content="login">
+    {%- form 'customer_login' -%}
+      <h3 class="right__drawer__content__subtitle">
+        LOGIN TO YOUR ACCOUNT
+      </h3>
+
+      {%- if form.errors -%}
+        <small id="RecoverEmail-email-error" class="right__drawer__form__errors">
+          <svg class="error__icon" aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 13 13">
+            <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"/>
+            <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7"/>
+            <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white"/>
+            <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7">
+          </svg>
+          {{ form.errors.messages['form'] }}
+        </small>
+      {%- endif -%}
+
+      <input
+        type="email"
+        class="right__drawer__form__input"
+        name="customer[email]"
+        required="required"
+        placeholder="Your Email"
+      />
+
+      <input
+        type="password"
+        class="right__drawer__form__input"
+        name="customer[password]"
+        required="required"
+        placeholder="Password"
+      />
+
+      <button
+        type="submit"
+        class="right__drawer__form__button"
+      >
+        SIGN IN
+      </button>
+
+      <div id="forgot_password">
+        <a class="right__drawer__form__link" href="#" onclick="showRecoverPasswordForm();return false;">Forgot your password?</a>
+      </div>
+    {%- endform -%}
+  </div>
+</div>
+
+<script>
+  function showRecoverPasswordForm() {
+    document.getElementById('recover__password').style.display = 'block';
+    document.getElementById('customer__login').style.display='none';
+  }
+
+  function hideRecoverPasswordForm() {
+    document.getElementById('recover__password').style.display = 'none';
+    document.getElementById('customer__login').style.display = 'block';
+  }
+</script>
+              <div class="yotpo-widget-instance" data-yotpo-instance-id="375328"></div>

@@ -1,0 +1,66 @@
+<script src="https://kit.fontawesome.com/be00ba50d6.js" crossorigin="anonymous"></script>
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'customer.js' | asset_url }}" defer></script>
+
+<div class="customer account customer__account__page">
+  <div class="customer__account__left__wrapper">
+    <div class="customer__account__title">
+      {{ customer.first_name | upcase }}
+      {{ customer.last_name | upcase }}
+    </div>
+    <div class="customer__account__nav">
+      {% comment %}
+      <p class="customer__account__points">
+        <span class="js-customer-points">--</span> POINTS
+      </p>
+      {% endcomment %}
+      {% comment %}
+      <button class="right__drawer__form__button customer__account__button" type="button" onclick="swellAPI.showPopupByType('RewardsPopup');">
+        REDEEM NOW
+      </button>
+
+      <button class="right__drawer__button customer__account__button" type="button" onclick="swellAPI.showPopupByType('HistoryPopup');">
+        REWARDS HISTORY
+      </button>
+      {% endcomment %}
+
+      <div class="customer__account__nav__links">
+        <button class="right__drawer__form__link open__right__drawer" data-right-drawer-renderer="account-details" type="button">
+          Details
+          <img src="{{ 'icon-chevron.svg' | asset_url }}"/>
+        </button>
+        <button class="right__drawer__form__link open__right__drawer" data-right-drawer-renderer="account-addresses" type="button">
+          Addresses
+          <img src="{{ 'icon-chevron.svg' | asset_url }}"/>
+        </button>
+        <button class="right__drawer__form__link open__right__drawer" data-right-drawer-renderer="account-orders" type="button">
+          Orders
+          <img src="{{ 'icon-chevron.svg' | asset_url }}"/>
+        </button>
+        {% comment %}
+        <button class="right__drawer__form__link open__right__drawer" data-right-drawer-renderer="account-preferences" type="button">
+          Preferences
+          <img src="{{ 'icon-chevron.svg' | asset_url }}"/>
+        </button>
+        {% endcomment %}
+      </div>
+      <a class="right__drawer__form__link right__drawer__form__link-logout" href="/account/logout/">
+        Log Out
+      </a>
+    </div>
+  </div>
+  <div class="customer__account__right__wrapper">
+ 
+</div>
+
+{% assign customer_phone = customer.metafields.customer_fields.data.phone_number %}
+
+{% if customer.metafields.customer_fields.data.phone_number %}
+  <script class="js-attentive-obj" type="application/json">
+    {
+      "phone": "{{ customer.phone }}",
+      "email": "{{ customer.email }}"
+    }
+  </script>
+{% endif %}

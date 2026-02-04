@@ -1,0 +1,143 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "f9108982-4320-49eb-83c8-f4b8e5617be8": {
+      "type": "hero-banner",
+      "settings": {
+        "video": "",
+        "image": "shopify://shop_images/our-story-hero-3.jpg",
+        "image_mobile": "shopify://shop_images/our-story-mobile.jpg",
+        "title": "At first we were just trying to solve a personal problem.",
+        "text": "Sweatpant overalls didn't exist, and we wanted a pair.",
+        "button_label": "",
+        "button_link": "",
+        "hero_clickable": false,
+        "text_position": "center",
+        "text_align": "center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 41,
+        "color_title": "#ffffff",
+        "background_button": "#000000",
+        "color_button_text": "#000000",
+        "color_button_border": "#ffffff",
+        "background_button_hover": "rgba(0,0,0,0)",
+        "color_button_text_hover": "#ffffff",
+        "overlay_button": 25
+      }
+    },
+    "page-template": {
+      "type": "page-template",
+      "disabled": true,
+      "settings": {}
+    },
+    "8a59d305-bfcb-4987-afc4-6cbcf05e530f": {
+      "type": "media-text-columns",
+      "settings": {
+        "image": "shopify://shop_images/our-story-2.jpg",
+        "image_enabled": true,
+        "video_link": "",
+        "video_enabled": false,
+        "title": "So we made 'em and called them Swoveralls",
+        "copy": "<p>Combining two of the most common apparel concepts: sweatpants and overalls. To put it simply. Swoveralls are the comfiest thing you never knew ya needed.</p>",
+        "cta_label": "Explore New Swovies",
+        "cta_url": "shopify://collections/new-arrivals",
+        "title_color": "#363636",
+        "text_alignment": "center",
+        "text_justification": "flex-start",
+        "image_fit": "fill",
+        "image_position": "center",
+        "image_position_mb": "top",
+        "image_width": 50,
+        "image_position_dt": "right"
+      }
+    },
+    "ee01b645-93a0-4d59-9524-dbbcac1ceb9f": {
+      "type": "media-text-columns",
+      "settings": {
+        "image": "shopify://shop_images/our-story-1.jpg",
+        "image_enabled": true,
+        "video_link": "",
+        "video_enabled": false,
+        "title": "Designed for all",
+        "copy": "<p>With all bodies in mind. Our goal is make Swoveralls accessible to every body that wants to get comfy with us - including all sizes and kids.</p>",
+        "cta_label": "Shop Swoveralls for Every Body",
+        "cta_url": "shopify://collections/shop-all",
+        "title_color": "#363636",
+        "text_alignment": "center",
+        "text_justification": "flex-start",
+        "image_fit": "contain",
+        "image_position": "center",
+        "image_position_mb": "top",
+        "image_width": 50,
+        "image_position_dt": "left"
+      }
+    },
+    "4ec1c33c-3d55-4bd2-a78a-c197343e7cad": {
+      "type": "media-text-columns",
+      "settings": {
+        "image": "shopify://shop_images/our-story-3.jpg",
+        "image_enabled": true,
+        "video_link": "",
+        "video_enabled": false,
+        "title": "Comfort with a purpose",
+        "copy": "<p>Swoveralls' mission is to create the world's comfiest apparel items using sustainable resources and ethical manufacturing processes.</p>",
+        "cta_label": "Get Comfy",
+        "cta_url": "shopify://collections/shop-all",
+        "title_color": "#363636",
+        "text_alignment": "center",
+        "text_justification": "flex-start",
+        "image_fit": "contain",
+        "image_position": "center",
+        "image_position_mb": "top",
+        "image_width": 50,
+        "image_position_dt": "right"
+      }
+    },
+    "6c748e8b-bdf6-4053-a614-e21716f3eafe": {
+      "type": "hero-banner",
+      "settings": {
+        "video": "",
+        "image": "shopify://shop_images/our-story-founder.jpg",
+        "title": "",
+        "text": "",
+        "button_label": "",
+        "button_link": "",
+        "hero_clickable": false,
+        "text_position": "center",
+        "text_align": "center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 25,
+        "color_title": "#ffffff",
+        "background_button": "#000000",
+        "color_button_text": "#000000",
+        "color_button_border": "#ffffff",
+        "background_button_hover": "rgba(0,0,0,0)",
+        "color_button_text_hover": "#ffffff",
+        "overlay_button": 25
+      }
+    },
+    "1e61d431-b156-4d35-961d-ec3c594c50db": {
+      "type": "page",
+      "settings": {
+        "page": "our-founder"
+      }
+    }
+  },
+  "order": [
+    "f9108982-4320-49eb-83c8-f4b8e5617be8",
+    "page-template",
+    "8a59d305-bfcb-4987-afc4-6cbcf05e530f",
+    "ee01b645-93a0-4d59-9524-dbbcac1ceb9f",
+    "4ec1c33c-3d55-4bd2-a78a-c197343e7cad",
+    "6c748e8b-bdf6-4053-a614-e21716f3eafe",
+    "1e61d431-b156-4d35-961d-ec3c594c50db"
+  ]
+}

@@ -1,0 +1,214 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "17622224698c2c6236": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_f60dc26_pUGFrp": {
+          "type": "ai_gen_block_f60dc26",
+          "disabled": true,
+          "settings": {
+            "title": "Buy Swoveralls + Get Swovie Shorts 50% Off",
+            "subtitle": "Mix, match, and FREE THE WAISTBAND.",
+            "swoveralls_title": "Step 1: Choose Your Swoveralls",
+            "swoveralls_collection": "swoveralls",
+            "shorts_title": "Step 2: Choose Your Swovie Shorts",
+            "shorts_collection": "swovie-shorts",
+            "button_label": "ADD TO BAG",
+            "discount_percentage": 50,
+            "title_size": 40,
+            "subtitle_size": 18,
+            "background_color": "#f5f6f8",
+            "text_color": "#121212",
+            "product_bg_color": "#ffffff",
+            "product_hover_border": "#334fb4",
+            "product_selected_border": "#334fb4",
+            "product_selected_bg": "#f0f4ff",
+            "checkmark_bg": "#334fb4",
+            "checkmark_color": "#ffffff",
+            "step_bg_color": "#ffffff",
+            "step_border_color": "#e0e0e0",
+            "step_number_bg": "#e0e0e0",
+            "step_number_color": "#666666",
+            "step_active_bg": "#f0f4ff",
+            "step_active_border": "#334fb4",
+            "step_active_number_bg": "#334fb4",
+            "step_active_number_color": "#ffffff",
+            "step_completed_bg": "#e8f5e9",
+            "step_completed_border": "#4caf50",
+            "step_completed_number_bg": "#4caf50",
+            "step_completed_number_color": "#ffffff",
+            "checkout_bg_start": "#bcddd0",
+            "checkout_bg_end": "#1a2d6b",
+            "savings_color": "#0f4d14",
+            "button_bg": "#bcddd0",
+            "button_text_color": "#121212",
+            "button_hover_bg": "#ffed4e"
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_5c5391f_Qgk8mK": {
+          "type": "ai_gen_block_5c5391f",
+          "disabled": true,
+          "settings": {
+            "show_badge": false,
+            "badge_text": "THIS IS EXCITING",
+            "title": "Buy Swoveralls + Get Swovie Shorts 50% Off",
+            "subtitle": "Mix, match, and FREE THE WAISTBAND",
+            "collection_1": "swoveralls",
+            "collection_1_title": "Swoveralls",
+            "collection_2": "swovie-shorts",
+            "collection_2_title": "Swovie Shorts",
+            "products_limit": 8,
+            "discount_percentage": 50,
+            "button_text": "Add Bundle to Cart",
+            "button_color": "#334fb4",
+            "button_hover_color": "#121212",
+            "button_text_color": "#ffffff",
+            "background_color": "#f5f6f8",
+            "product_card_bg": "#ffffff",
+            "cta_bg_color": "#ffffff",
+            "title_color": "#121212",
+            "subtitle_color": "#666666",
+            "label_color": "#334fb4",
+            "badge_color": "#334fb4",
+            "badge_text_color": "#ffffff",
+            "selected_border_color": "#334fb4",
+            "selected_bg_color": "#f0f3ff",
+            "hover_border_color": "#cccccc",
+            "title_size": 36,
+            "subtitle_size": 18,
+            "badge_size": 14,
+            "border_radius": 12,
+            "card_border_radius": 8
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_2e5d407_tgjchc": {
+          "type": "ai_gen_block_2e5d407",
+          "settings": {
+            "title": "BUY ANY SWOVERALLS, AND GET ANY SWOVIE SHORTS 50% OFF",
+            "subtitle": "Mix, match, and FREE THE WAISTBAND",
+            "swoveralls_title": "Choose Your Swoveralls",
+            "swovie_title": "Choose Your Swovie Shorts (50% Off!)",
+            "swoveralls_collection": "swoveralls",
+            "swovie_collection": "swovie-shorts",
+            "discount_percentage": 50,
+            "title_size": 36,
+            "subtitle_size": 18,
+            "border_radius": 12,
+            "button_border_radius": 8,
+            "background_color": "#f5f6f8",
+            "section_bg_color": "#ffffff",
+            "card_bg_color": "#ffffff",
+            "selected_bg_color": "#f0f4ff",
+            "checkout_bg_color": "#ffffff",
+            "text_color": "#121212",
+            "accent_color": "#334fb4",
+            "button_color": "#28334a",
+            "button_hover_color": "#0f4d14",
+            "button_text_color": "#ffffff"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_f60dc26_pUGFrp",
+        "ai_gen_block_5c5391f_Qgk8mK",
+        "ai_gen_block_2e5d407_tgjchc"
+      ],
+      "settings": {}
+    },
+    "10a523e3-539c-49cb-b944-4a948ecaa527": {
+      "type": "hero-banner",
+      "disabled": true,
+      "settings": {
+        "video": "",
+        "image": "shopify://shop_images/Lets_Make_A_Deal_-_Lets_Make_A_Deal_-_Breast_Cancer_Awareness_Starts_Monday_Preview_PTFTgqmNb6M_-_1467x825_-_0m07s_1.png",
+        "image_mobile": "shopify://shop_images/Lets_Make_A_Deal_-_Lets_Make_A_Deal_-_Breast_Cancer_Awareness_Starts_Monday_Preview_PTFTgqmNb6M_-_1467x825_-_0m07s_1.png",
+        "title": "",
+        "text": "",
+        "button_label": "",
+        "button_link": "",
+        "hero_clickable": false,
+        "text_position": "center",
+        "text_align": "center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 25,
+        "color_title": "#ffffff",
+        "background_button": "#000000",
+        "color_button_text": "#000000",
+        "color_button_border": "#ffffff",
+        "background_button_hover": "rgba(0,0,0,0)",
+        "color_button_text_hover": "#ffffff",
+        "overlay_button": 25
+      }
+    },
+    "main": {
+      "type": "collection-template",
+      "disabled": true,
+      "settings": {
+        "gender_navigation": false,
+        "sidebar_list": "",
+        "sidebar_category_navigation": ""
+      }
+    },
+    "filter": {
+      "type": "filter",
+      "disabled": true,
+      "settings": {
+        "heading": "Filter",
+        "heading_mob": "Filter & Sort",
+        "btn_clear": "Clear all",
+        "btn_show": "Show Results"
+      }
+    },
+    "5031eff4-0019-40c2-a6f4-56cc07d58e75": {
+      "type": "product-best-sellers-slider",
+      "disabled": true,
+      "settings": {
+        "best_sellers": "shop-all",
+        "title": "Shop Swoveralls",
+        "limit": 20
+      }
+    },
+    "7f8a71c9-34d8-42bf-8380-43f69bcce994": {
+      "type": "media-text-columns",
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/WeGotThis_01052022-0252.jpg",
+        "image_enabled": true,
+        "video_link": "",
+        "video_enabled": false,
+        "title": "About WE GOT THIS",
+        "copy": "<p>WE GOT THIS was created to support and empower cancer patients and their loved ones by providing a registry and discounted marketplace for products and services that will make their lives better. We don’t believe “surviving” cancer is enough, we want to help those with cancer thrive. Your purchase of WE GOT THIS Swoveralls will get us closer to launching our gift registry – coming soon!</p><p>Elissa, founder of WE GOT THIS and Stage IV Metastatic Breast Cancer thriver, has curated a marketplace of products and services that cancer patients <em>actually need</em>. From delicious healthy treats to meditation tools to the most comfortable stylish clothing, WE GOT THIS has you covered! </p><p><a href=\"https://wegotthis.org/\" title=\"https://wegotthis.org/\"><em><strong>Click here to visit their website.</strong></em></a></p>",
+        "cta_label": "",
+        "cta_url": "",
+        "title_color": "#363636",
+        "text_alignment": "center",
+        "text_justification": "flex-start",
+        "image_fit": "contain",
+        "image_position": "center",
+        "image_position_mb": "top",
+        "image_width": 53,
+        "image_position_dt": "left"
+      }
+    }
+  },
+  "order": [
+    "17622224698c2c6236",
+    "10a523e3-539c-49cb-b944-4a948ecaa527",
+    "main",
+    "filter",
+    "5031eff4-0019-40c2-a6f4-56cc07d58e75",
+    "7f8a71c9-34d8-42bf-8380-43f69bcce994"
+  ]
+}
