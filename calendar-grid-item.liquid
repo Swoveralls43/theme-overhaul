@@ -1,0 +1,46 @@
+{% assign prod_handle = calendar_item.product_handle %}
+{% assign cal_product = false %}
+
+{% if prod_handle != blank %}
+  {% assign cal_product = all_products[prod_handle] %}
+{% endif %}
+
+<div class="product-grid__item active product-grid__item--calendar">
+  <div class="grid__item__image">
+    <div class="grid__item__date">
+      <span>{{ calendar_item.release_date | split: '|' | first | strip }}</span>
+      <span>{{ calendar_item.release_date | split: '|' | last | strip }}</span>
+    </div>
+    {% if cal_product %}
+      <a href="{{ cal_product.url }}">
+        <img src="{{ calendar_item.image | img_url: '500x' }}" alt="{{ calendar_item.image.alt }}">
+      </a>
+    {% else %}
+      <img src="{{ calendar_item.image | img_url: '500x' }}" alt="{{ calendar_item.image.alt }}">
+      <div class="quick-add quick-add--single active">
+        <button type="button" class="js-calendar-notify-trigger btn-text center font-heading" data-list-id="{{ calendar_item.form_id }}">
+          <span>Notify me</span>
+          <img class="btn__icon" src="{{ 'icon-bell.svg' | asset_url }}" alt="bell">
+        </button>
+        <div class="js-klaviyo-embed-form">
+          <div class="klaviyo-form-{{ calendar_item.form_id }}"></div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+  <div class="grid__item__info">
+    <h3>{{ calendar_item.product_title }}</h3>
+    <div class="grid__item__price">
+      <span>{{ calendar_item.price }}</span>
+    </div>
+    
+    {% if cal_product %}
+      <a class="grid__item__button" href="{{ cal_product.url }}">Shop now</a>
+    {% else %}
+      <button type="button" class="grid__item__button js-calendar-notify-trigger btn-text center font-heading" data-list-id="{{ calendar_item.form_id }}">
+        <span>Notify me</span>
+        <img class="btn__icon" src="{{ 'icon-bell.svg' | asset_url }}" alt="bell">
+      </button>
+    {% endif %}
+  </div>
+</div>

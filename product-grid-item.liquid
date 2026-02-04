@@ -1,0 +1,254 @@
+<style>
+  .bfcm-badge {
+  position: absolute;
+  top: 10px; /* Adjust as needed for positioning */
+  right: 10px; /* Place on the top-right corner */
+  background-color: #FF3F6C; /* Bright pink color for the badge */
+  color: white;
+  padding: 5px 10px;
+  font-size: 12px; /* Adjust font size as needed */
+  border-top-right-radius: 10px; /* Rounded top right corner */
+  border-bottom-right-radius: 10px; /* Rounded bottom right corner */
+  text-transform: uppercase; /* Uppercase text */
+  font-weight: bold; /* Bold text */
+  z-index: 10;
+  border: 2px solid white; /* White border for visibility */
+  height: 20px; /* Fixed height for a consistent look */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.original-price
+  {
+  text-decoration: line-through !important;
+  margin-right: 10px;
+}
+
+.bfcm-price {
+  color: red !important;
+}
+
+/* You might already have some styling for these classes; if so, integrate these properties into your existing CSS */
+
+  }
+
+.nos{
+  display: initial;
+}
+@media only screen and (max-width: 786px) {
+ .bfcm-badge{
+    font-size:10px;
+    padding:2px;
+  }
+  .nos{
+    display: none;
+  }
+  .image__badge{
+    padding: 2px;
+    top: 12px;
+    left: 4px;
+    font-size: 10px;
+  }
+}
+</style>
+
+{% liquid
+  assign img_badge = false
+  assign num_of_variants = product.variants | size
+  assign show_discount_sitewide = settings.show_discount_sitewide
+  assign discount_percentage = settings.discount_percentage
+  assign discount_percentage_factor = 100 | minus: settings.discount_percentage | divided_by: 100.00
+  assign discount_price = settings.discount_price | times: 100
+  assign show_discount = false
+  assign discounted_price = product.price
+
+  if show_discount_sitewide
+    assign show_discount = true
+  else
+    if product.tags contains "show_discount"
+      assign show_discount = true
+    endif
+  endif
+
+  if discount_percentage == 0 and discount_price == 0
+    assign show_discount = false
+  else
+    if discount_percentage > 0
+      assign discounted_price = discounted_price | times: discount_percentage_factor | round
+      assign discount_with_unit = discount_percentage | append: '%'
+    elsif discount_price > 0 and discount_price < discounted_price
+      assign discounted_price = discounted_price | minus: discount_price
+      assign discount_with_unit = discount_price | money_without_trailing_zeros
+    endif
+  endif
+  assign discount_message = settings.discount_message | replace: "{discount}", discount_with_unit
+  
+  for tag in product.tags
+    assign tag_downcase = tag | downcase
+    
+    if tag_downcase contains 'badge_'
+      assign img_badge = tag | split: 'badge_' | last
+    endif
+  endfor
+  
+  assign size_option = false
+  
+  for option in product.options_with_values
+    assign option_downcase = option.name | downcase
+    
+    if option_downcase contains 'size' and num_of_variants > 1
+      assign size_option = 'option' | append: option.position
+    endif
+  endfor
+%}
+
+<div class="product-grid__item{% if forloop.last %} js-last-grid-item{% endif %}">
+  <div class="grid__item__image">
+    <a href="{{ collection.url }}{{ product.url }}">
+      <img src="{{ product.featured_image | img_url: '500x' }}" alt="{{ product.featured_image.alt }}">
+      <img class="hover_image" src="{{ product.images[1] | img_url: '500x' }}" alt="{{ product.images[1].alt }}">
+    </a>
+    
+  {% liquid
+    assign show_banner = settings.show_discount_banner
+  %}
+    {% if show_banner %}
+
+    {% assign original_price = product.price %}
+    {% assign discount_percentage = settings.discount_percentage %}
+    {% assign discount = original_price | times: discount_percentage | divided_by: 100 %}
+    {% assign discounted_price = original_price | minus: discount %}
+
+    {% if product.compare_at_price > product.price %}
+      {% assign original = product.compare_at_price | times: 1.0 %}
+      {% assign discount = original | minus: discounted_price %}
+      {% assign percent_off = discount | divided_by: original | times: 100 %}
+    {% endif %}
+
+    {% unless product.compare_at_price > product.price %}
+    <div class="bfcm-badge" style="background-color: {{ settings.discount_banner_color }};">{{ settings.discount_banner_message }}</div>
+    {% else%}
+    {% comment %} <div class="bfcm-badge" style="background-color: {{ settings.discount_banner_color }};"><span class="nos">Take an&nbsp;</span>extra 25% off!</div> {% endcomment %}
+    <div class="bfcm-badge" style="background-color: {{ settings.discount_banner_color }};">{{ percent_off | round }}% off</div>
+    {% endunless %}
+  
+  {% endif %}
+    
+    {% if img_badge %}
+      <div class="image__badge">
+        <span class="center font-heading">{{ img_badge }}</span>
+      </div>
+    {% endif %}
+    
+    {% if size_option %}
+      <div class="quick-add">
+        <span>Quick Add</span>
+        <div class="quick-add__inputs">
+          {% for variant in product.variants %}
+          
+            {% assign size = variant[size_option] %}
+            
+            <div class="quick-add__option{% unless variant.available %} quick-add__option--unavailable{% endunless %}">
+              <input type="radio" name="quick-add-{{ product.id }}" value="{{ variant.id }}">
+              
+              <div class="quick-add__option__radio">
+                <span class="font-heading">{{ size }}</span>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% else size_option == 1 or product.has_only_default_variant %}
+      {% if product.selected_or_first_available_variant.available %}
+        <div class="quick-add quick-add--single">
+          <button type="button" class="js-quick-add btn-text center font-heading" data-variant="{{ product.selected_or_first_available_variant.id }}">Add to bag</button>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+  <div class="grid__item__info">
+    {% if show_discount and discount_message != blank %}
+      <p class="grid__item__discount__message">{{ discount_message }}</p>
+    {% endif %}
+    <h2><a href="{{ product.url }}">{{ product.title }} </a></h2>
+    
+    <span class="junip-product-summary" data-product-id="{{ product.id }}"></span>
+    
+    {% assign saleproductitem = product %}
+
+     {% liquid
+          assign product_collection_on_sale = false 
+         if saleproductitem.compare_at_price > saleproductitem.price
+          assign product_collection_on_sale = true 
+         endif
+      %}
+
+    <style>
+
+      span.showdiscprice{
+        text-decoration: line-through;
+        text-decoration-color: gray;
+        margin-right: 6px;
+      }
+
+      span.hidediscprice{
+        display:none;
+      }
+      
+    </style>
+
+    {% if product.compare_at_price > product.price %}
+<div class="grid__item__price">
+	<span class="{% if product_collection_on_sale %} 
+        showdiscprice
+        {% elsif product_collection_on_sale == false %}
+        hidediscprice
+        {% endif %}"> 
+        {{ saleproductitem.compare_at_price | money }} </span>
+{% if show_discount %}
+        {% if product.price_varies %}
+          {% capture price_string %}From <span class="discounted">{{ product.price_min | money }}</span> <span class="sale">{{ discounted_price | money }}</span>{% endcapture %}
+        {% else %}
+          {% capture price_string %}<span class="discounted">{{ product.price | money }}</span> <span class="sale">{{ discounted_price | money }}</span>{% endcapture %}
+        {% endif %}
+      {% else %}
+        {% assign price_string = product.price | money %}
+        {% if product.price_varies %}
+          {% capture price_string %}From <span>{{ product.price_min | money }}</span>{% endcapture %}
+        {% else %}
+          {% capture price_string %}<span>{{ product.price | money }}</span>{% endcapture %}
+        {% endif %}
+      {% endif %}
+      {% if settings.enable_sale_price and product.compare_at_price > product.price %}
+        <span class="grid__item__price__text">{{ price_string }}</span>
+      {% else %}
+        <span class="{% if product.available and product.price >= product.compare_at_price_max %}{% else %}grid-normal-price{% endif %}">{{ price_string }} </span>
+      {% endif %}
+    </div>
+{% else %}
+
+{% assign original_price = product.price %}
+{% assign discount_percentage = settings.discount_percentage %}
+{% assign discount = original_price | times: discount_percentage | divided_by: 100 %}
+{% assign discounted_price = original_price | minus: discount %}
+<div class="grid__item__price">
+    {% if show_discount_sitewide %}
+        <span class="showdiscpric discounted">{{ product.price | money }}</span>
+      	<span class="grid-normal-price">
+    		<span>{{ discounted_price | money }}</span> 
+    	</span>
+    {% else %}
+        <span>{{ product.price | money }}</span>
+    {% endif %}
+</div>
+
+{% endif %}	
+
+
+
+
+</div>
+</div>
+
+

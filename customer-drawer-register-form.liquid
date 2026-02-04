@@ -1,0 +1,38 @@
+{%- form 'create_customer' -%}
+  {%- if form.errors -%}
+    <div class="right__drawer__form__errors">
+      {{- form.errors.messages['form'] -}}
+    </div>
+  {%- endif -%}
+
+  <input class="right__drawer__form__input" name="customer[first_name]" placeholder="First Name" required="required" type="text"/>
+
+  <input class="right__drawer__form__input" name="customer[last_name]" placeholder="Last Name" required="required" type="text"/>
+
+  <input class="right__drawer__form__input" name="customer[email]" placeholder="Email Address" required="required" type="email"/>
+
+  <input class="right__drawer__form__input" name="customer[password]" placeholder="Password" required="required" type="password"/>
+
+  <!-- <div class="right__drawer__form__input right__drawer__form__input-last">
+    <div class="drawer__form__input__select-wrapper">
+      <select class="drawer__form__input__select" name="customer[note][phonenumber-country]">
+        <option value="us">US</option>
+        <option value="ca">CA</option>
+      </select>
+      <img class="chevron__icon--down" src="{{ 'icon-chevron.svg' | asset_url }}"/>
+    </div>
+    <input name="customer[note][phonenumber]" placeholder="Phone Number" required="required" type="tel"/>
+  </div> -->
+
+  <!-- <div class="right__drawer__checkbox">
+    <input id="agree__terms__conditions" required type="checkbox" value=""/>
+    <label for="agree__terms__conditions">
+      I agree to the
+      <a class="agree__terms__conditions__link" href="/">Terms & Conditions</a>
+    </label>
+  </div> -->
+
+  <button class="right__drawer__form__button" type="submit">
+    CREATE ACCOUNT
+  </button>
+{%- endform -%}

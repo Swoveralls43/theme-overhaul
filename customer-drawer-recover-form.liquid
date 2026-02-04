@@ -1,0 +1,40 @@
+{%- form 'recover_customer_password' -%}
+  {%- if form.posted_successfully? -%}
+    <h3 class="right__drawer__content__subtitle-light">
+      PASSWORD RECOVERED
+    </h3>
+  {%- else -%}
+    <h3 class="right__drawer__content__subtitle-light">
+      We will send you an email to reset your password.
+    </h3>
+
+    {%- if form.errors -%}
+      <div class="right__drawer__form__errors">
+        {{- form.errors.messages['form'] -}}
+      </div>
+    {%- endif -%}
+
+    <input
+      type="email"
+      class="right__drawer__form__input"
+      name="email"
+      required="required"
+      placeholder="Your email"
+    />
+
+    <button
+      type="submit"
+      class="right__drawer__form__button"
+    >
+      SUBMIT
+    </button>
+  {%- endif -%}
+
+  <button
+    type="submit"
+    class="right__drawer__form__link"
+    data-right-drawer-toggle="login"
+  >
+    CANCEL
+  </button>
+{%- endform -%}

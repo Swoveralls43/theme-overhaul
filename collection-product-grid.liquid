@@ -1,0 +1,57 @@
+{% paginate collection.products by 48 %}
+    <div id="AjaxinateContainer" class="product-grid js-product-grid" data-gender="{{ collection_gender }}" data-collection="{{ collection.handle }}" data-page="{{ paginate.current_page }}" data-filters="{% if settings.enable_algolia_plp %}algolia{% endif %}" data-hits-per-page="{{ hits_per_page }}">
+        {% if settings.enable_algolia_plp %}
+            <div class="product-grid__loading">
+                {% for i in (1..48) %}
+                    <div class="loading__item">
+                    <div class="loading__item__image"></div>
+                    <div class="loading__item__info">
+                        <span></span>
+                        <span></span>
+                    </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            {% for product in collection.products %}
+                {% unless product.tags contains 'exclude_rebuy' %}
+                    {% render 'product-grid-item' product: product, forloop: forloop %}
+                {% endunless %}
+                {% if forloop.last and paginate.next %}
+                    <div class="product-grid__item product-grid__item--next js-grid-item-next">
+                    <a href="{{ paginate.next.url }}">
+                        {% render 'icon-circle-arrow' %}
+                        <span>Next Page</span>
+                    </a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+    </div>
+    
+    <div id="AjaxinatePagination">
+        {% if paginate.next %}
+            <a class="button button--secondary" href="{{ paginate.next.url }}">Load More</a>
+        {% endif %}
+    </div>
+    
+{% endpaginate %}
+{%- comment -%} {% if settings.enable_algolia_plp %}
+    {% render 'algolia-pagination' %}
+{% else %}
+    {% render 'pagination', paginate: paginate %}
+{% endif %} {%- endcomment -%}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const loadingButton = document.querySelector('#AjaxinatePagination .button');
+
+        new Ajaxinate({
+            container: '#AjaxinateContainer',
+            pagination: '#AjaxinatePagination',
+            loadingText: 'Loading More...',
+            method: 'click'
+        });
+    });
+</script>

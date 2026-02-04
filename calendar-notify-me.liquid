@@ -1,0 +1,26 @@
+<div class="right__drawer__notify__me" data-right-drawer-type="calendar-notify-me">
+  <div class="right__drawer__content" style="display: block">
+    <div class="right__drawer__head">
+      <div class="right__drawer__head__title">
+        NOTIFY ME
+      </div>
+      <div class="right__drawer--close js-close-notify-panel">
+        <img src="{{ 'icon-close.svg' | asset_url }}" />
+      </div>
+    </div>
+
+    <div class="right__drawer__subcontent__wrapper">
+      <div class="right__drawer__content__subtitle-light">
+        We'll email you when this product drops.
+      </div>
+    </div>
+
+    <div class="right__drawer__form__wrapper">
+      {% for block in cal.blocks %}
+        <div class="js-notify-klaviyo-form-{{ block.settings.form_id }} notify__form">
+          <div class="klaviyo-form-{{ block.settings.form_id }}"></div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

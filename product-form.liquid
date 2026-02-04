@@ -1,0 +1,66 @@
+  <div class="">
+    {% render 'product-options',linked_products:linked_products %}
+  </div> 
+  
+  
+  <div class="product__description__considerations{% unless product.metafields.custom.model %} hidden{% endunless %}" data-product-description-considerations>
+    <div class="product__description__considerations__left">
+      <p data-display-model>{% if product.metafields.custom.model %}{{ product.metafields.custom.model }}{% endif %}</p>
+    </div>
+  </div>
+  
+      <button data-action="add-to-cart" name="add" vid="{{ product.selected_or_first_available_variant.id }}"
+        class="right__drawer__form__button js-add-to-cart">
+        {%- if product.selected_or_first_available_variant.inventory_quantity == 0 -%} 
+              {%- if product.tags contains 'purple-dot-live-waitlist' -%} 
+                   PRE ORDER
+              {%- else -%} 
+                  SOLD OUT
+              {%- endif -%}           
+        {%- else -%} 
+              ADD TO BAG
+        {%- endif -%}
+      </button>
+
+  
+    <button name="add" id="notifyMe"
+      class="right__drawer__form__button{% if product.selected_or_first_available_variant.available %} hidden{% endif %}"
+      data-variant="{{ product.selected_or_first_available_variant.id }}"
+      data-product-id="{{ product.id }}"
+      data-right-drawer-renderer="product-notify-me">NOTIFY ME
+    </button>
+
+ {%- form 'product',
+        product,
+        id: 'product_form',
+        class: 'form',
+        novalidate: 'novalidate',
+        data-type: 'add-to-cart-form'
+      -%}
+        <input
+          type="hidden"
+          name="id"
+          value="{{ product.selected_or_first_available_variant.id }}"
+          {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
+            disabled
+          {% endif %}
+          class="product-variant-id"
+        >
+<button
+            id="ProductSubmitButton"
+            type="submit"
+            name="add"
+            class="hidden product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+            {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
+              disabled
+            {% endif %}
+          >
+                Add to cart
+          </button>
+      {%- endform -%}
+
+<div class="message-shipping-container hidemob">
+<p><a href="#" id="freeshippinglink">Free domestic shipping</a> on qualifying orders and free exchanges and <a href="#" id="returnslink">returns</a></p>
+</div>
+
+

@@ -1,0 +1,28 @@
+<div class="account__details" data-right-drawer-type="account-details">
+
+  <div class="right__drawer__content">
+    <div class="right__drawer__head">
+      <div class="right__drawer__head__title">
+        DETAILS
+      </div>
+      <div class="right__drawer--close">
+        <img src="{{ 'icon-close.svg' | asset_url }}" />
+      </div>
+    </div>
+
+    <div class="right__drawer__subcontent__wrapper">
+      <h3 class="right__drawer__gray__subtitle">
+        Full Name
+      </h3>
+      <p class="right__drawer__info">
+        {{ customer.first_name }} {{ customer.last_name }}
+      </p>
+      <h3 class="right__drawer__gray__subtitle">
+        Email
+      </h3>
+      <p class="right__drawer__info">
+        {{ customer.email }}
+      </p>
+    </div>
+  </div>
+</div>

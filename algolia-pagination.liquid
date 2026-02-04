@@ -1,0 +1,39 @@
+{% comment %}
+  Pagination to be used with Algolia javascript API
+  - collection.js 
+  -component-filter.js
+{% endcomment %}
+
+<link rel="stylesheet" href="{{ 'component-pagination.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'component-pagination.css' | asset_url | stylesheet_tag }}</noscript>
+
+<div class="pagination-wrapper js-algolia-pagination">
+  <div class="pagination__load-more">
+    <button type="button" class="js-algolia-load-more js-page-update js-page-next" data-control="1">
+      <span class="js-load-more-text pagination__text">Load more</span>
+      <span class="js-load-icon loader">{% render 'icon-loading' %}</span>
+    </button>
+  </div>
+  <span class="js-algolia-current-page hidden" data-current="0">1</span>
+  {% comment %}
+  <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
+    <ul class="pagination__list list-unstyled" role="list">
+      <li>
+        <a href="#" class="pagination__item pagination__item--prev pagination__item-arrow link motion-reduce js-page-update js-page-prev" data-control="-1" aria-label="{{ 'general.pagination.previous' | t }}">
+          {% render 'icon-chevron-thin-right' %}
+        </a>
+      </li>
+    
+      <li>
+        <p>Page <span class="js-algolia-current-page" data-current="0">1</span> of <span class="js-algolia-page-limit"></span> </p>
+      </li>
+
+      <li>
+        <a href="#" class="pagination__item pagination__item--next pagination__item-arrow link motion-reduce active js-page-update js-page-next" data-control="1" aria-label="{{ 'general.pagination.next' | t }}" >
+          {%- render 'icon-chevron-thin-right' -%}
+        </a>
+      </li>
+    </ul>
+  </nav>
+  {% endcomment %}
+</div>

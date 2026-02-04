@@ -1,0 +1,42 @@
+{% assign favorite_teams = customer.metafields.customer_fields.data['favorite_teams_list'] %}
+{% assign favorite_teams_size = favorite_teams | size %}
+
+<div class="right__drawer__content right__drawer__add__teams-wrapper{% if favorite_teams_size == 0 and customer %} right__drawer__content--active{% endif %}" data-right-drawer-content="favorite-teams-add-team">
+  <div class="right__drawer__head">
+    <img class="right__drawer--back" 
+      data-right-drawer-toggle="favorite-teams-logged"
+      src="{{ 'icon-chevron.svg' | asset_url }}" 
+    />
+    <div class="right__drawer__head__title">
+      ADD A FAVORITE TEAMS
+    </div>
+    <div class="right__drawer--close">
+      <img src="{{ 'icon-close.svg' | asset_url }}" />
+    </div>
+  </div>
+
+  <div class="right__drawer__search__wrapper">
+    <form
+      class="right__drawer__search"
+      onsubmit="event.preventDefault();"
+      role="search"
+    >
+      <input
+        class="header__search__input js-favorite-teams-search"
+        type="text"
+        placeholder="Search teams"
+      />
+      <button class="header__search__btn" type="submit">
+        <img
+          src="{{ 'icon-search.svg' | asset_url }}"
+          class="header__search__icon"
+        />
+      </button>
+    </form>
+  </div>
+
+  <div class="right__drawer__suggested__teams">
+    <p class="drawer__suggested__teams__title">SUGGESTED FOR YOU</p>
+    <div class="js-favorite-teams-container js-cf"></div>
+  </div>
+</div>

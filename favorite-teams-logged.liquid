@@ -1,0 +1,62 @@
+<div class="right__drawer__favorite__teams" data-right-drawer-type="favorite-teams-logged">
+  <div class="right__drawer__content" data-right-drawer-content="favorite-teams-logged">
+    <div class="right__drawer__head">
+      <div class="right__drawer__head__title">
+        FAVORITE TEAMS
+      </div>
+      <div class="right__drawer--close">
+        <img src="{{ 'icon-close.svg' | asset_url }}" />
+      </div>
+    </div>
+
+    <div class="right__drawer__subcontent__wrapper">
+      <div class="right__drawer__content__subtitle-light">
+        Add to quickly access and edit your favorite teams.
+      </div>
+    </div>
+
+    <div class="right__drawer__suggested__teams">
+      <p class="drawer__suggested__teams__title">MY TEAMS</p>
+      
+      <div class="js-current-teams">
+        {% assign favorite_teams = customer.metafields.customer_fields.data['favorite_teams_list'] %}
+        
+        {% for team_string in favorite_teams %}
+          {% assign team = team_string | split: '|' | first %}
+          {% assign league = team_string | split: '|' | last %}
+          {% assign team_handle = 'logo-' | append: team | handle %}
+          {% assign team_collection = team_handle | remove: 'logo-' %}
+          {% assign team_product = all_products[team_handle] %}
+          
+          {% if team_product %}
+            <div class="drawer__suggested__favorite__team js-current-team current-team active" data-team="{{ team }}" data-league="{{ league }}">
+              <div class="drawer__suggested__favorite__team-left">
+                <a href="/collections/{{ team_collection }}" aria-label="{{ team }}"></a>
+                {{ team_product.description }}
+                <div class="drawer__suggested__favorite__team-info">
+                  <h4 class="drawer__suggested__favorite__team-title">{{ team }}</h4>
+                  <h4 class="drawer__suggested__favorite__team-name">{{ league }}</h4>
+                </div>
+              </div>
+              <button type="button" class="js-remove-team">
+                <div class="full-heart">
+                  {% render 'icon-heart' %}
+                </div>
+                <div class="empty-heart">
+                  {% render 'icon-heart-empty' %}
+                </div>
+              </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="right__drawer__add__teams" data-right-drawer-toggle="favorite-teams-add-team">
+        ADD MORE TEAMS
+        <img class="right__drawer__add__teams-icon"
+        src="{{ 'icon-plus-circle.png' | asset_url }}" />
+      </div>
+      
+      
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<script>
+  if (window.mwMarketingOffersHelper) {
+    class mwCustomTheme {
+
+      openCartDrawer(cart) {
+        return;
+      }
+
+      close() {
+      }
+
+      updateCartBubble(sections) {
+      }
+
+      getButtonLoadingClassName() {
+        return "loading";
+      }
+    }
+
+    const mwTheme = new mwCustomTheme();
+
+    window.mwMarketingOffersOptions.setThemeSections("");
+
+    window.mwMarketingOffersOptions.theme = mwTheme;
+    
+  }
+</script>

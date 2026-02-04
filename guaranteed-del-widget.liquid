@@ -1,0 +1,100 @@
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  let selectortrigger = document.querySelector('div[data-product-description-considerations]');
+  let gdwcont = document.createElement("div");
+  let gdwicon = document.getElementById("gdwicon").value;
+  let mtext = document.getElementById("mtext").value;
+  let stext = document.getElementById("stext").value;
+  let stextshow = document.getElementById("stextshow").value;
+  if(stextshow == "true"){
+  gdwcont.innerHTML = (`
+    <div class='gdw-main-cont'>
+      <div class='gdw-text-with-icon'>
+        <img class='gdw-twi-icon' src='`+ gdwicon +`' />
+        <span class='gdw-twi-text gdw-info'>
+          <div>
+            <p>`+ mtext +`</p>
+          </div>
+          <div class='secondary desktop-only'>
+            <p>`+ stext +`</p>
+          </div>
+        </span>
+      </div>
+      <span class='gdw-twi-text gdw-info mobile-only'>
+        <div class='secondary'>
+          <p>`+ stext +`</p>
+        </div>
+      </span>
+    </div>
+  `);
+  }
+  else {
+  gdwcont.innerHTML = (`
+    <div class='gdw-main-cont'>
+      <div class='gdw-text-with-icon'>
+        <img class='gdw-twi-icon' src='`+ gdwicon +`' />
+        <span class='gdw-twi-text gdw-info'>
+          <div>
+            <p>`+ mtext +`</p>
+          </div>
+        </span>
+      </div>
+    </div>
+  `);
+  }
+  gdwcont.classList.add('gdw-container');
+  selectortrigger.parentNode.insertBefore(gdwcont, selectortrigger);
+});
+</script>
+
+<style>
+  .gdw-twi-icon {
+    width: 40px;
+    height: auto;
+  }
+  
+  .gdw-text-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .gdw-info p{
+    margin-top:0px !important;
+    margin-bottom:0px !important;
+    padding-top:0px !important;
+    font-weight: 700;
+    font-size: 12px !important;
+  }
+  
+  .gdw-info .secondary p{
+    font-weight: 400;
+    font-style: italic;
+  }
+  
+  .gdw-twi-text {
+    font-weight: 700 !important;
+  }
+
+  #returnslink,
+  #freeshippinglink {
+    text-decoration:underline !important;
+  }
+
+  .gdw-main-cont {
+    padding: 2rem;
+    background-color: #e4e4e4;
+    border-radius: 5px;
+  }
+
+  @media screen and (max-width: 749px){
+    .gdw-twi-text,
+    .gdw-info p {
+      font-size: 1.4rem;
+    }
+
+    .gdw-main-cont {
+      padding: 1rem 2rem !important;
+    }
+  }
+</style>

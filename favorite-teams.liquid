@@ -1,0 +1,43 @@
+<div class="right__drawer__favorite__teams" data-right-drawer-type="favorite-teams">
+  <div class="right__drawer__content">
+    <div class="right__drawer__head">
+      <div class="right__drawer__head__title">
+        FAVORITE TEAMS
+      </div>
+      <div class="right__drawer--close">
+        <img src="{{ 'icon-close.svg' | asset_url }}" />
+      </div>
+    </div>
+
+    <div class="right__drawer__subcontent__wrapper">
+      <div class="right__drawer__content__subtitle-light">
+        Choose your favorite teams to tailor your shopping experience.
+      </div>
+    </div>
+
+    <div class="right__drawer__search__wrapper">
+      <form
+        class="right__drawer__search"
+        onsubmit="event.preventDefault();"
+        role="search"
+      >
+        <input
+          class="header__search__input js-favorite-teams-search"
+          type="text"
+          placeholder="Search teams"
+        />
+        <button class="header__search__btn" type="submit">
+          <img
+            src="{{ 'icon-search.svg' | asset_url }}"
+            class="header__search__icon"
+          />
+        </button>
+      </form>
+    </div>
+
+    <div class="right__drawer__suggested__teams">
+      <p class="drawer__suggested__teams__title">SUGGESTED FOR YOU</p>
+      <div class="js-favorite-teams-container js-cf js-no-customer"></div>
+    </div>
+  </div>
+</div>

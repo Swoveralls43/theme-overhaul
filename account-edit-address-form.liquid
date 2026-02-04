@@ -1,0 +1,53 @@
+{% form 'customer_address', address %}
+
+  {%- if form.errors -%}
+    <div class="right__drawer__form__errors">
+      {{- form.errors.messages['form'] -}}
+    </div>
+  {%- endif -%}
+
+  <input type="text" class="right__drawer__form__input" name="address[first_name]" value="{{ address.first_name }}" required="required" placeholder="Address Name e.g. Home, Office..."/>
+
+  <input type="text" class="right__drawer__form__input" name="address[last_name]" value="{{ address.last_name }}" required="required" placeholder="Full Name"/>
+
+  <input type="text" class="right__drawer__form__input" name="address[company]" value="{{ address.company }}" placeholder="Company"/>
+
+  <input type="text" class="right__drawer__form__input" name="address[address1]" value="{{ address.address1 }}" required="required" placeholder="Address 1"/>
+
+  <input type="text" class="right__drawer__form__input" name="address[address2]" value="{{ address.address2 }}" placeholder="Address 2"/>
+
+  <input type="text" class="right__drawer__form__input" name="address[city]" value="{{ address.city }}" required="required" placeholder="City"/>
+
+  <div class="right__drawer__form__input right__drawer__form__input-select">
+    <div class="drawer__form__input__select-wrapper drawer__form__input__select-large">
+      <select name="address[country]" data-country="{{ address.country }}" class="drawer__form__input__select select-country">
+        {{ all_country_option_tags }}
+      </select>
+      <img class="chevron__icon--down" src="{{ 'icon-chevron.svg' | asset_url }}"/>
+    </div>
+  </div>
+
+  <div class="right__drawer__form__input right__drawer__form__input-select">
+    <div class="drawer__form__input__select-wrapper drawer__form__input__select-large">
+      <select name="address[province]" data-province="{{ address.province_code }}" class="drawer__form__input__select select-province">
+        {% render 'states-options' %}
+      </select>
+      <img class="chevron__icon--down" src="{{ 'icon-chevron.svg' | asset_url }}"/>
+    </div>
+  </div>
+
+  <input type="text" class="right__drawer__form__input" name="address[zip]" value="{{ address.zip }}" required="required" placeholder="Postal/ZIP Code"/>
+
+  <input type="tel" class="right__drawer__form__input" name="address[phone]" value="{{ address.phone }}" required="required" placeholder="Phone Number" value="{{ address.phone }}"/>
+
+  <div class="right__drawer__checkbox">
+    <input type="checkbox" value=""/>
+    <label for="set__as__default__address">
+      Set as default address
+    </label>
+  </div>
+
+  <button class="right__drawer__form__button" type="submit">
+    SAVE ADDRESS
+  </button>
+{% endform %}

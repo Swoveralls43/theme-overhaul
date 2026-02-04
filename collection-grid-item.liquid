@@ -1,0 +1,54 @@
+{% assign image = collection.image %}
+{% assign title = collection.title %}
+{% assign url   = collection.url %}
+
+{% if collection_image != blank %}
+  {% assign image = collection_image %}
+{% endif %}
+
+{% if collection_title != blank %}
+  {% assign title = collection_title %}
+{% endif %}
+
+{% if collection_url != blank %}
+  {% assign url = collection_url %}
+{% endif %}
+
+{% if color_black %}
+  {% assign icon = 'icon-arrow-right-black.svg' | asset_url  %}
+{% else %}
+  {% assign icon = 'icon-arrow-right-white.svg' | asset_url %}
+{% endif %}
+
+{% if featured_collection %}
+  {% assign image_size = '444x' %}
+  {% assign image_size_2x = '888x' %}
+{% else %}
+  {% assign image_size = '500x' %}
+  {% assign image_size_2x = '1000x' %}
+{% endif %}
+
+<a href="{{ url }}" {% if open_tab %}target="_blank"{% endif %} class="collection-grid-item arrow-parent">
+  <div class="collection-grid-item__image-wrapper">
+    <img class="collection-grid-item__image"
+         src="{{ image | img_url: image_size }}"
+         srcset="{{ image | img_url: image_size }} 1x , {{ image | img_url: image_size_2x }} 2x"
+         alt="{{ collection.title }}">
+  </div>
+
+  <div class="collection-grid-item__info {% if color_black  %}collection-grid-item__info--dark{% endif %}">
+    <h3 class="collection-grid-item__title">
+      {% assign title_last_part  = title | split: ' ' | last %}
+      {% assign title_first_part = title | replace: title_last_part %}
+
+      <span class="collection-grid-item__title-first-part">
+        {{ title_first_part }}
+      </span>
+
+      <span class="collection-grid-item__title-last-part">
+        {{ title_last_part }}
+        <span class="arrow arrow--white"></span>
+      </span>
+    </h3>
+  </div>
+</a>

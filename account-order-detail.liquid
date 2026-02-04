@@ -1,0 +1,122 @@
+<div class="right__drawer__head-create">
+  <img class="right__drawer--back" 
+    data-right-drawer-toggle="order"
+    src="{{ 'icon-chevron.svg' | asset_url }}" 
+    />
+  <div class="right__drawer__head__title">
+    ORDER {{order.name}}
+  </div>
+  <div class="right__drawer--close">
+    <img src="{{ 'icon-close.svg' | asset_url }}" />
+  </div>
+</div>
+<div class="drawer__order__status__wrapper">
+  <div class="drawer__order__status__columns">
+    <div class="drawer__order__status__left">
+      <p class="drawer__order__status__title">Status</p>
+      <p class="right__drawer__order__status">{{order.fulfillment_status}}</p>
+    </div>
+    <div class="drawer__order__status__right">
+      <p class="drawer__order__status__title">Order Date</p>
+      <p class="right__drawer__order__status">{{ order.created_at | date: "%d/%m/%y" }}</p>
+    </div>
+  </div>
+  <button type="submit" class="right__drawer__form__button" onclick="window.location.href='{{ order.order_status_url }}'">
+    TRACK ORDER
+  </button>
+</div>
+<div class="right__drawer__order__summary">
+  <p class="drawer__order__summary__title">ORDER SUMMARY</p>
+  {% for line_item in order.line_items %}
+    <div class="drawer__order__li__card">
+      {{ line_item.image | img_url: '100x100' | img_tag }}
+      <div class="drawer__order__li__summary">
+        <p class="drawer__order__li__title">{{ line_item.title | upcase }}</p>
+        {% unless line_item.product.has_only_default_variant %}
+          <div class="drawer__order__li__info-wrapper">
+            {% for option in line_item.options_with_values %}
+              {% if option.name | downcase == "size" %}
+                <p class="drawer__order__li__info drawer__order__li__info-sibling">
+                  {{ option.value }}
+                </p>
+              {% elsif option.name | downcase == "color" %}
+                <p class="drawer__order__li__info drawer__order__li__info-sibling">
+                  {{ option.value }}
+                </p>
+              {% endif %}
+              {% if forloop.first == true %}
+                <p class="drawer__order__li__info drawer__order__li__info-sibling">
+                  •
+                </p>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endunless %}
+        <p class="drawer__order__li__info">Quantity {{ line_item.quantity }}</p>
+        <p class="drawer__order__li__price">{{ line_item.price | money }}</p>
+      </div>
+    </div>
+  {% endfor %}
+  <div class="drawer__order__summary__section">
+    <p class="drawer__order__subtitle">Shipping Option</p>
+    <p class="right__drawer__order__info">{{ order.shipping_methods.title }} FREE Standard Ground Shipping</p>
+  </div>
+  <div class="drawer__order__summary__section">
+    <p class="drawer__order__subtitle">Shipping Address</p>
+    <p class="right__drawer__order__info">{{ order.shipping_address.address1 }}</p>
+    <p class="right__drawer__order__info">{{ order.shipping_address.address2 }}</p>
+    <p class="right__drawer__order__info">{{ order.shipping_address.country }}</p>
+  </div>
+  <div class="drawer__order__summary__section">
+    <p class="drawer__order__subtitle">Payment Option</p>
+    <p class="right__drawer__order__info">{{ order.transactions[0].gateway_display_name }}</p>
+  </div>
+  <div class="drawer__order__summary__section">
+    <p class="drawer__order__subtitle">Summary</p>
+    <div class="drawer__order__info__wrapper">
+      <p class="right__drawer__order__info">Order Total</p>
+      <p class="right__drawer__order__info-bold">{{ order.subtotal_price | money }}</p>
+    </div>
+    <div class="drawer__order__info__wrapper">
+      <p class="right__drawer__order__info">Shipping</p>
+      {% if order.shipping_price > 0 %}
+        <p class="right__drawer__order__info-bold">
+          {{ order.shipping_price | money }}
+        </p>
+      {% else %}
+        <p class="right__drawer__order__info-bold">FREE</p>
+      {% endif %}
+    </div>
+    <div class="drawer__order__info__wrapper">
+      <p class="right__drawer__order__info">Sales Tax</p>
+      <p class="right__drawer__order__info-bold">{{ order.tax_price | money }}</p>
+    </div>
+    <div class="drawer__order__info__wrapper">
+      <p class="right__drawer__order__total">Total Paid</p>
+      <p class="right__drawer__order__total">{{ order.total_price | money }}</p>
+    </div>
+  </div>
+</div>
+<div class="drawer__order__customer__section">
+  <div class="drawer__order__summary__section">
+    <p class="drawer__order__subtitle">My Details</p>
+    <p class="right__drawer__order__info">{{ customer.name }}</p>
+    <p class="right__drawer__order__info">{{ customer.email }}</p>
+  </div>
+  <div class="drawer__order__summary__section">
+    <p class="drawer__order__subtitle">Billing Address</p>
+    <p class="right__drawer__order__info">{{ order.billing_address.address1 }}</p>
+    <p class="right__drawer__order__info">{{ order.billing_address.address2 }}</p>
+    <p class="right__drawer__order__info">{{ order.billing_address.country }}</p>
+  </div>
+  <!-- 
+  <button
+    type="submit"
+    class="right__drawer__form__button"
+  >
+    DOWNLOAD A PDF RECEIPT
+  </button> -->
+  <button onclick="window.location.href='https://swoveralls.com/pages/returns-exchanges'" type="submit" class="right__drawer__form__button">
+    SUBMIT A RETURN
+  </button>
+</div>

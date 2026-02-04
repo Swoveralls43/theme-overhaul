@@ -1,0 +1,23 @@
+<div class="account__details" data-right-drawer-type="product-details">
+
+  <div class="right__drawer__content">
+    <div class="right__drawer__head">
+      <div class="right__drawer__head__title">
+        PRODUCT DETAILS
+      </div>
+      <div class="right__drawer--close">
+        <img src="{{ 'icon-close.svg' | asset_url }}" />
+      </div>
+    </div>
+
+    <div class="right__drawer__subcontent__wrapper">
+      <div class="right__drawer__product__info">
+        {% if base_product.description != blank %}
+          {{ base_product.description }}
+        {% else %}
+          {{ product.description }}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

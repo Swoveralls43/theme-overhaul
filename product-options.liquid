@@ -1,0 +1,512 @@
+{% style %}
+.abc{
+  display:flex;
+  flex-wrap:wrap;
+  row-gap:10px;
+  column-gap:6px;
+  margin-top:0;
+}
+
+.sizel {
+    font-size: 14px;
+    border: 1px solid #000;
+    padding: 0px 4px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    min-width: 40px;
+    border-radius: 25px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sizel.sout{ 
+  opacity:0.6;
+}
+.sizel:hover {
+    background: #e8e8e8;
+}
+.sizel.active {
+    background: #000;
+    color: #fff;
+}
+
+.sizesel_new li {
+  display: none;
+  cursor: pointer;
+  padding: 13px 15px 14px;
+  min-width: 150px;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(0,0,0,.1);
+}
+
+.sizesel_new li:first-child {
+  display: flex;
+  border: 1px solid black;
+  padding: 13px 15px 14px;
+  
+}
+
+.sizesel_new {
+    display: block;
+    padding: 0;
+    border-radius: 1px;
+    position: absolute;
+    width: 90%;
+    background: #fff;
+    z-index: 4;
+}
+
+.sizesel_new li:hover {
+  background-color: #ddd;
+}
+
+.sizesel_new li:first-child:hover {
+  background-color: transparent;
+}
+  .sizesel_new.open{
+    height:var(--sizesel_new-height);
+    overflow:auto;
+  }
+.sizesel_new.open li:first-child {
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.sizesel_new.open li {
+  display: flex;
+}
+  .gowl{
+    color: #9b9b9b;
+    font-size: 11px;
+  }
+  .ool{
+    color: #f8421e;
+    font-size: 11px;
+  }
+  .por{
+    font-size: 11px;color:#000;
+  }
+  .wl{
+    color: #9b9b9b;
+  }
+  .sizel.active .gowl,.sizel.active .ool,.sizel.active .por{
+    color:#fff
+  }
+{% endstyle %}
+{% assign productnotificationhandle = product.handle %}
+{% case productnotificationhandle %}
+{% when 'swoveralls-midnight-black' %}
+   {% assign sizestatus = "" %}
+   {% assign variantsoldoutstatus = "" %}
+{% when 'swoveralls-navy' %}
+   {% assign sizestatus = "" %}
+   {% assign variantsoldoutstatus = "" %}
+{% when 'swoveralls-dark-athletic-grey' %}  
+  {% assign sizestatus = "" %}
+  {% assign variantsoldoutstatus = "" %}
+{% when 'swoveralls-heather-grey' %}  
+  {% assign sizestatus = "" %}
+  {% assign variantsoldoutstatus = "" %}
+{% when 'swoveralls-forest-green' %}  
+  {% assign sizestatus = "" %}
+  {% assign variantsoldoutstatus = "" %}
+{% when 'swovie-shorts-midnight-black' %}  
+  {% assign sizestatus = "" %}
+  {% assign variantsoldoutstatus = "" %}
+{% when 'swovie-shorts-navy' %}  
+  {% assign sizestatus = "" %}
+  {% assign variantsoldoutstatus = "" %}
+{% when 'swovie-shorts-dark-athletic-grey' %}  
+  {% assign sizestatus = "" %}
+  {% assign variantsoldoutstatus = "" %}
+{% when 'swovie-shorts-light-heather-grey' %}  
+  {% assign sizestatus = "" %}
+  {% assign variantsoldoutstatus = "" %}
+{% else %}
+  {% assign sizestatus = "disabled" %}
+  {% assign variantsoldoutstatus = "product__variant__sold__out" %}
+{% endcase %}
+
+
+
+{% capture comfyalls_tags_products %}
+  
+  <style>
+.comfy__color-container{
+margin:10px 0;
+}
+    .comfy__color-container{
+      display:flex;
+      flex-wrap:wrap;
+      row-gap: 10px;
+      column-gap: 10px;
+    }
+
+    .comfy__color-item{
+      position:relative;
+    }
+
+    .comfy__color-image{
+      border:solid 1px #BBBBBB;
+      border-radius: 4px;
+      width:54px;
+      height:68px;
+      object-fit:cover;
+      transition:0.5s ease;
+    }
+
+    .comfy__color-image:hover{
+      border:solid 1px #000;
+    }
+
+    .comfy__color-image-current{
+       border:solid 1px #000!important;
+    }
+  </style>
+  
+    <div class="comfy__color-container">
+    {% for product_item in collections.all.products %}   
+    {% if product_item.tags contains "comfyallscolor" %} 
+{% assign comfycolors = product_item.title | split:'- ' %}
+{% assign comfycolor = comfycolors[1] %}
+{% assign comfycolor_downcase = comfycolor | downcase %}
+       <a href="{{ product_item.url }}" class="comfy__color-item">
+          {% assign items = section.settings.colorcodesnew | split: ';' %}
+{% for item in items %} 
+
+{% assign item_name = item | split: ':' | first | downcase %}
+{% assign item = item | downcase %}
+               {% if item_name contains comfycolor_downcase %}
+
+                 {% assign cname = item | split:'#' | last %}
+<span class="outershell">
+{% if item contains 'cdn' %}
+ {% assign curl= item | split:':' | last %}
+
+                    <span class="prod_color_code" style="background-image:url('https://{{ curl}}'"></span>
+{% else %}
+                    <span class="prod_color_code" style="background:#{{ cname }}"></span>
+{% endif %}
+       </span>
+               {% endif %}
+{% endfor %}
+
+       </a>
+    {% endif %}
+    {% endfor %}
+    </div>
+    
+{% endcapture %}
+
+{% for tag in product.tags %}
+  {% if tag contains 'comfyallscolor' %}
+         {{ comfyalls_tags_products }}
+   {% endif %}
+{% endfor %}
+
+{% if linked_products %}
+ 
+{% assign showcolorname = product.title | split:'- ' %}
+<div class="showcolorname">{{ showcolorname[1] }}</div>
+  <div class="product__input__colors option-tabset__tab-content js-tab-content">
+    {% for linked_product in linked_products %}
+      {% assign color = linked_product.options_by_name['Color'].values | first %}
+
+{% if color %}
+      {% assign color_downcase = color | downcase %}
+      <a class="swatch js-swatch" href="{{ linked_product.url }}">
+     
+          {% assign items = section.settings.colorcodesnew | split: ';' %}
+{% for item in items %} 
+
+{% assign item_name = item | split: ':' | first | downcase %}
+{% assign item = item | downcase %}
+               {% if item_name contains color_downcase %}
+
+                 {% assign cname = item | split:'#' | last %}
+
+{% if item contains 'cdn' %}
+ {% assign curl= item | split:':' | last %}
+
+                    <span class="prod_color_code{% if linked_product.title == product.title%} active{% endif %}" color="{{ color }}" style="background-image:url('https://{{ curl}}'"></span>
+{% else %}
+                    <span class="prod_color_code{% if linked_product.title == product.title%} active{% endif %}" color="{{ color }}" style="background:#{{ cname }}"></span>
+{% endif %}
+ 
+               {% endif %}
+{% endfor %}
+
+       
+      </a>
+{% endif %}
+    {% endfor %}
+  </div>
+{% endif %}
+
+
+{% for option in product.options_with_values %}
+  {% if option.name contains 'Size' %}
+      <div class="abc">
+ {% for value in option.values %}
+   {% assign variantinventory_quantity = false %}
+      {% liquid 
+        assign variantinventory_quantity_zero = false
+        assign variantinventory_quantity = false 
+        assign available = false 
+        for variant in product.variants
+        assign vt = variant.title | split:' /' | first
+        if vt == value
+          assign cv = variant.id
+          if variant.inventory_quantity == 1
+            assign variantinventory_quantity = true 
+          endif
+          assign ptags  = product.tags | downcase
+          if variant.inventory_quantity <= 0
+            if ptags contains 'core' or ptags contains '#core'
+              assign variantinventory_quantity_zero = true
+            endif
+          endif
+        endif 
+          if variant.options contains value and variant.available
+            assign available = true
+            break
+          endif
+        endfor
+      %}
+        <span class="sizel{% if variantinventory_quantity_zero %}cgotwl{% endif %}{% if product.tags contains 'purple-dot-live-waitlist' %} purplepre{% endif %}{% if cv == product.selected_or_first_available_variant.id %} active{% endif %}" vid="{{ cv }}">
+          <div>{{ value }}</div>
+          {% if variantinventory_quantity %}<span class="ool"> - Only one left</span>{% assign variantinventory_quantity = false %}{% endif %}
+          {% if variantinventory_quantity_zero %}  {% if product.tags contains 'purple-dot-live-waitlist' %}<span class='por'> - Preorder</span>
+            {% else %} 
+          <span class="gowl"> - Get on the waitlist</span>{% endif %}{% assign variantinventory_quantity_zero = false %}{% endif %}
+        </span>
+
+
+{% endfor %}
+      </div>
+    {% endif %}
+{% endfor %}
+<div class="product__input product__input--active">
+  <div class="product__form__variants">
+    <div class="product__form__sizes__left js-option-radio" data-display-options data-option-radio>
+      {% for option in product.options_with_values %}
+        {% if option.values.size > 1 %}
+          <fieldset>   
+            {% for value in option.values %}
+              {% liquid 
+                assign value_downcase = value | downcase
+                assign available = false
+
+                for variant in product.variants
+                  for variant_option in variant.options
+                    assign variant_option_downcase = variant_option | downcase
+                    if value_downcase == variant_option_downcase
+                      if variant.available
+                        assign available = true
+                        break
+                      endif
+                    endif
+                  endfor
+                endfor
+              %}
+              <label class="product__form__variants__option-wrapper {{ option.name | downcase }}" {% unless available %} disabled {% endunless %} for="{{ value | handleize }}">
+                <input 
+                  class="product__form__variants__option"
+                  type="radio"
+                  name="{{ option.name | downcase }}"
+                  value="{{ value }}"
+                  id="{{ value | handleize }}"
+                  data-action="option-choice" 
+                  data-option="{{ value }}"
+                  {% unless available %} disabled {% endunless %}
+                  {% if product.selected_or_first_available_variant.options contains value %} checked {% endif %} 
+                  
+                  {% if current_variant.available and current_variant.inventory_quantity <= 0 %}
+
+                    {% for variantxx in product.variants %}
+           
+                      {% if variantxx.options[1] == value %}
+                        data-variantid="{{ variantxx.id }}"
+                      {% endif %}
+
+                    {% endfor %}  
+
+                  {% endif %}
+                />
+                <span class="product__form__variants__option-label
+                  {% unless available %} product__variant__sold__out {% endunless %}">
+                  {{ value }}
+
+
+
+
+
+
+
+                </span>
+              </label>
+            {% endfor %}
+
+
+
+
+   
+
+
+          </fieldset>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <div class="product__form__size">
+    {% if product.options_by_name['Size'] %}
+      <div class="product__form__sizes__right">
+         {% assign lowrptitle = product.title | downcase %}
+        <button class="sc-modal-toggle">{% if lowrptitle contains 'swoveralls' %}Swoveralls Size Chart      
+    {% elsif lowrptitle contains 'swovie shorts' or 'festivalls' %}Swovie Shorts Size Chart
+    {% elsif lowrptitle contains 'comfyalls' %}Comfyalls Size Chart
+    {% endif %}</button>
+      </div>
+    {% endif %}
+    <div class="product__form__quiz">
+      <a href="https://swoveralls.com/pages/size-guide-quiz">Take our size guide quiz!</a>
+    </div>
+  </div>
+  </div>
+</div>
+
+
+{% if current_variant.available and current_variant.inventory_quantity <= 0 %}
+  <script type="text/javascript">
+    jQuery(document).ready(function( $ ) {    
+
+    $(".product__form__variants__option").click(function(){
+      let datavaid = $(this).attr('data-variantid');
+      $(".vaidclass option").removeAttr("selected");
+      $(".vaidclass option[value="+datavaid+"]").attr('selected', 'selected');
+    });
+     $('.sizesel').on('change', function() {
+      let datavaid = $(this).find('option:selected').attr('v-id');
+      $(".vaidclass option").removeAttr("selected");
+      $(".vaidclass option[value="+datavaid+"]").prop('selected', true);
+    });
+
+
+$(".sizesel_new li").click(function() {
+
+  var selected_value = $(this).html();
+
+  $(".sizesel_new li:first-child").html(selected_value);
+
+});
+
+$(document).mouseup(function(event) {
+
+  var target = event.target;
+  var select = $(".sizesel_new");
+
+  if (!select.is(target) && select.has(target).length === 0) {
+    select.removeClass("open");
+  }
+
+});
+  });	
+  
+  </script>
+{% endif %}
+
+  <script type="text/javascript">
+    jQuery(document).ready(function( $ ) {
+       var element = $('.sizesel_new');
+        var elementOffset = element.offset().top;
+        var elementHeight = element.outerHeight();
+        var viewportHeight = $(window).height();
+        var scrollTop = $(window).scrollTop();
+        var distanceToScreenBottom = viewportHeight - (elementOffset - scrollTop + elementHeight) + 50;
+    document.documentElement.style.setProperty('--sizesel_new-height', distanceToScreenBottom + 'px');
+      
+      $(".prod_color_code").hover(function(){
+        $showcolorname = $('.showcolorname').text();
+  $('.showcolorname').text($(this).attr('color'));
+  }, function(){
+  $('.showcolorname').text($showcolorname);
+});
+
+      
+  $(".sizesel_new").click(function() {
+  var is_open = $(this).hasClass("open");
+  if (is_open) {
+    $(this).removeClass("open");
+  } else {
+    $(this).addClass("open");
+  }
+});
+$(document).on('click', '.sizesel_new li', function() {
+
+
+  var selected_value = $(this).html();
+  //var first_li = $(".sizesel_new li:first-child").html();
+
+  $(".sizesel_new li:first-child").html(selected_value);
+  //$(this).html(first_li);
+
+});
+
+$(document).mouseup(function(event) {
+
+  var target = event.target;
+  var select = $(".sizesel_new");
+
+  if (!select.is(target) && select.has(target).length === 0) {
+    select.removeClass("open");
+  }
+
+});
+  });	
+  
+  </script>
+
+
+
+<style>  
+  .sc-modal-toggle {
+        margin: 0;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.46;
+    letter-spacing: normal;
+    border: none;
+    background: none;
+    cursor: pointer;
+        margin-left: 16px!important;
+    color: #28334a!important;
+        position: relative;
+    width: fit-content;
+}
+ button.sc-modal-toggle:before {
+    position: absolute;
+    content: "";
+    background-image: url(/cdn/shop/files/swoverall_icon_08358446-e49a-4034-961b-7a0afc116ad8.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    top: -3px;
+    left: -18px;
+    height: 25px;
+    width: 25px;
+    z-index: 2;
+}
+
+  .sc-modal-toggle:hover{
+    opacity:0.7;
+  }
+  
+</style>
+  
+
+
+
+
+
+
+
+

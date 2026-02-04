@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="{{ 'slick.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-product-finder.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'content-slider.css' | asset_url }}" media="print" onload="this.media='all'">
+
+{{ 'vendor.js' | asset_url | script_tag }}
+{{ 'section-product-finder.js' | asset_url | script_tag }}
+
+{% assign has_hats = false %}
+{% for product_type in collection.all_types %}
+  {% if product_type contains 'HDW' %}
+    {% assign has_hats = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+<div class="{% if template == 'collection' %}product-finder__container{% else %}page-width page-width--m-full-width{% endif %}">
+  {% if section.blocks %}
+    <div class="product-finder content-slider js-product-finder {% if has_hats %}active{% endif %}">
+      {% for block in section.blocks %}
+        {% if block.type == 'product-finder-type' %}
+          {% if block.settings.image %}
+            <div class="finder__item js-type-filter" data-algolia-filter="'{{ block.settings.type }}'" data-prefix="{{ block.settings.type | split: ':' | first }}">
+              <img src="{{ block.settings.image | img_url: '300x' }}" alt="{{ block.settings.image.alt }}">
+              <div class="finder__item__info">
+                {% if block.settings.title != blank %}
+                  <h3>{{ block.settings.title }}</h3>
+                {% endif %}
+                {% if block.settings.description != blank %}
+                  <p>{{ block.settings.description }}</p>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>

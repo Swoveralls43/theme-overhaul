@@ -1,0 +1,42 @@
+{%- form 'customer_login' -%}
+  {%- if form.errors -%}
+    <div class="right__drawer__form__errors">
+      {{- form.errors.messages['form'] -}}
+    </div>
+  {%- endif -%}
+
+  <h3 class="right__drawer__content__subtitle">
+    LOGIN TO YOUR ACCOUNT
+  </h3>
+
+  <input
+    type="email"
+    class="right__drawer__form__input"
+    name="customer[email]"
+    required="required"
+    placeholder="Your Email"
+  />
+
+  <input
+    type="password"
+    class="right__drawer__form__input"
+    name="customer[password]"
+    required="required"
+    placeholder="Password"
+  />
+
+  <button
+    type="submit"
+    class="right__drawer__form__button"
+  >
+    SIGN IN
+  </button>
+
+  <button
+    type="button"
+    class="right__drawer__form__link"
+    data-right-drawer-toggle="recover"
+  >
+    Forgot your password?
+  </button>
+{%- endform -%}

@@ -1,0 +1,101 @@
+<div class="account__addresses" data-right-drawer-type="account-addresses">
+
+  <div class="right__drawer__content right__drawer__content-gradient" data-right-drawer-content="addresses">
+    <div class="right__drawer__head">
+      <div class="right__drawer__head__title">
+        ADDRESSES
+      </div>
+      <div class="right__drawer--close">
+        <img src="{{ 'icon-close.svg' | asset_url }}"/>
+      </div>
+    </div>
+
+    <div class="right__drawer__subcontent__wrapper">
+      {% for address in customer.addresses %}
+        <div class="right__drawer__address" id="{{ address.id }}">
+          <div class="right__drawer__address__header">
+            <p class="drawer__address__header__title">{{ address.company }}</p>
+            <div class="drawer__address__header__actions">
+              <button class="right__drawer__action__button" data-address="{{ address.id }}" data-right-drawer-toggle="edit-address-{{ address.id }}">
+                <img class="right__drawer__action__icon" src="{{ 'icon-edit.svg' | asset_url }}"/>
+              </button>
+              <form action="/account/addresses/{{ address.id }}" class="address-delete-form" method="post">
+                <input name="_method" type="hidden" value="delete">
+                <button type="submit" class="right__drawer__action__button right__drawer__delete__address" data-address="{{ address.id }}">
+                  <img class="right__drawer__action__icon" src="{{ 'icon-trash.svg' | asset_url }}"/>
+                </button>
+              </form>
+            </div>
+          </div>
+          <p class="right__drawer__address__info">{{ address.name }}</p>
+          <p class="right__drawer__address__info">{{ address.address1 }}</p>
+          <p class="right__drawer__address__info">{{ address.address2 }}
+            {{ address.zip }}</p>
+          <p class="right__drawer__address__info">{{ address.country }}</p>
+
+          {% if address == customer.default_address %}
+            <div class="right__drawer__default__wrapper">
+              <a href="/">
+                <img class="right__drawer__address__checkmark" src="{{ 'icon-checkmark-black.svg' | asset_url }}"/>
+              </a>
+              <p class="right__drawer__address__default">Default</p>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <button class="right__drawer__form__button customer__account__button" data-right-drawer-toggle="add-new-address" type="button">
+        ADD NEW ADDRESS
+      </button>
+    </div>
+  </div>
+
+  <div class="right__drawer__content" data-right-drawer-content="add-new-address">
+    <div class="right__drawer__head-create">
+      <img class="right__drawer--back" data-right-drawer-toggle="addresses" src="{{ 'icon-chevron.svg' | asset_url }}"/>
+      <div class="right__drawer__head__title">
+        ADD NEW ADDRESS
+      </div>
+      <div class="right__drawer--close">
+        <img src="{{ 'icon-close.svg' | asset_url }}"/>
+      </div>
+    </div>
+    <div class="right__drawer__form__wrapper">
+      {% render 'account-new-address-form' %}
+    </div>
+  </div>
+
+  {% for address in customer.addresses %}
+    <div class="right__drawer__content" data-right-drawer-content="edit-address-{{ address.id }}">
+      <div class="right__drawer__head-create">
+        <img class="right__drawer--back" data-right-drawer-toggle="addresses" src="{{ 'icon-chevron.svg' | asset_url }}"/>
+        <div class="right__drawer__head__title">
+          EDIT ADDRESS
+        </div>
+        <div class="right__drawer--close">
+          <img src="{{ 'icon-close.svg' | asset_url }}"/>
+        </div>
+      </div>
+      <div class="right__drawer__form__wrapper">
+        {% render 'account-edit-address-form', address: address %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+  $(document).ready(function () {
+    const preselectedCountries = $(".select-country");
+    const preselectedProvinces = $(".select-province");
+
+    preselectedCountries.each(function () {
+      const preselectedCountry = $(this).data("country");
+      $(this).val(preselectedCountry).change();
+    });
+
+    preselectedProvinces.each(function () {
+      const preselectedProvince = $(this).data("province");
+      $(this).val(preselectedProvince).change();
+    });
+
+  });
+</script>

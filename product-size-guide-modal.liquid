@@ -1,0 +1,123 @@
+{% unless size_guide_image != blank %}
+  {% assign images_progress_length = 50 %}
+  {% for tag in product.tags %}
+    {% assign tag_downcase = tag | downcase %}
+
+    {% if tag_downcase contains 'gender:men' %}
+      {% assign guide_type = 'men' %}
+
+    {% elsif tag_downcase contains 'gender:women' %}
+      {% assign guide_type = 'women' %}
+
+    {% elsif tag_downcase contains 'gender:kids' %}
+      {% assign guide_type = 'kids' %}
+
+    {% elsif tag_downcase contains 'type:headwear' %}
+      {% for tag2 in product.tags %}
+        {% assign tag2_downcase = tag2 | downcase %}
+
+        {% if tag2_downcase contains 'style:franchise' %}
+          {% assign guide_type = 'headwear-franchise' %}
+
+        {% elsif tag2_downcase contains 'style:clean-up' or tag2_downcase contains 'style:mvp' or tag2_downcase contains 'style:trucker' or tag2_downcase contains 'style:captain' or tag2_downcase contains 'style:hitch' %}
+          {% assign guide_type = 'headwear-adjustable' %}
+
+        {% elsif tag2_downcase contains 'style:contender' or tag2_downcase contains 'style:trophy' %}
+          {% assign guide_type = 'headwear-stretch' %}
+
+        {% elsif tag2_downcase contains 'style:bucket' %}
+          {% assign guide_type = 'headwear-osfa' %}
+
+        {% elsif tag2_downcase contains 'style:pro' %}
+          {% assign guide_type = 'headwear-fitted' %}
+
+        {% endif %}
+      {% endfor %}
+
+    {% endif %}
+  {% endfor %}
+
+  <div class="product__size__guides__header-wrapper">
+    <div class="product__size__guides__header">
+      <div class="product__size__guides__top">
+        {% if guide_type == 'men' %}
+          <h2 class="product__size__guides__title">Men's apparel size guides</h2>
+        {% elsif guide_type == 'women' %}
+          <h2 class="product__size__guides__title">Women's apparel size guides</h2>
+        {% elsif guide_type == 'kids' %}
+          <h2 class="product__size__guides__title">Kid's apparel size guides</h2>
+        {% elsif guide_type contains 'headwear' %}
+          <h2 class="product__size__guides__title">Headwear size guides</h2>
+        {% endif %}
+        <div class="product__modal__close-container">
+          <div class="product__modal__close js-close-product-modal">
+            <img src="{{ 'icon-close.svg' | asset_url }}"/>
+          </div>
+        </div>
+      </div>
+      <div class="product__size__guides__nav">
+        <div class="product__size__guides__left">
+          {% unless guide_type contains 'headwear' %}
+            <button class="product__size__nav__btn active" data-table-type="tops">
+              TOPS
+            </button>
+            <button class="product__size__nav__btn" data-table-type="bottoms">
+              BOTTOMS
+            </button>
+          {% endunless %}
+        </div>
+        <div class="product__size__guides__right"></div>
+      </div>
+    </div>
+
+    <div class="product__size__guides__division
+                  {% if guide_type contains 'headwear' %}headwear__division{% endif %}"></div>
+  </div>
+  <div class="product__size__guides__wrapper">
+    {% if guide_type == 'men' %}
+      {% include 'product-size-guide-mens-tops' %}
+      {% include 'product-size-guide-mens-bottoms' %}
+    {% elsif guide_type == 'women' %}
+      {% include 'product-size-guide-womens-tops' %}
+      {% include 'product-size-guide-womens-bottoms' %}
+    {% elsif guide_type == 'kids' %}
+      {% include 'product-size-guide-kids-tops' %}
+      {% include 'product-size-guide-kids-bottoms' %}
+    {% elsif guide_type == 'headwear-franchise' %}
+      {% include 'product-size-guide-headwear-franchise' %}
+    {% elsif guide_type == 'headwear-adjustable' %}
+      {% include 'product-size-guide-headwear-adjustable' %}
+    {% elsif guide_type == 'headwear-stretch' %}
+      {% include 'product-size-guide-headwear-stretch' %}
+    {% elsif guide_type == 'headwear-osfa' %}
+      {% include 'product-size-guide-headwear-osfa' %}
+    {% elsif guide_type == 'headwear-fitted' %}
+      {% include 'product-size-guide-headwear-fitted' %}
+    {% endif %}
+  </div>
+{% else %}
+<div class="product__size__guides__header-wrapper">
+    <div class="product__size__guides__header">
+      <div class="product__size__guides__top">
+        <div class="product__modal__close-container">
+          <div class="product__modal__close js-close-product-modal">
+            <img src="{{ 'icon-close.svg' | asset_url }}"/>
+          </div>
+        </div>
+      </div>
+      <div class="product__size__guides__nav">
+        <div class="product__size__guides__left">
+          SIZES
+        </div>
+        <div class="product__size__guides__right"></div>
+      </div>
+    </div>
+  </div>
+  <div class="product__size__guides__wrapper image-only">
+        {% if product.tags contains 'chartcomfyalls' %}
+          <img src="https://cdn.shopify.com/s/files/1/0047/6862/8836/files/Comfyalls_size_guide.jpg?v=1697471513" loading="lazy"/>
+        {% else %} 
+            {{ size_guide_image | image_url: width: 1200 | image_tag: width: '400px' }}
+        {% endif %}
+  </div>
+{% endunless %}

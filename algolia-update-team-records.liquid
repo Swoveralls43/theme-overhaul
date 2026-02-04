@@ -1,0 +1,26 @@
+{% assign team_products = collections['team-logos'] %}
+
+<script type="text/javascript">
+  const writeClient = algoliasearch('GJSSIG2JRC', '76a50fb35c73fd9394316f7ea8069ed4');
+  let primaryIndex = 'shopify_ics_products';
+  let index = writeClient.initIndex(primaryIndex);
+
+  const html_objects = [
+  {% paginate team_products.products by 1000 %}
+    {% for product in team_products.products %}
+    {% assign default_variant =  product.variants | first %}
+    {
+      body_html: '{{ product.description }}',
+      objectID: '{{ default_variant.id }}'
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  {% endpaginate %}
+];
+
+console.log(html_objects);
+
+  index.partialUpdateObjects(html_objects).then(({ objectIDs }) => {
+    console.log('SUCCESS');
+    console.log(objectIDs);
+  });
+</script>

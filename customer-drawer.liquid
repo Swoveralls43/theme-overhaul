@@ -1,0 +1,77 @@
+{{ 'snippet-right-drawer.css' | asset_url | stylesheet_tag }}
+
+<div class="right__drawer">
+  <div class="right__drawer__wrapper">
+
+    <div class="right__drawer__content right__drawer__content--active" data-right-drawer-content="login">
+      <div class="right__drawer__head">
+        <div class="right__drawer__head__title">
+          ACCOUNT
+        </div>
+        <div class="right__drawer--close">
+          <img src="{{ 'icon-close.svg' | asset_url }}" />
+        </div>
+      </div>
+
+      <div class="right__drawer__form__wrapper">
+        {% render 'customer-drawer-login-form' %}
+      </div>
+
+      <div class="right__drawer__actions__wrapper">
+        <h3 class="right__drawer__content__subtitle">
+          DON'T HAVE A ACCOUNT?
+        </h3>
+        <button
+          type="button"
+          class="right__drawer__button"
+          data-right-drawer-toggle="register"
+        >
+          CREATE ACCOUNT
+        </button>
+      </div>
+
+    </div>
+
+    <div class="right__drawer__content" data-right-drawer-content="register">
+      <div class="right__drawer__head-create">
+        <img class="right__drawer--back" 
+          data-right-drawer-toggle="login"
+          src="{{ 'icon-chevron.svg' | asset_url }}" 
+        />
+        <div class="right__drawer__head__title">
+          CREATE ACCOUNT
+        </div>
+        <div class="right__drawer--close">
+          <img src="{{ 'icon-close.svg' | asset_url }}" />
+        </div>
+      </div>
+
+      <div class="right__drawer__form__wrapper">
+        {% comment %}
+        {% render 'customer-drawer-register-form' %}
+        {% endcomment %}
+        {% render "customer-fields", form_id: "54tjqK" %}
+      </div>
+
+    </div>
+
+    <div class="right__drawer__content" data-right-drawer-content="recover">
+      <div class="right__drawer__head-create">
+        <img class="right__drawer--back" 
+          data-right-drawer-toggle="login"
+          src="{{ 'icon-chevron.svg' | asset_url }}" 
+          />
+        <div class="right__drawer__head__title">
+          RESET YOUR PASSWORD
+        </div>
+        <div class="right__drawer--close">
+          <img src="{{ 'icon-close.svg' | asset_url }}" />
+        </div>
+      </div>
+      <div class="right__drawer__form__wrapper">
+        {% render 'customer-drawer-recover-form' %}
+      </div>
+    </div>
+
+  </div>
+</div>

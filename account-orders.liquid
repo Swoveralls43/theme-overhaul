@@ -1,0 +1,49 @@
+<div class="account__orders" data-right-drawer-type="account-orders">
+
+  <div class="right__drawer__content right__drawer__content-gradient"
+    data-right-drawer-content="order">
+    <div class="right__drawer__head">
+      <div class="right__drawer__head__title">
+        ORDERS ({{ customer.orders_count }})
+      </div>
+      <div class="right__drawer--close">
+        <img 
+          loading="lazy"
+          height="16"
+          width="16"
+          src="{{ 'icon-close.svg' | asset_url }}" 
+        />
+      </div>
+    </div>
+
+    <div class="right__drawer__subcontent__wrapper">
+      {% for order in customer.orders %}
+        <div class="right__drawer__order" data-right-drawer-toggle="account-order-{{order.id}}">
+          <div class="right__drawer__order__header">
+            <p class="right__drawer__order__status">{{ order.fulfillment_status }}</p>
+            <img
+              loading="lazy"
+              height="16"
+              width="16"
+              src="{{ 'icon-chevron.svg' | asset_url }}" 
+            />
+          </div>
+          <div class="right__drawer__order__content">
+            <p class="right__drawer__order__info">Order {{order.name}}</p>
+            <p class="right__drawer__order__info">{{ order.line_items | size }} items</p>
+          </div>
+          <div class="right__drawer__order__content">
+            <p class="right__drawer__order__info">{{ order.created_at | date: "%d/%m/%y" }}</p>
+            <p class="right__drawer__order__info">{{ order.total_price | money }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% for order in customer.orders %}
+    <div class="right__drawer__content" data-right-drawer-content="account-order-{{order.id}}">
+      {% render 'account-order-detail', order: order %}
+    </div>
+  {% endfor %}
+</div>
