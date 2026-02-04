@@ -1,0 +1,79 @@
+{%- comment -%}
+  Universal responsive image renderer (URL or image object)
+
+  Inputs:
+    img         (image object)  — from image_picker / file_reference
+    url         (string)        — raw URL like /files/xxx.webp?v=... (with/without width=)
+    alt         (string)        — alt text
+    class       (string)        — optional CSS class
+    sizes       (string)        — sizes attribute (defaults to 25/33/50vw grid)
+    widths_csv  (string)        — candidate widths CSV (defaults suit ~515px render)
+    eager       (boolean)       — true for LCP; otherwise lazy
+
+  Notes:
+  - If `img` is provided, we use Shopify’s CDN (auto AVIF/WebP).
+  - If only `url` is provided, we build a responsive srcset by varying ?width=.
+{%- endcomment -%}
+
+{%- assign sizes_attr = sizes | default: '(min-width: 1200px) 25vw, (min-width: 990px) 33vw, 50vw' -%}
+{%- assign widths_csv = widths_csv | default: '360,420,480,515,640,720' -%}
+{%- assign widths_arr = widths_csv | split: ',' -%}
+{%- assign is_eager = eager | default: false -%}
+{%- if is_eager == true or is_eager == 'true' -%}
+  {%- assign loading_attr = 'eager' -%}
+  {%- assign fetch_attr = 'high' -%}
+{%- else -%}
+  {%- assign loading_attr = 'lazy' -%}
+  {%- assign fetch_attr = 'low' -%}
+{%- endif -%}
+
+{%- if img -%}
+  {%- comment -%} IMAGE OBJECT PATH (best: lets CDN choose AVIF/WebP) {%- endcomment -%}
+  {%- capture srcset -%}
+    {%- for w in widths_arr -%}
+      {%- assign w_int = w | plus: 0 -%}
+      {{ img | image_url: width: w_int }} {{ w_int }}w{% unless forloop.last %}, {% endunless %}
+    {%- endfor -%}
+  {%- endcapture -%}
+  <img
+    {% if class %}class="{{ class | escape }}"{% endif %}
+    alt="{{ alt | default: img.alt | default: shop.name | escape }}"
+    src="{{ img | image_url: width: 515 }}"
+    srcset="{{ srcset | strip }}"
+    sizes="{{ sizes_attr }}"
+    width="{{ img.width }}"
+    height="{{ img.height }}"
+    loading="{{ loading_attr }}"
+    fetchpriority="{{ fetch_attr }}"
+    decoding="async"
+    style="display:block;inline-size:100%;block-size:auto;"
+  >
+{%- elsif url and url != blank -%}
+  {%- comment -%} RAW URL PATH (/files/…): build width-param srcset {%- endcomment -%}
+  {%- assign raw = url | strip -%}
+  {%- assign base_no_width = raw | split: 'width=' | first -%}
+  {%- assign join = '?' -%}
+  {%- if base_no_width contains '?' -%}{%- assign join = '&' -%}{%- endif -%}
+
+  {%- capture srcset -%}
+    {%- for w in widths_arr -%}
+      {%- assign w_int = w | plus: 0 -%}
+      {{ base_no_width }}{{ join }}width={{ w_int }} {{ w_int }}w{% unless forloop.last %}, {% endunless %}
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  <img
+    {% if class %}class="{{ class | escape }}"{% endif %}
+    alt="{{ alt | default: shop.name | escape }}"
+    src="{{ base_no_width }}{{ join }}width=515"
+    srcset="{{ srcset | strip }}"
+    sizes="{{ sizes_attr }}"
+    loading="{{ loading_attr }}"
+    fetchpriority="{{ fetch_attr }}"
+    decoding="async"
+    style="display:block;inline-size:100%;block-size:auto;"
+  >
+{%- else -%}
+  {%- comment -%} No image provided — keep layout stable {%- endcomment -%}
+  <div {% if class %}class="{{ class | escape }}"{% endif %} style="aspect-ratio:4/3;background:#f3f3f3"></div>
+{%- endif -%}

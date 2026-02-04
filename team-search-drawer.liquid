@@ -1,0 +1,36 @@
+<div class="right__drawer__collection__search" data-right-drawer-type="team-search-drawer">
+  <div class="right__drawer__content">
+    <div class="right__drawer__head">
+      <div class="right__drawer__head__title">
+        ALL <span class="js-teams-drawer-league">{{ collection.title | upcase }}</span> TEAMS
+      </div>
+      <div class="right__drawer--close">
+        <img src="{{ 'icon-close.svg' | asset_url }}" />
+      </div>
+    </div>
+
+    <div class="right__drawer__search__wrapper">
+      <form
+        class="right__drawer__search"
+        onsubmit="event.preventDefault();"
+        role="search"
+      >
+        <input
+          class="header__search__input js-teams-search"
+          type="text"
+          data-league="{{ collection.title | split: '|' | last | strip }}"
+          placeholder="Search {{collection.title}} teams"
+        />
+        <button class="header__search__btn" type="submit">
+          <img
+            src="{{ 'icon-search.svg' | asset_url }}"
+            class="header__search__icon"
+          />
+        </button>
+      </form>
+    </div>
+
+    <div class="right__drawer__teams__list js-all-teams-list"></div>
+
+  </div>
+</div>

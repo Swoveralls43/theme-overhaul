@@ -1,0 +1,64 @@
+{%- comment -%}
+  This grabs the Workshop Product data from metafield...
+
+    Usage:
+    {%- include 'tsio-workshop-data-product', wsProduct: product -%}
+{%- endcomment -%}
+{%- assign wsPhase = 'retail' -%}
+{%- assign wsActive = false -%}
+{%- assign wsStarts = '' -%}
+{%- assign wsEnds = '' -%}
+{%- assign wsTarget = 0 -%}
+{%- assign wsSales = 0 -%}
+{%- assign wsProgress = 0 -%}
+{%- assign wsShipDates = '' -%}
+{%- assign wsMsrp = nil -%}
+{%- assign wsImages = '' -%}
+{%- assign wsPreOrderTarget = 0 -%}
+{%- assign wsPreOrderSales = 0 -%}
+{%- assign wsData = wsProduct.metafields['tsio-workshop']['data'].value -%}
+{%- if wsData -%}
+  {%- comment -%}
+    Here we assign the data to some Liquid Variables
+  {%- endcomment -%}
+  {%- comment -%}
+    This can be used to print data to your dev console
+    <script>
+      console.log('Workshop Product Data: {{ wsProduct.title }}');
+      console.dir({{ wsData | json }});
+    </script>
+  {%- endcomment -%}
+  {%- assign wsPhase = wsData['phase'] -%}
+  {%- assign wsActive = wsData['active'] -%}
+  {%- assign wsStarts = wsData['starts_at'] -%}
+  {%- assign wsEnds = wsData['ends_at'] -%}
+  {%- assign wsTarget = wsData['threshold'] -%}
+  {%- assign wsSales = wsData['num_sold'] -%}
+  {%- assign wsProgress = wsSales | times: 100 | divided_by: wsTarget | round -%}
+  {%- assign wsShipDates = wsData['ship_dates'] -%}
+  {%- assign wsMsrp = wsData['msrp'] -%}
+  {%- assign wsImages = wsData['images'] -%}
+  {%- assign wsPreOrderTarget = wsData['preorder_threshold'] -%}
+  {%- if wsPreOrderTarget > 0 -%}
+    {%- assign wsPreOrderSales = wsData['preorder_num_sold'] -%}
+    {%- assign wsPreOrderRemaining = wsPreOrderTarget | minus: wsPreOrderSales -%}
+    {%- assign wsPreOrderProgress = wsPreOrderRemaining | times: 100 | divided_by: wsPreOrderTarget | round -%}
+    {%- if wsPreOrderRemaining < 0 -%}
+      {%- assign wsPreOrderRemaining = 0 -%}
+    {%- endif -%}
+    {%- comment -%}
+      <!-- wsPreOrderTarget: {{ wsPreOrderTarget }} -->
+      <!-- wsPreOrderSales: {{ wsPreOrderSales }} -->
+      <!-- wsPreOrderRemaining: {{ wsPreOrderRemaining }} -->
+      <!-- wsPreOrderProgress: {{ wsPreOrderProgress }}-->
+    {%- endcomment -%}
+  {%- endif -%}
+  {%- include 'tsio-workshop-data-pool' -%}
+{%- else -%}
+  {%- comment -%}
+    This can be used to print data to your dev console
+    <script>
+      console.log('Product Not in Workshop');
+    </script>
+  {%- endcomment -%}
+{%- endif -%}

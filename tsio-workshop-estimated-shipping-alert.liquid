@@ -1,0 +1,32 @@
+
+  <style>
+    
+    .ws-estimated-ship-date{
+      display:none!important;
+    }
+    
+  </style>
+  
+{%- if wsShipDatesCount > 0 -%}
+  <div class="ws-estimated-ship-date{% if wsShipDatesCount > 1 %} ws-multiple-ship-dates{% endif %}">
+    <p>
+      <b>{{ 'tsio.workshop.ui_estimated_shipping' | t }}{% if wsShipDatesCount > 1 %} ({{ 'tsio.workshop.ui_split_shipment_batch_one' | t }}){% endif %}: <span>{{ estShipRange1 }}</span></b>
+    </p>
+    {%- if wsShipDatesCount > 1 and wsOrderDeadlinesCount > 0 -%}
+      <p class="ws-cut-off">
+        <i>{{ 'tsio.workshop.ui_split_shipment_cut_off' | t }} {{ cutOffDate1 }}</i>
+      </p>
+      <p>
+        <b>{{ 'tsio.workshop.ui_estimated_shipping' | t }} ({{ 'tsio.workshop.ui_split_shipment_batch_two' | t }}): <span>{{ estShipRange2 }}</span></b>
+      </p>
+    {%- endif -%}
+    {%- if wsShipDatesCount > 2 and wsOrderDeadlinesCount > 1 -%}
+      <p class="ws-cut-off">
+        <i>{{ 'tsio.workshop.ui_split_shipment_cut_off' | t }} {{ cutOffDate2 }}</i>
+      </p>
+      <p>
+        <b>{{ 'tsio.workshop.ui_estimated_shipping' | t }} ({{ 'tsio.workshop.ui_split_shipment_batch_three' | t }}): <span>{{ estShipRange3 }}</span></b>
+      </p>
+    {%- endif -%}
+  </div>
+{%- endif -%}

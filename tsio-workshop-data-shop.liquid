@@ -1,0 +1,29 @@
+{%- comment -%}
+  This grabs the Workshop Shop-level data from metafield...
+
+    Usage:
+    {%- include 'tsio-workshop-data-shop' -%}
+{%- endcomment -%}
+{%- assign wsData = shop.metafields['tsio-workshop']['summary-data'].value -%}
+{%- if wsData -%}
+  {%- comment -%}
+    Here we assign the data to some Liquid Variables
+  {%- endcomment -%}
+  {%- assign wsMembers = wsData['total_workshop_customers'] -%}
+  {%- assign wsProjects = wsData['total_completed_projects'] -%}
+  {%- assign wsSavings = wsData['total_savings'] -%}
+  {%- comment -%}
+    This can be used to print data to your dev console
+    <script>
+      console.log('Workshop Shop-Level Data:');
+      console.dir({{ wsData | json }});
+    </script>
+  {%- endcomment -%}
+{%- else -%}
+  {%- comment -%}
+    This can be used to print data to your dev console
+    <script>
+      console.log('No Shop-Level Workshop Data');
+    </script>
+  {%- endcomment -%}
+{%- endif -%}

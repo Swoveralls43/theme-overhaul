@@ -1,0 +1,71 @@
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>
+<link rel="preload"
+      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"></noscript>
+
+<link rel="preload"
+      href="https://cdn.jsdelivr.net/gh/StephanWagner/jBox@v1.3.2/dist/jBox.all.min.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/StephanWagner/jBox@v1.3.2/dist/jBox.all.min.css"></noscript>
+
+
+{% comment %} <link rel="stylesheet" href="{{ 'pushbarjs-custom.css' | asset_url }}" rel="stylesheet">
+<link href='https://cdn.jsdelivr.net/npm/pushbar.js@1.0.0/src/pushbar.min.css' rel="stylesheet" /> {% endcomment %}
+
+
+<style>
+
+.sticky-cart{
+  position: fixed!important;
+  bottom: 0px!important;
+  width: 100%!important;
+  z-index: 99999999!important;
+}
+
+.sticky-cart button{
+  margin-bottom:0px!important;
+}
+
+
+.jBox-container{
+  border: 2px solid #28334A!important;
+}
+
+.jBox-TooltipBorder .jBox-pointer:after {
+  border: 2px solid #28334A!important;
+}
+
+.jBox-TooltipBorder.jBox-closeButton-box:before {
+  background:#28334A!important;
+}
+
+.learnmorelink{
+  color:#28334A;
+  font-weight:bold;
+}
+
+.fetchapitest{
+}
+</style>
+
+
+{% comment %} PRODUCT LIST - SAME HEIGHT {% endcomment %}
+<style>
+
+  .grid-normal-price{
+    color:#f21313!important;
+  }
+
+@media only screen and (max-width: 768px) {
+
+.grid__item__image{
+  height:300px!important;
+}
+
+}
+</style>
+
+

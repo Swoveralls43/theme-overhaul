@@ -1,0 +1,49 @@
+
+{% assign league_handle = league | split: 'league-' | last %}
+{% capture collection_handle %}{{ league_handle }}-logos{% endcapture %}
+{% assign team_collection = collections[collection_handle] %}
+{% assign num_of_teams = team_collection.products | size %}
+
+
+{% if num_of_teams > 0 %}
+  <div class="team-selector">
+    <div class="page-width">
+      <div class="team-selector__title">
+        <h3>Choose your {{ collection.title }} team</h3>
+        <button type="button" class="js-see-all-teams open__right__drawer" data-right-drawer-renderer="team-search-drawer" data-league="{{ league }}">
+          <span>All teams</span>
+          {% render 'icon-chevron-down' %}
+        </button>
+      </div>
+      <div class="team-selector__wrapper">
+        
+        {% for team in team_collection.products limit: 12 %}
+          
+          {% assign team_title = team.title | split: '|' | last | strip %}
+          {% assign team_collection_handle = team.handle | split: 'logo-' | last %}
+          {% assign team_url = '/' | append: 'collections/' | append: team_collection_handle %}
+          
+          <div class="team-grid-item">
+            <div class="team-grid-item__image">
+              <!-- <img src="{{ team.descript | img_url: 'master' }}" alt="{{ team.featured_image.alt }}"> -->
+              {{ team.description }}
+            </div>
+            <p class="center">{{ team_title }}</p>
+            <a href="{{ team_url }}" aria-label="{{ team.title }}"></a>
+          </div>
+          
+          {% if forloop.last %}
+            <div class="team-grid-item js-see-all-teams open__right__drawer" 
+            data-right-drawer-renderer="team-search-drawer"
+            data-league="{{ league }}">
+              <div class="team-grid-item__image">
+                {% render 'icon-grid' %}
+              </div>
+              <p class="center">See All {{ league }} Teams</p>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endif %}

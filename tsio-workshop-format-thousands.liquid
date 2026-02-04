@@ -1,0 +1,15 @@
+{%- assign numberArray = tsio-workshop-format-thousands | split: '' -%}
+{%- assign reversedNumberArray = numberArray | reverse -%}
+{%- assign thouCounter = 0 -%}
+{%- capture stringOfIntegers-%}
+  {%- for integer in reversedNumberArray -%}
+    {%- assign thouCounter = thouCounter | plus: 1 -%}
+    {%- assign thouModulo = thouCounter | modulo: 3 -%}
+    {{ integer }}
+    {%- unless forloop.last -%}
+      {%- if thouModulo == 0 -%} , {% endif %}
+    {%- endunless -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- assign thousandFormatted = stringOfIntegers | split: ' ' | reverse | join: '' -%}
+{{- thousandFormatted -}}

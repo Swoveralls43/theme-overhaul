@@ -1,0 +1,21 @@
+{{ 'snippet-right-drawer.css' | asset_url | stylesheet_tag }}
+
+<div class="right__drawer">
+  <div class="right__drawer__overlay right__drawer--close"></div>
+  <div class="right__drawer__wrapper">
+    {% assign current_url = canonical_url %}
+      {% unless current_url contains 'account' %}
+        {% render 'account-actions' %}
+      {% endunless %}
+    {% if current_url contains 'account' %}
+      {% render 'account-actions' %}
+      {% render 'account-addresses' %}
+      {% render 'account-details' %}
+      {% render 'account-orders' %}
+      {% render 'account-preferences' %}
+    {% elsif current_url contains 'products' %}
+      {% render 'product-details' %}
+      {% render 'product-notify-me' %}
+    {% endif %}
+  </div>
+</div>

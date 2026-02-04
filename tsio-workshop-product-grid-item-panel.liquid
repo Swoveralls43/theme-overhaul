@@ -1,0 +1,71 @@
+{%- include 'tsio-workshop-data-product', wsProduct: product -%}
+{%- include 'tsio-workshop-estimated-shipping-range', wsProduct: product -%}
+<li id="ws-project-{{ product.handle }}" class="ws-project"
+  data-id="{{ product.id }}"
+  data-project-end="{{ wsEnds | remove: '/' }}">
+  {%- assign img = product.images.first -%}
+  {%- assign alt = img.alt -%}
+  <figure data-ws-progress="{% if wsProgress >= 100 %}100%{% else %}{{ wsProgress }}%{% endif %}">
+    <a href="{{ product.url | within: collection }}">
+      {% comment %}
+        {%- include 'tsio-workshop-responsive-image', imgSmall: img, alt: alt -%}
+      {% endcomment %}
+      <!-- {{ wsImages[0] }} -->
+      {%- include 'tsio-workshop-responsive-image', imgSmall: wsImages[0], alt: product.title -%}
+    </a>
+    <figcaption>
+      <a href="{{ product.url | within: collection }}" class="ws-overlay" title="{{ product.title }}">
+        <span class="ws-btn button">{{ 'tsio.workshop.ui_active_cta' | t }}</span>
+        <span class="ws-project-heading h2" data-ws-progress="{% if wsProgress >= 100 %}100%{% else %}{{ wsProgress }}%{% endif %}">
+          {{ product.title }}
+        </span>
+        <span class="ws-funding">
+          <span class="ws-progress">{{ wsProgress }}%</span>
+          <span class="ws-label">{{ 'tsio.workshop.ui_progress' | t }}</span>
+        </span>
+      </a>
+    </figcaption>
+  </figure>
+  <a href="{{ product.url | within: collection }}" title="{{ product.title }}">
+    <span class="ws-dash">
+      <span class="ws-project-heading h2" data-ws-progress="{% if wsProgress >= 100 %}100%{% else %}{{ wsProgress }}%{% endif %}">
+        {{ product.title }}
+      </span>
+      {%- case wsPhase -%}
+        {%- when 'crowd-sourced' -%}
+          <span class="ws-btn button">{{ 'tsio.workshop.ui_active_cta' | t }}</span>
+      {%- endcase -%}
+      <span class="ws-pricing">
+        <span class="ws-funding">
+          <span class="ws-progress">{{ wsProgress }}%</span>
+          <span class="ws-label">{{ 'tsio.workshop.ui_progress' | t }}</span>
+        </span>
+        <span class="ws-pre-sale">
+          <span class="ws-price">{{ product.price | money | remove:'.00' }}</span>
+          <span class="ws-label">{{ 'tsio.workshop.ui_compare_at_price' | t }}</span>
+        </span>
+        <span class="ws-regular">
+          <s class="ws-msrp">{{ wsMsrp | prepend: '$' | remove: '.00' }}</s>
+          <span class="ws-label">{{ 'tsio.workshop.ui_price' | t }}</span>
+        </span>
+      </span>
+      <span class="ws-period">
+        <time class="ws-countdown" datetime="{{ wsEnds }}">{{ wsEnds }}</time>
+        <span class="ws-label">
+          {%- case wsPhase -%}
+            {%- when 'crowd-sourced' -%}
+              {{ 'tsio.workshop.ui_timing' | t }}
+            {%- when 'pre-order' or 'in-production' -%}
+              {{ 'tsio.workshop.ui_ended' | t }}
+          {%- endcase -%}
+        </span>
+      </span>
+      {%- if wsShipDatesCount > 0 -%}
+        <span class="ws-ship-dates">
+          <span class="ws-ship-range">{{ estShipRangeTotal }}</span>
+          <span class="ws-label">{{ 'tsio.workshop.ui_estimated_shipping' | t }}</span>
+        </span>
+      {%- endif -%}
+    </span>
+  </a>
+</li>

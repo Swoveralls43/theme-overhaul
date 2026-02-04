@@ -1,0 +1,288 @@
+
+<script src="https://cdn.jsdelivr.net/gh/StephanWagner/jBox@v1.3.2/dist/jBox.all.min.js" defer></script>
+
+<script>
+  jQuery(document).ready(function( $ ) {
+
+    $("#freeshippinglink").click(function(event){
+      event.preventDefault();
+    });
+
+    new jBox('Tooltip', {
+      attach: '#freeshippinglink',
+      target: '#freeshippinglink',
+      theme: 'TooltipBorder',
+      trigger: 'click',
+      adjustPosition: true,
+      adjustTracker: true,
+      closeOnClick: 'body',
+      closeButton: 'box',
+      animation: 'move',
+      position: {
+        x: 'left',
+        y: 'top'
+      },
+      outside: 'y',
+      pointer: 'left:20',
+      offset: {
+        x: 25
+      },
+      content:'<div class="tooltipnoticecontainer"><h2>Free Shipping</h2><p>Orders typically ship from our warehouses within 24-48 hours Monday through Friday. </p></div>',
+      onOpen: function () {
+        //this.source.addClass('active').html('Now scroll');
+      },
+      onClose: function () {
+       // this.source.removeClass('active').html('Click me');
+      }
+    });
+
+});
+</script>
+
+
+
+<script>
+  jQuery(document).ready(function( $ ) {
+
+    $("#returnslink").click(function(event){
+      event.preventDefault();
+    });
+
+    new jBox('Tooltip', {
+      attach: '#returnslink',
+      target: '#returnslink',
+      theme: 'TooltipBorder',
+      trigger: 'click',
+      adjustPosition: true,
+      adjustTracker: true,
+      closeOnClick: 'body',
+      closeButton: 'box',
+      animation: 'move',
+      position: {
+        x: 'left',
+        y: 'top'
+      },
+      outside: 'y',
+      pointer: 'left:20',
+      offset: {
+        x: 25
+      },
+      content:'<div class="tooltipnoticecontainer"><h2>365 Returns & Exchange Policy</h2><p>We offer a 365-day return and exchange policy on all products*. We stand by the quality and design of everything we make, so if you need to make a change, we`re happy to help! </p><p><i>*Final sale and mystery Swoveralls are not eligible for returns or exchanges.</i></p><p><a href="https://swoveralls.com/pages/returns-exchanges" class="learnmorelink">Learn more</a></p></div>',
+      onOpen: function () {
+        //this.source.addClass('active').html('Now scroll');
+      },
+      onClose: function () {
+       // this.source.removeClass('active').html('Click me');
+      }
+    });
+
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  jQuery(document).ready(function( $ ) {
+    
+    function limitParagraph(paragraph, limit) {
+      const sentences = paragraph.split(". ");
+      const limitedSentences = sentences.slice(0, limit);
+      const limitedParagraph = limitedSentences.join(". ");
+      return limitedParagraph;
+    }
+
+
+    function removeNotificationDisabledClass(){
+        $('.disabledvariantoption').removeAttr("disabled");
+        $("span.product__form__variants__option-label").removeClass("product__variant__sold__out");
+        //console.log("REMOVE CLASS for Notification Selected Products");   
+    }
+
+    
+    function enableNotificationSelectedProducts(selectedproducthandle){
+      //console.log("Product Handle: "+selectedproducthandle);
+     
+
+      var choiceproducthandle=selectedproducthandle;
+      switch(choiceproducthandle) {
+        case "swoveralls-midnight-black":
+          setTimeout(removeNotificationDisabledClass, 1000);
+          break;
+        case "swoveralls-navy":
+          setTimeout(removeNotificationDisabledClass, 1000);
+          break;
+        case "swoveralls-dark-athletic-grey":
+          setTimeout(removeNotificationDisabledClass, 1000);
+          break;
+        case "swoveralls-heather-grey":
+          setTimeout(removeNotificationDisabledClass, 1000);
+          break;
+        case "swoveralls-forest-green":
+          setTimeout(removeNotificationDisabledClass, 1000);
+          break;
+        case "swovie-shorts-midnight-black":
+          setTimeout(removeNotificationDisabledClass, 1000);
+          break;
+        case "swovie-shorts-navy":
+          setTimeout(removeNotificationDisabledClass, 1000);
+          break;
+        case "swovie-shorts-dark-athletic-grey":
+          setTimeout(removeNotificationDisabledClass, 1000);
+          break;
+        case "swovie-shorts-light-heather-grey":
+          setTimeout(removeNotificationDisabledClass, 1000);
+          break;          
+        default:
+          console.log("");
+      }
+      
+    }
+
+
+
+    
+    
+    $(".js-color-select").click(function(){
+
+      
+      var store_url = "https://swoveralls.com/"; 
+      var product_handle = $(this).attr("data-product-handle");
+      var full_url = store_url + '/products/' + product_handle + '.json';
+      var full_url_link = store_url + 'products/' + product_handle;
+      //window.location.href = full_url_link;
+
+      var swovproductid=$(this).attr("data-product-id");
+      var swovproducttitle=$(this).attr("data-product-urlid");
+      $("h1.product__description__form__title").text(swovproducttitle);
+
+      //enableNotificationSelectedProducts(product_handle);
+
+
+      $.ajax({
+        url: full_url,
+        success: function(data) {
+         // console.log("product id:" + data.product.id);
+         // console.log("product title:" + data.product.title);
+         // console.log("product content:" + data.product.body_html);
+
+          
+          var summarycontent= data.product.body_html.replace(/(<([^>]+)>)/gi, "");
+          const data_summarycontent = limitParagraph(summarycontent, 3);
+
+          $('.right__drawer__product__info').html(data.product.body_html);
+          $('.product__description__form__detail .product__description__form__detail-content').html(data_summarycontent+'.');
+          $('.product__description__form__detail-mobile .product__description__form__detail-content').html(data.product.body_html);
+        }
+      });
+
+
+    });
+
+
+
+
+
+
+
+    
+  });	
+  </script>  
+
+
+
+
+
+
+
+
+
+
+
+{%- if template contains 'product' -%}
+
+{% if product.tags contains 'Core' and product.tags contains 'comfyallscolor' %}
+
+  
+<script type="text/javascript">
+   jQuery(document).ready(function( $ ) {
+
+     $("span.product__form__variants__option-label").removeClass("product__variant__sold__out");
+
+      $(".js-option-sizes .product__form__variants__option").click(function(){
+        var product_availability = $(this).attr("data-availability");
+        $(".js-add-to-cart").addClass("force-hidden");
+        product_availability === 'unavailable' ? $(".hdx-cart-btn").addClass("force-hidden") : $(".hdx-cart-btn").removeClass("force-hidden");
+        product_availability === 'available' ? $(".klaviyo-bis-trigger").addClass("force-hidden") : $(".klaviyo-bis-trigger").removeClass("force-hidden");
+         //console.log("PRODUCT OPTIONS CLICKED. "+product_availability);
+      });  
+
+
+       });	
+
+
+</script>
+
+
+{% endif %}
+{%- endif -%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{%- if template contains 'product' -%}
+
+
+  <script>
+  $(document).ready(function() {
+    
+    const intervalStockAlert = setInterval(initiationStockAlertProcess, 2000);
+    function initiationStockAlertProcess() {
+    
+        if ($( "#effectiveAppsLowInStockAlert").length ) {
+             $("#effectiveAppsLowInStockAlert").insertBefore(".message-shipping-container");
+                clearInterval(intervalStockAlert);
+                //console.log('--- FOUND STOCK ALERT');
+        }else{
+           //console.log('--- --- NOT FOUND STOCK ALERT');
+        }
+        
+    }
+    
+  });
+  </script>
+
+  
+{%- endif -%}
+
+
+  
+
+
+  {% comment %} <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pushbar.js@1.0.0/src/pushbar.min.js"></script>
+
+  <script type="text/javascript">
+    new Pushbar({
+        blur: true,
+        overlay: true
+    });    
+  </script> {% endcomment %}
+
+
+  

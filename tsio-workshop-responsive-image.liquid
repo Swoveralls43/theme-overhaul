@@ -1,0 +1,73 @@
+{%- assign imgSizeLoRes = '414x' -%}{%- comment -%} break_iphone_plus_up {%- endcomment -%}
+{%- assign imgSizeIphonePlusUp = '800x' -%}{%- comment -%} break_tablet_portrait_up {%- endcomment -%}
+{%- assign imgSizeTabletPortraitUp = '960x' -%}{%- comment -%} break_tablet_landscape_up {%- endcomment -%}
+{%- assign imgSizeTabletLandscapeUp = '1180x' -%}{%- comment -%} break_desktop_up {%- endcomment -%}
+{%- assign imgSizeDesktopUp = '1440x' -%}{%- comment -%} break_big_desktop_up {%- endcomment -%}
+{%- assign imgSizeBigDesktopUp = 'master' -%}
+
+{%- assign imgName = imgSmall -%}
+{%- unless imgName contains '.jpg' -%}
+  {%- unless imgName contains '.png' -%}
+    {%- assign imgName = imgName | append: '.jpg' -%}
+  {%- endunless -%}
+{%- endunless -%}
+
+{%- assign isArtDirected = false -%}
+{%- if imgLarge -%}
+  {%- assign isArtDirected = true -%}
+  {%- assign imgNameDesktop = imgLarge -%}
+  {%- unless imgNameDesktop contains '.jpg' -%}
+    {%- unless imgNameDesktop contains '.png' -%}
+      {%- assign imgNameDesktop = imgNameDesktop | append: '.jpg' -%}
+    {%- endunless -%}
+  {%- endunless -%}
+{%- endif -%}
+
+{%- if imgName contains 'collections/' -%}
+  {%- assign imgLoRes = imgName | collection_img_url: imgSizeLoRes, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+  {%- assign imgIphonePlusUp = imgName | collection_img_url: imgSizeIphonePlusUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+  {%- assign imgTabletPortraitUp = imgName | collection_img_url: imgSizeTabletPortraitUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+  {%- if isArtDirected -%}
+    {% assign imgName = imgNameDesktop %}
+  {%- endif -%}
+  {%- assign imgTabletLandscapeUp = imgName | collection_img_url: imgSizeTabletLandscapeUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+  {%- assign imgDesktopUp = imgName | collection_img_url: imgSizeDesktopUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+  {%- assign imgBigDesktopUp = imgName | collection_img_url: imgSizeBigDesktopUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+{%- elsif imgName contains 'products/' -%}
+  {%- assign imgLoRes = imgName | product_img_url: imgSizeLoRes, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+  {%- assign imgIphonePlusUp = imgName | product_img_url: imgSizeIphonePlusUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+  {%- assign imgTabletPortraitUp = imgName | product_img_url: imgSizeTabletPortraitUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+  {%- if isArtDirected -%}
+    {% assign imgName = imgNameDesktop %}
+  {%- endif -%}
+  {%- assign imgTabletLandscapeUp = imgName | product_img_url: imgSizeTabletLandscapeUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+  {%- assign imgDesktopUp = imgName | product_img_url: imgSizeDesktopUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+  {%- assign imgBigDesktopUp = imgName | product_img_url: imgSizeBigDesktopUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+{%- else -%}
+  {%- assign imgName = imgName | remove: 'files/' -%}
+  {%- assign imgLoRes = imgName | file_img_url: imgSizeLoRes, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+  {%- assign imgIphonePlusUp = imgName | file_img_url: imgSizeIphonePlusUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+  {%- assign imgTabletPortraitUp = imgName | file_img_url: imgSizeTabletPortraitUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+  {%- if isArtDirected -%}
+    {% assign imgName = imgNameDesktop | remove: 'files/' %}
+  {%- endif -%}
+  {%- assign imgTabletLandscapeUp = imgName | file_img_url: imgSizeTabletLandscapeUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+  {%- assign imgDesktopUp = imgName | file_img_url: imgSizeDesktopUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+  {%- assign imgBigDesktopUp = imgName | file_img_url: imgSizeBigDesktopUp, format: 'pjpg' | replace: '.jpeg.jpg', '.jpeg' -%}
+{%- endif -%}
+<img alt="{{ alt }}"
+  class="lazyload"
+  src="{{ imgLoRes }}"
+  {% if imgName contains 'products/' %}srcset="{{ 'icon-product-placeholder.svg' | asset_url }}"{% endif %}
+  data-src="{{ imgIphonePlusUp }}"
+  data-srcset="{{ imgLoRes }} {{ imgSizeLoRes | replace: 'x', 'w' }},
+    {{ imgIphonePlusUp }} {{ imgSizeIphonePlusUp | replace: 'x', 'w' }},
+    {{ imgTabletPortraitUp }} {{ imgSizeTabletPortraitUp | replace: 'x', 'w' }},
+    {{ imgTabletLandscapeUp }} {{ imgSizeTabletLandscapeUp | replace: 'x', 'w' }},
+    {{ imgDesktopUp }} {{ imgSizeDesktopUp | replace: 'x', 'w' }},
+    {{ imgBigDesktopUp }} 1980w"
+  data-sizes="auto"
+/>
+{% comment %}
+  <img src="{{ imgBigDesktopUp }}" alt="{{ alt }}">
+{% endcomment %}

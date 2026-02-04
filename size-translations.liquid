@@ -1,0 +1,28 @@
+{% liquid 
+  assign s = size
+  
+  case size
+    when 'OSF'
+      assign s = 'One size fits all'
+    when 'S'
+      assign s = 'Small'
+    when 'M'
+      assign s = 'Medium'
+    when 'L'
+      assign s = 'Large'
+    when '2X'
+      assign s = 'XXL'
+    when '3X'
+      assign s = 'XXXL'
+    when 'KID'
+      assign s = 'Kids'
+    when 'TOD'
+      assign s = 'Toddler'
+    when 'INF'
+      assign s = 'Infant'
+    when 'YTH'
+      assign s = 'Youth'
+  endcase 
+%}
+
+{{- s -}}

@@ -1,0 +1,14 @@
+{%- comment -%}
+  Here we grab any pooled Project data i.e. sales, progress
+{%- endcomment -%}
+{%- assign wsDataPool = wsProduct.metafields['tsio-workshop']['pool'].value -%}
+{%- if wsDataPool -%}
+  {%- assign wsPooledSales = wsDataPool['parent']['num_sold'] -%}
+  {%- for childShop in wsDataPool['children'] -%}
+    {%- assign wsPooledSales = wsPooledSales | plus: childShop['num_sold'] -%}
+  {%- endfor -%}
+  {%- comment -%}
+    Re-assign sales and progress with included pooled data
+  {%- endcomment -%}
+  {%- assign wsProgress = wsSales | times: 100 | divided_by: wsTarget | round -%}
+{%- endif -%}

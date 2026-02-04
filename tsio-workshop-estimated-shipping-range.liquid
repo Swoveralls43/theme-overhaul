@@ -1,0 +1,56 @@
+{%- comment -%}
+  Usage:
+
+  {%- include 'tsio-workshop-estimated-shipping-range', wsProduct: product -%}
+{%- endcomment -%}
+{%- assign wsData = wsProduct.metafields['tsio-workshop']['data'].value -%}
+{%- assign wsShipDates = wsData['ship_dates'] | split: ',' -%}
+{%- assign wsShipDatesCount = wsShipDates | size -%}
+{%- assign wsOrderDeadlines = wsData['cutoff_dates'] | split: ',' -%}
+{%- assign wsOrderDeadlinesCount = wsOrderDeadlines | size -%}
+{%- if wsShipDatesCount > 0 -%}
+  {%- assign hasShipDate1 = true -%}
+  {%- assign unixDate1 = wsShipDates[0] | replace: '/', '-' | date: '%s' -%}
+  {%- assign daysToAdd = 20 | times: 24 | times: 60 | times: 60 -%}
+  {%- capture estShipRange1 -%}
+    {{ unixDate1 | date: '%m/%-d' }}&thinsp;&ndash;&thinsp;{{ unixDate1 | plus: daysToAdd | date: '%m/%-d' }}
+  {%- endcapture -%}
+  {%- capture estShipRangeTotal -%}{{ estShipRange1 }}{%- endcapture -%}
+  {%- if wsShipDatesCount > 1 -%}
+    {%- assign hasShipDate2 = true -%}
+    {%- assign unixDate2 = wsShipDates[1] | replace: '/', '-' | date: '%s' -%}
+    {%- capture estShipRange2 -%}
+      {{ unixDate2 | date: '%m/%-d' }}&thinsp;&ndash;&thinsp;{{ unixDate2 | plus: daysToAdd | date: '%m/%-d' }}
+    {%- endcapture -%}
+    {%- capture estShipRangeTotal -%}
+      {{ unixDate1 | date: '%m/%-d' }}&thinsp;&ndash;&thinsp;{{ unixDate2 | plus: daysToAdd | date: '%m/%-d' }}
+    {%- endcapture -%}
+    {%- if wsOrderDeadlinesCount > 0 -%}
+      {%- assign unixCutOffDate1 = wsOrderDeadlines[0] | replace: '/', '-' | date: '%s' -%}
+      {%- assign cutOffDate1 = unixCutOffDate1 | date: '%m/%-d' -%}
+    {%- endif -%}
+    {%- if wsShipDatesCount > 2 -%}
+      {%- assign hasShipDate3 = true -%}
+      {%- assign unixDate3 = wsShipDates[2] | replace: '/', '-' | date: '%s' -%}
+      {%- capture estShipRange3 -%}
+        {{ unixDate3 | date: '%m/%-d' }}&thinsp;&ndash;&thinsp;{{ unixDate3 | plus: daysToAdd | date: '%m/%-d' }}
+      {%- endcapture -%}
+      {%- capture estShipRangeTotal -%}
+        {{ unixDate1 | date: '%m/%-d' }}&thinsp;&ndash;&thinsp;{{ unixDate3 | plus: daysToAdd | date: '%m/%-d' }}
+      {%- endcapture -%}
+      {%- if wsOrderDeadlinesCount > 1 -%}
+        {%- assign unixCutOffDate2 = wsOrderDeadlines[1] | replace: '/', '-' | date: '%s' -%}
+        {%- assign cutOffDate2 = unixCutOffDate2 | date: '%m/%-d' -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}
+{%- comment -%}
+  For debug
+  <script type="text/javascript">
+    console.log('Workshop Ship Dates Count: {{ wsShipDatesCount }}');
+    console.dir('{{ wsShipDates | json }}');
+    console.log('Workshop Order Deadlines Count: {{ wsOrderDeadlinesCount }}');
+    console.dir('{{ wsOrderDeadlines | json }}');
+  </script>
+{%- endcomment -%}
