@@ -1,0 +1,928 @@
+{% doc %}
+  @prompt
+    A magazine-style editorial layout, Include a section for rich text, remove the number of images or make it easy to add/remove images shown. remove the feature article module. , replace all article sections for just image uploads
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-magazine-layout-{{ ai_gen_id }} {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: {{ block.settings.section_padding }}px 20px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-magazine-richtext-{{ ai_gen_id }} {
+    max-width: 800px;
+    margin: 0 auto {{ block.settings.grid_gap | times: 2 }}px;
+    text-align: center;
+    color: {{ block.settings.richtext_color }};
+  }
+
+  .ai-magazine-richtext-{{ ai_gen_id }} h1,
+  .ai-magazine-richtext-{{ ai_gen_id }} h2,
+  .ai-magazine-richtext-{{ ai_gen_id }} h3 {
+    margin: 0 0 16px;
+    line-height: 1.2;
+  }
+
+  .ai-magazine-richtext-{{ ai_gen_id }} p {
+    margin: 0 0 16px;
+    line-height: 1.6;
+  }
+
+  .ai-magazine-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: {{ block.settings.grid_gap }}px;
+  }
+
+  .ai-magazine-item-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-magazine-item-{{ ai_gen_id }}--large {
+    grid-column: span 6;
+  }
+
+  .ai-magazine-item-{{ ai_gen_id }}--medium {
+    grid-column: span 4;
+  }
+
+  .ai-magazine-item-{{ ai_gen_id }}--small {
+    grid-column: span 3;
+  }
+
+  .ai-magazine-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    overflow: hidden;
+  }
+
+  .ai-magazine-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .ai-magazine-item-{{ ai_gen_id }}:hover .ai-magazine-image-{{ ai_gen_id }} {
+    transform: scale(1.05);
+  }
+
+  .ai-magazine-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #e5e5e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ai-magazine-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 200px;
+    max-height: 200px;
+    opacity: 0.3;
+  }
+
+  .ai-magazine-content-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: {{ block.settings.content_padding }}px;
+    background: linear-gradient(to top, rgba(0, 0, 0, {{ block.settings.overlay_opacity }}), transparent);
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-magazine-category-{{ ai_gen_id }} {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    color: {{ block.settings.category_color }};
+  }
+
+  .ai-magazine-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 8px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-magazine-description-{{ ai_gen_id }} {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    color: {{ block.settings.text_color }};
+    opacity: 0.9;
+  }
+
+  .ai-magazine-link-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-magazine-item-{{ ai_gen_id }}--large {
+      grid-column: span 12;
+    }
+
+    .ai-magazine-item-{{ ai_gen_id }}--medium {
+      grid-column: span 6;
+    }
+
+    .ai-magazine-item-{{ ai_gen_id }}--small {
+      grid-column: span 6;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-magazine-grid-{{ ai_gen_id }} {
+      gap: {{ block.settings.grid_gap | divided_by: 2 }}px;
+    }
+
+    .ai-magazine-item-{{ ai_gen_id }}--medium,
+    .ai-magazine-item-{{ ai_gen_id }}--small {
+      grid-column: span 12;
+    }
+
+    .ai-magazine-image-wrapper-{{ ai_gen_id }} {
+      min-height: 250px;
+    }
+
+    .ai-magazine-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.title_size }}px * 0.9);
+    }
+
+    .ai-magazine-content-{{ ai_gen_id }} {
+      padding: {{ block.settings.content_padding | divided_by: 2 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-magazine-layout-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.richtext != blank %}
+    <div class="ai-magazine-richtext-{{ ai_gen_id }}">
+      {{ block.settings.richtext }}
+    </div>
+  {% endif %}
+
+  <div class="ai-magazine-grid-{{ ai_gen_id }}">
+    {% for i in (1..12) %}
+      {% liquid
+        assign image_key = 'image_' | append: i
+        assign size_key = 'image_' | append: i | append: '_size'
+        assign title_key = 'image_' | append: i | append: '_title'
+        assign category_key = 'image_' | append: i | append: '_category'
+        assign description_key = 'image_' | append: i | append: '_description'
+        assign link_key = 'image_' | append: i | append: '_link'
+        
+        assign image = block.settings[image_key]
+        assign size = block.settings[size_key]
+        assign title = block.settings[title_key]
+        assign category = block.settings[category_key]
+        assign description = block.settings[description_key]
+        assign link = block.settings[link_key]
+      %}
+
+      {% if image or title != blank %}
+        <article class="ai-magazine-item-{{ ai_gen_id }} ai-magazine-item-{{ ai_gen_id }}--{{ size }}">
+          <div class="ai-magazine-image-wrapper-{{ ai_gen_id }}">
+            {% if image %}
+              <img
+                src="{{ image | image_url: width: 800 }}"
+                alt="{{ image.alt | escape }}"
+                class="ai-magazine-image-{{ ai_gen_id }}"
+                loading="lazy"
+                width="{{ image.width }}"
+                height="{{ image.height }}"
+              >
+            {% else %}
+              <div class="ai-magazine-placeholder-{{ ai_gen_id }}">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+          {% if title != blank or category != blank or description != blank %}
+            <div class="ai-magazine-content-{{ ai_gen_id }}">
+              {% if category != blank %}
+                <span class="ai-magazine-category-{{ ai_gen_id }}">{{ category }}</span>
+              {% endif %}
+              {% if title != blank %}
+                <h3 class="ai-magazine-title-{{ ai_gen_id }}">{{ title }}</h3>
+              {% endif %}
+              {% if description != blank %}
+                <p class="ai-magazine-description-{{ ai_gen_id }}">{{ description }}</p>
+              {% endif %}
+            </div>
+          {% endif %}
+          {% if link != blank %}
+            <a href="{{ link }}" class="ai-magazine-link-{{ ai_gen_id }}" aria-label="{{ title | default: 'View more' }}"></a>
+          {% endif %}
+        </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Magazine editorial layout",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "richtext",
+      "id": "richtext",
+      "label": "Rich text",
+      "default": "<h2>Editorial Stories</h2><p>Discover our latest articles and insights</p>"
+    },
+    {
+      "type": "color",
+      "id": "richtext_color",
+      "label": "Rich text color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_1_size",
+      "label": "Size",
+      "options": [
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "text",
+      "id": "image_1_category",
+      "label": "Category"
+    },
+    {
+      "type": "text",
+      "id": "image_1_title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "image_1_description",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "image_1_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_2_size",
+      "label": "Size",
+      "options": [
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "text",
+      "id": "image_2_category",
+      "label": "Category"
+    },
+    {
+      "type": "text",
+      "id": "image_2_title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "image_2_description",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "image_2_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_3_size",
+      "label": "Size",
+      "options": [
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "text",
+      "id": "image_3_category",
+      "label": "Category"
+    },
+    {
+      "type": "text",
+      "id": "image_3_title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "image_3_description",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "image_3_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Image 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_4_size",
+      "label": "Size",
+      "options": [
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "text",
+      "id": "image_4_category",
+      "label": "Category"
+    },
+    {
+      "type": "text",
+      "id": "image_4_title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "image_4_description",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "image_4_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Image 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_5",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_5_size",
+      "label": "Size",
+      "options": [
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "text",
+      "id": "image_5_category",
+      "label": "Category"
+    },
+    {
+      "type": "text",
+      "id": "image_5_title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "image_5_description",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "image_5_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Image 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_6",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_6_size",
+      "label": "Size",
+      "options": [
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        }
+      ],
+      "default": "small"
+    },
+    {
+      "type": "text",
+      "id": "image_6_category",
+      "label": "Category"
+    },
+    {
+      "type": "text",
+      "id": "image_6_title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "image_6_description",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "image_6_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Image 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_7",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_7_size",
+      "label": "Size",
+      "options": [
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        }
+      ],
+      "default": "small"
+    },
+    {
+      "type": "text",
+      "id": "image_7_category",
+      "label": "Category"
+    },
+    {
+      "type": "text",
+      "id": "image_7_title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "image_7_description",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "image_7_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Image 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_8",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_8_size",
+      "label": "Size",
+      "options": [
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        }
+      ],
+      "default": "small"
+    },
+    {
+      "type": "text",
+      "id": "image_8_category",
+      "label": "Category"
+    },
+    {
+      "type": "text",
+      "id": "image_8_title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "image_8_description",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "image_8_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Image 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_9",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_9_size",
+      "label": "Size",
+      "options": [
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        }
+      ],
+      "default": "small"
+    },
+    {
+      "type": "text",
+      "id": "image_9_category",
+      "label": "Category"
+    },
+    {
+      "type": "text",
+      "id": "image_9_title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "image_9_description",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "image_9_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Image 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_10",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_10_size",
+      "label": "Size",
+      "options": [
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "text",
+      "id": "image_10_category",
+      "label": "Category"
+    },
+    {
+      "type": "text",
+      "id": "image_10_title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "image_10_description",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "image_10_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Image 11"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_11",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_11_size",
+      "label": "Size",
+      "options": [
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "text",
+      "id": "image_11_category",
+      "label": "Category"
+    },
+    {
+      "type": "text",
+      "id": "image_11_title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "image_11_description",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "image_11_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Image 12"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_12",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_12_size",
+      "label": "Size",
+      "options": [
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "text",
+      "id": "image_12_category",
+      "label": "Category"
+    },
+    {
+      "type": "text",
+      "id": "image_12_title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "image_12_description",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "image_12_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#f5f6f8"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "category_color",
+      "label": "Category",
+      "default": "#334FB4"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "label": "Overlay opacity",
+      "default": 0.8
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Grid gap",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "min": 20,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Content padding",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Section padding",
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "Magazine editorial layout"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,10 @@
+<svg data-name="Group 391" xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10 7">
+  <defs>
+    <clipPath id="a">
+      <path data-name="Path 142" d="M4.224-12.12a.625.625 0 0 1-.424-.168L.94-15.026l.844-.808 2.44 2.334 5.876-5.62.844.808-6.3 6.027a.622.622 0 0 1-.42.165z" transform="translate(-.94 19.12)"/>
+    </clipPath>
+  </defs>
+  <g data-name="Group 390" style="clip-path:url(#a)">
+    <path data-name="Path 141" d="M-2-1.915h14V8.914H-2z"/>
+  </g>
+</svg>

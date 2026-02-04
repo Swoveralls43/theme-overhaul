@@ -1,0 +1,498 @@
+{% doc %}
+  @prompt
+    I want to create a section that promotes our custom Swoveralls program. It's going to be exciting and showcase how we offer custom Swoveralls.
+    - Hero header
+    - Hero image
+    - Rich text
+    - Maybe some placeholders for additional images that we can show
+    - Mobile optimized
+    - Make a pop
+    - Make it on brand
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-custom-program-{{ ai_gen_id }} {
+    background-color: {{ block.settings.background_color }};
+    padding: 60px 20px;
+  }
+
+  .ai-custom-program__container-{{ ai_gen_id }} {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .ai-custom-program__hero-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .ai-custom-program__heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    margin: 0 0 20px;
+    font-weight: 700;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+  }
+
+  .ai-custom-program__hero-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .ai-custom-program__hero-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .ai-custom-program__hero-image-placeholder-{{ ai_gen_id }} {
+    background-color: #e8e9ec;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ai-custom-program__hero-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 400px;
+    opacity: 0.3;
+  }
+
+  .ai-custom-program__empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-custom-program__richtext-{{ ai_gen_id }} {
+    max-width: 800px;
+    margin: 0 auto 50px;
+    text-align: center;
+    font-size: {{ block.settings.text_size }}px;
+    line-height: 1.6;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-custom-program__richtext-{{ ai_gen_id }} p {
+    margin: 0 0 16px;
+  }
+
+  .ai-custom-program__richtext-{{ ai_gen_id }} p:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-custom-program__gallery-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 50px;
+  }
+
+  .ai-custom-program__gallery-item-{{ ai_gen_id }} {
+    position: relative;
+    border-radius: {{ block.settings.gallery_border_radius }}px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .ai-custom-program__gallery-item-{{ ai_gen_id }}:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .ai-custom-program__gallery-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .ai-custom-program__gallery-placeholder-{{ ai_gen_id }} {
+    background-color: #e8e9ec;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ai-custom-program__gallery-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.2;
+  }
+
+  .ai-custom-program__gallery-empty-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 16px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 6px;
+    font-size: 12px;
+    color: #666;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .ai-custom-program__cta-{{ ai_gen_id }} {
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  .ai-custom-program__button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 16px 40px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    font-size: {{ block.settings.button_text_size }}px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .ai-custom-program__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-custom-program-{{ ai_gen_id }} {
+      padding: 40px 16px;
+    }
+
+    .ai-custom-program__heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.6 }}px;
+      margin-bottom: 16px;
+    }
+
+    .ai-custom-program__hero-{{ ai_gen_id }} {
+      margin-bottom: 30px;
+    }
+
+    .ai-custom-program__richtext-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.9 }}px;
+      margin-bottom: 30px;
+    }
+
+    .ai-custom-program__gallery-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .ai-custom-program__cta-{{ ai_gen_id }} {
+      margin-top: 30px;
+    }
+
+    .ai-custom-program__button-{{ ai_gen_id }} {
+      padding: 14px 32px;
+      font-size: {{ block.settings.button_text_size | times: 0.9 }}px;
+    }
+  }
+
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .ai-custom-program__heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.8 }}px;
+    }
+
+    .ai-custom-program__gallery-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+{% endstyle %}
+
+<div class="ai-custom-program-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-custom-program__container-{{ ai_gen_id }}">
+    <div class="ai-custom-program__hero-{{ ai_gen_id }}">
+      {% if block.settings.heading != blank %}
+        <h1 class="ai-custom-program__heading-{{ ai_gen_id }}">
+          {{ block.settings.heading }}
+        </h1>
+      {% endif %}
+
+      <div class="ai-custom-program__hero-image-wrapper-{{ ai_gen_id }}">
+        {% if block.settings.hero_image %}
+          <img
+            src="{{ block.settings.hero_image | image_url: width: 2400 }}"
+            alt="{{ block.settings.hero_image.alt | escape }}"
+            loading="lazy"
+            width="{{ block.settings.hero_image.width }}"
+            height="{{ block.settings.hero_image.height }}"
+            class="ai-custom-program__hero-image-{{ ai_gen_id }}"
+          >
+        {% else %}
+          <div class="ai-custom-program__hero-image-placeholder-{{ ai_gen_id }}">
+            {{ 'hero-apparel-1' | placeholder_svg_tag }}
+            <div class="ai-custom-program__empty-state-{{ ai_gen_id }}">
+              Add your hero image here
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      {% if block.settings.richtext != blank %}
+        <div class="ai-custom-program__richtext-{{ ai_gen_id }}">
+          {{ block.settings.richtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if block.settings.show_gallery %}
+      <div class="ai-custom-program__gallery-{{ ai_gen_id }}">
+        {% for i in (1..4) %}
+          {% liquid
+            assign image_key = 'gallery_image_' | append: i
+            assign gallery_image = block.settings[image_key]
+          %}
+          <div class="ai-custom-program__gallery-item-{{ ai_gen_id }}">
+            {% if gallery_image %}
+              <img
+                src="{{ gallery_image | image_url: width: 800 }}"
+                alt="{{ gallery_image.alt | escape }}"
+                loading="lazy"
+                width="{{ gallery_image.width }}"
+                height="{{ gallery_image.height }}"
+                class="ai-custom-program__gallery-image-{{ ai_gen_id }}"
+              >
+            {% else %}
+              <div class="ai-custom-program__gallery-placeholder-{{ ai_gen_id }}">
+                {{ 'product-apparel-1' | placeholder_svg_tag }}
+                <div class="ai-custom-program__gallery-empty-{{ ai_gen_id }}">
+                  Add image {{ i }}
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if block.settings.show_cta and block.settings.cta_text != blank %}
+      <div class="ai-custom-program__cta-{{ ai_gen_id }}">
+        <a
+          href="{{ block.settings.cta_link }}"
+          class="ai-custom-program__button-{{ ai_gen_id }}"
+        >
+          {{ block.settings.cta_text }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Swoveralls program",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero section"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Custom Swoveralls Program"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 30,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 64
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#121212"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    },
+    {
+      "type": "richtext",
+      "id": "richtext",
+      "label": "Description",
+      "default": "<p>Create one-of-a-kind Swoveralls for your team, event, or organization. Choose your patterns, customize your details, and make something truly unique.</p>"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Gallery"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_gallery",
+      "label": "Show image gallery",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_1",
+      "label": "Gallery image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_2",
+      "label": "Gallery image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_3",
+      "label": "Gallery image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_4",
+      "label": "Gallery image 4"
+    },
+    {
+      "type": "range",
+      "id": "gallery_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Gallery border radius",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Show call to action button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Get Started"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button text size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Button hover background",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f5f6f8"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Hero image border radius",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Swoveralls program"
+    }
+  ]
+}
+{% endschema %}

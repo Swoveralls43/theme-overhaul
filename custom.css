@@ -1,0 +1,68 @@
+@media screen and (max-width: 1448px) and (min-width: 1233px) {
+  .header__nav__main-list>li>a, .header__search__input, .header__icon__title {
+    font-size: 12px !important;
+  }
+}
+
+@media screen and (max-width: 1232px) and (min-width: 1200px) {
+  .header__nav__main-list>li>a, .header__search__input, .header__icon__title {
+    font-size: 10px !important;
+  }
+}
+
+.product__form__size {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px 0 0 0; 
+}
+
+.product__form__quiz a{
+    font-size: 13px;
+    font-weight: 800;
+    font-family: var(--font-heading-family);
+    line-height: 1.46;
+    letter-spacing: normal;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #28334a;
+}
+
+.product__form__quiz, .product__form__sizes__guide{
+  position: relative;
+  width: fit-content;
+}
+
+.product__form__sizes__guide{
+  margin-left: 16px !important;
+  color: #28334a !important;
+}
+
+.product__form__quiz:before {
+  position: absolute;
+  content: "";
+  background-image:url('https://cdn.shopify.com/s/files/1/0047/6862/8836/files/measuring_tape1.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  top: 5px;
+  left: -26px;
+  height: 25px;
+  width: 25px;
+  z-index: 2;
+}
+
+.product__form__sizes__guide:before {
+  position: absolute;
+  content: "";
+  background-image:url('https://cdn.shopify.com/s/files/1/0047/6862/8836/files/swoverall_icon_08358446-e49a-4034-961b-7a0afc116ad8.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  top: -3px;
+  left: -18px;
+  height: 25px;
+  width: 25px;
+  z-index: 2;  
+}
+
+

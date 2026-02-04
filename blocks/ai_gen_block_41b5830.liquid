@@ -1,0 +1,773 @@
+{% doc %}
+  @prompt
+    Create a best in class “Bundle Builder” Shopify section that lets customers quickly build and buy custom bundles.
+    
+    Core features
+    
+    Customers can search and add products to a bundle.
+    
+    In the section settings I can choose:
+    
+    Exactly which products to show
+    
+    Exactly which collections to show
+    
+    Option to hide the product list, the collection list, or both
+    
+    When a customer clicks a collection, the product grid updates to show all products from that collection.
+    
+    Each product card includes:
+    
+    Image, title, price (using Shopify money filters so decimals display correctly)
+    
+    Size selector dropdown
+    
+    Per product Add to Bag button
+    
+    Bundle cart summary lives at the top of the section and updates in real time with:
+    
+    Items in the bundle
+    
+    Item count
+    
+    Subtotal
+    
+    Discount applied
+    
+    Final bundle price
+    
+    Tiered discount logic
+    
+    Add a “Bundle Discount” settings area in the section where I can define quantity based tiers.
+    
+    Example: Buy 2 items save 10%, Buy 3 save 15%, Buy 4+ save 20%.
+    
+    The tiered discount automatically applies based on the number of qualifying items in the bundle.
+    
+    Show a clear progress indicator like “Add 1 more item to unlock 15 percent off” and display total savings in the bundle summary.
+    
+    Content and layout
+    
+    Add a title area for the entire builder with:
+    
+    Heading
+    
+    Subheading
+    
+    Optional supporting copy
+    
+    Layout should be clean, fast, and extremely easy to understand at a glance.
+    
+    Mobile and CRO
+    
+    Mobile first, fully responsive, and tested so it is easy to use with one thumb.
+    
+    Bundle summary should stay visible or easy to reach on mobile so customers always see price and savings.
+    
+    Add clear primary CTAs and avoid clutter so customers always know:
+    
+    What to do next
+    
+    How many items are in the bundle
+    
+    How much they are saving
+    
+    Technical
+    
+    All prices must render correctly using Shopify’s native price and money filters.
+    
+    Add to cart must work reliably with the existing cart or cart drawer.
+    
+    Code should be performant and compatible with Online Store 2.0 section architecture., this is terrible, make it easier to add products by just selecting a collection and every product in that collection appearing. make it mobile optimized. , bring the cart to the top of the section and have it be sticky as you scroll. have two product cards per row on mobile. Have the add to bundle button noticeably change and an icon appear that says "added to bundle!" when you click one , getting there! add a drop down that let's me choose the aspect ratio for each prodcuct card shown. Also let me select multiple collections. Also update the bundle discount section so it reads correctly it's not working accurately right now, collections are not showing up when selected please fix, no collections are appearing when I select them. please fix, the bundle discount adjuster is not responsive and show the correct discounts in the cart. Also the aspect ratio is not responsive and doesn't work. please fix both and keep everything else the same. , looking good except the bundle discounts are still not accurately updating when I adjust the slider. keep everything else the same, but please have the bundle discount tiers accurately reflect the percentage off. , completely overhaul the bundle discount section. make it simple. add 2 items, get 30% off. add 3 or more get 40% off. 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-bundle-{{ ai_gen_id }} {
+    padding: 0;
+    margin: 0;
+  }
+
+  .ai-bundle-sticky-summary-{{ ai_gen_id }} {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: {{ block.settings.summary_bg }};
+    border-bottom: 2px solid {{ block.settings.summary_border }};
+    padding: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-bundle-summary-compact-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .ai-bundle-summary-left-{{ ai_gen_id }} {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ai-bundle-summary-count-{{ ai_gen_id }} {
+    font-size: 18px;
+    font-weight: 700;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 4px;
+  }
+
+  .ai-bundle-summary-progress-{{ ai_gen_id }} {
+    font-size: 12px;
+    color: {{ block.settings.progress_text_color }};
+    font-weight: 600;
+  }
+
+  .ai-bundle-summary-right-{{ ai_gen_id }} {
+    text-align: right;
+  }
+
+  .ai-bundle-summary-total-{{ ai_gen_id }} {
+    font-size: 24px;
+    font-weight: 700;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 2px;
+  }
+
+  .ai-bundle-summary-discount-{{ ai_gen_id }} {
+    font-size: 11px;
+    color: {{ block.settings.discount_color }};
+    font-weight: 600;
+  }
+
+  .ai-bundle-summary-subtotal-{{ ai_gen_id }} {
+    font-size: 11px;
+    color: #999;
+    text-decoration: line-through;
+  }
+
+  .ai-bundle-checkout-btn-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 14px;
+    background: {{ block.settings.button_bg }};
+    color: {{ block.settings.button_text }};
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-bundle-checkout-btn-{{ ai_gen_id }}:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .ai-bundle-header-{{ ai_gen_id }} {
+    text-align: center;
+    padding: 24px 16px;
+    background: {{ block.settings.header_bg }};
+  }
+
+  .ai-bundle-heading-{{ ai_gen_id }} {
+    font-size: 24px;
+    color: {{ block.settings.heading_color }};
+    margin: 0 0 8px;
+    font-weight: 700;
+  }
+
+  .ai-bundle-subheading-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.subheading_color }};
+    margin: 0;
+  }
+
+  .ai-bundle-products-{{ ai_gen_id }} {
+    padding: 16px;
+    padding-bottom: 40px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .ai-bundle-product-{{ ai_gen_id }} {
+    background: {{ block.settings.card_bg }};
+    border: 1px solid {{ block.settings.card_border }};
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-bundle-product-image-wrapper-{{ ai_gen_id }} {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    {% if block.settings.image_ratio == 'square' %}
+      padding-bottom: 100%;
+    {% elsif block.settings.image_ratio == 'portrait' %}
+      padding-bottom: 133.33%;
+    {% elsif block.settings.image_ratio == 'landscape' %}
+      padding-bottom: 75%;
+    {% endif %}
+  }
+
+  .ai-bundle-product-image-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-bundle-product-info-{{ ai_gen_id }} {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-bundle-product-title-{{ ai_gen_id }} {
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0 0 6px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .ai-bundle-product-price-{{ ai_gen_id }} {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-bundle-product-variant-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 2px solid {{ block.settings.card_border }};
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    background: white;
+  }
+
+  .ai-bundle-product-add-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 10px;
+    background: {{ block.settings.add_btn_bg }};
+    color: {{ block.settings.add_btn_text }};
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+    margin-top: auto;
+  }
+
+  .ai-bundle-product-add-{{ ai_gen_id }}:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .ai-bundle-product-add-{{ ai_gen_id }}.added {
+    background: {{ block.settings.added_btn_bg }};
+    color: {{ block.settings.added_btn_text }};
+  }
+
+  .ai-bundle-btn-icon-{{ ai_gen_id }} {
+    width: 16px;
+    height: 16px;
+    display: none;
+  }
+
+  .ai-bundle-product-add-{{ ai_gen_id }}.added .ai-bundle-btn-icon-{{ ai_gen_id }} {
+    display: block;
+  }
+
+  .ai-bundle-empty-{{ ai_gen_id }} {
+    text-align: center;
+    padding: 40px 16px;
+    color: #999;
+    grid-column: 1 / -1;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-bundle-products-{{ ai_gen_id }} {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      padding: 24px;
+    }
+
+    .ai-bundle-product-{{ ai_gen_id }} {
+      padding: 16px;
+    }
+
+    .ai-bundle-product-title-{{ ai_gen_id }} {
+      font-size: 14px;
+    }
+
+    .ai-bundle-product-add-{{ ai_gen_id }} {
+      padding: 12px;
+      font-size: 14px;
+    }
+
+    .ai-bundle-header-{{ ai_gen_id }} {
+      padding: 32px 24px;
+    }
+
+    .ai-bundle-heading-{{ ai_gen_id }} {
+      font-size: 32px;
+    }
+
+    .ai-bundle-subheading-{{ ai_gen_id }} {
+      font-size: 16px;
+    }
+
+    .ai-bundle-sticky-summary-{{ ai_gen_id }} {
+      padding: 20px 24px;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .ai-bundle-products-{{ ai_gen_id }} {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+  }
+{% endstyle %}
+
+<bundle-builder-{{ ai_gen_id }} class="ai-bundle-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-bundle-sticky-summary-{{ ai_gen_id }}">
+    <div class="ai-bundle-summary-compact-{{ ai_gen_id }}">
+      <div class="ai-bundle-summary-left-{{ ai_gen_id }}">
+        <div class="ai-bundle-summary-count-{{ ai_gen_id }}" data-item-count>0 items</div>
+        <div class="ai-bundle-summary-progress-{{ ai_gen_id }}" data-progress-text>Add 2 items for 30% off</div>
+      </div>
+      <div class="ai-bundle-summary-right-{{ ai_gen_id }}">
+        <div class="ai-bundle-summary-total-{{ ai_gen_id }}" data-total>{{ 0 | money }}</div>
+        <div class="ai-bundle-summary-discount-{{ ai_gen_id }}" data-discount-text style="display: none;"></div>
+        <div class="ai-bundle-summary-subtotal-{{ ai_gen_id }}" data-subtotal-text style="display: none;"></div>
+      </div>
+    </div>
+    
+    <button 
+      class="ai-bundle-checkout-btn-{{ ai_gen_id }}" 
+      data-checkout-btn
+      disabled
+    >
+      Add to Cart
+    </button>
+  </div>
+
+  <div class="ai-bundle-header-{{ ai_gen_id }}">
+    {% if block.settings.heading != blank %}
+      <h2 class="ai-bundle-heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+    {% endif %}
+    {% if block.settings.subheading != blank %}
+      <div class="ai-bundle-subheading-{{ ai_gen_id }}">{{ block.settings.subheading }}</div>
+    {% endif %}
+  </div>
+
+  <div class="ai-bundle-products-{{ ai_gen_id }}">
+    {% if block.settings.collections != blank %}
+      {% for collection in block.settings.collections %}
+        {% for product in collection.products %}
+          <div class="ai-bundle-product-{{ ai_gen_id }}">
+            {% if product.featured_image %}
+              <div class="ai-bundle-product-image-wrapper-{{ ai_gen_id }}">
+                <img 
+                  src="{{ product.featured_image | image_url: width: 600 }}" 
+                  alt="{{ product.featured_image.alt | escape }}"
+                  class="ai-bundle-product-image-{{ ai_gen_id }}"
+                  loading="lazy"
+                  width="600"
+                  height="600"
+                >
+              </div>
+            {% endif %}
+            
+            <div class="ai-bundle-product-info-{{ ai_gen_id }}">
+              <h3 class="ai-bundle-product-title-{{ ai_gen_id }}">{{ product.title }}</h3>
+              <div class="ai-bundle-product-price-{{ ai_gen_id }}">
+                {{ product.price | money }}
+              </div>
+              
+              {% if product.variants.size > 1 %}
+                <select 
+                  class="ai-bundle-product-variant-{{ ai_gen_id }}" 
+                  data-variant-selector
+                  aria-label="Select size for {{ product.title }}"
+                >
+                  {% for variant in product.variants %}
+                    <option 
+                      value="{{ variant.id }}" 
+                      data-price="{{ variant.price }}"
+                      {% unless variant.available %}disabled{% endunless %}
+                    >
+                      {{ variant.title }}{% unless variant.available %} - Sold Out{% endunless %}
+                    </option>
+                  {% endfor %}
+                </select>
+              {% else %}
+                <input 
+                  type="hidden" 
+                  data-variant-selector 
+                  value="{{ product.variants.first.id }}" 
+                  data-price="{{ product.variants.first.price }}"
+                >
+              {% endif %}
+
+              <button 
+                class="ai-bundle-product-add-{{ ai_gen_id }}"
+                data-add-to-bundle
+                data-product-title="{{ product.title | escape }}"
+                {% unless product.available %}disabled{% endunless %}
+              >
+                <svg class="ai-bundle-btn-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span data-btn-text>{% if product.available %}Add{% else %}Sold Out{% endif %}</span>
+              </button>
+            </div>
+          </div>
+        {% endfor %}
+      {% endfor %}
+    {% else %}
+      <div class="ai-bundle-empty-{{ ai_gen_id }}">
+        <p>Select collections in the block settings to display products</p>
+      </div>
+    {% endif %}
+  </div>
+</bundle-builder-{{ ai_gen_id }}>
+
+<script>
+(function() {
+  class BundleBuilder{{ ai_gen_id }} extends HTMLElement {
+    constructor() {
+      super();
+      this.bundleItems = [];
+    }
+
+    connectedCallback() {
+      this.addButtons = this.querySelectorAll('[data-add-to-bundle]');
+      this.checkoutBtn = this.querySelector('[data-checkout-btn]');
+      this.itemCountEl = this.querySelector('[data-item-count]');
+      this.totalEl = this.querySelector('[data-total]');
+      this.progressText = this.querySelector('[data-progress-text]');
+      this.discountText = this.querySelector('[data-discount-text]');
+      this.subtotalText = this.querySelector('[data-subtotal-text]');
+
+      this.setupEventListeners();
+    }
+
+    setupEventListeners() {
+      this.addButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const button = e.currentTarget;
+          const productCard = button.closest('.ai-bundle-product-{{ ai_gen_id }}');
+          const variantSelector = productCard.querySelector('[data-variant-selector]');
+          const variantId = variantSelector.value;
+          const variantOption = variantSelector.options ? variantSelector.options[variantSelector.selectedIndex] : variantSelector;
+          const price = parseInt(variantOption.dataset.price);
+          const productTitle = button.dataset.productTitle;
+          const variantTitle = variantSelector.options ? variantSelector.options[variantSelector.selectedIndex].text : '';
+
+          this.addToBundle({
+            variantId: variantId,
+            productTitle: productTitle,
+            variantTitle: variantTitle,
+            price: price
+          });
+
+          button.classList.add('added');
+          const btnText = button.querySelector('[data-btn-text]');
+          btnText.textContent = 'Added!';
+
+          setTimeout(() => {
+            button.classList.remove('added');
+            btnText.textContent = 'Add';
+          }, 2000);
+        });
+      });
+
+      this.checkoutBtn.addEventListener('click', () => {
+        this.addBundleToCart();
+      });
+    }
+
+    addToBundle(item) {
+      this.bundleItems.push(item);
+      this.updateSummary();
+    }
+
+    updateSummary() {
+      const itemCount = this.bundleItems.length;
+      const subtotal = this.bundleItems.reduce((sum, item) => sum + item.price, 0);
+      
+      let discountPercent = 0;
+      if (itemCount >= 3) {
+        discountPercent = 40;
+      } else if (itemCount >= 2) {
+        discountPercent = 30;
+      }
+      
+      const discountAmount = Math.round(subtotal * (discountPercent / 100));
+      const total = subtotal - discountAmount;
+
+      this.itemCountEl.textContent = itemCount + (itemCount === 1 ? ' item' : ' items');
+      this.totalEl.textContent = this.formatMoney(total);
+
+      if (discountPercent > 0) {
+        this.discountText.textContent = 'Save ' + discountPercent + '% (-' + this.formatMoney(discountAmount) + ')';
+        this.discountText.style.display = 'block';
+        this.subtotalText.textContent = this.formatMoney(subtotal);
+        this.subtotalText.style.display = 'block';
+      } else {
+        this.discountText.style.display = 'none';
+        this.subtotalText.style.display = 'none';
+      }
+
+      this.updateProgress(itemCount, discountPercent);
+      this.checkoutBtn.disabled = itemCount === 0;
+    }
+
+    updateProgress(itemCount, currentDiscount) {
+      if (itemCount === 0) {
+        this.progressText.textContent = 'Add 2 items for 30% off';
+      } else if (itemCount === 1) {
+        this.progressText.textContent = 'Add 1 more item for 30% off';
+      } else if (itemCount === 2) {
+        this.progressText.textContent = '30% off! Add 1 more for 40% off';
+      } else {
+        this.progressText.textContent = '40% off unlocked!';
+      }
+    }
+
+    async addBundleToCart() {
+      if (this.bundleItems.length === 0) return;
+
+      this.checkoutBtn.disabled = true;
+      this.checkoutBtn.textContent = 'Adding...';
+
+      const formData = {
+        items: this.bundleItems.map(item => ({
+          id: item.variantId,
+          quantity: 1
+        }))
+      };
+
+      try {
+        const response = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+          this.checkoutBtn.textContent = 'Added!';
+          
+          document.dispatchEvent(new CustomEvent('cart:refresh'));
+          
+          setTimeout(() => {
+            this.bundleItems = [];
+            this.updateSummary();
+            this.checkoutBtn.textContent = 'Add to Cart';
+          }, 1500);
+        } else {
+          throw new Error('Failed to add to cart');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        this.checkoutBtn.textContent = 'Error - Try Again';
+        this.checkoutBtn.disabled = false;
+      }
+    }
+
+    formatMoney(cents) {
+      return Shopify.formatMoney(cents, '{{ shop.money_format }}');
+    }
+  }
+
+  customElements.define('bundle-builder-{{ ai_gen_id }}', BundleBuilder{{ ai_gen_id }});
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Bundle builder",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Build Your Bundle"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Add 2 items for 30% off • Add 3+ for 40% off"
+    },
+    {
+      "type": "collection_list",
+      "id": "collections",
+      "label": "Collections",
+      "limit": 10
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Product image ratio",
+      "options": [
+        {
+          "value": "square",
+          "label": "Square (1:1)"
+        },
+        {
+          "value": "portrait",
+          "label": "Portrait (3:4)"
+        },
+        {
+          "value": "landscape",
+          "label": "Landscape (4:3)"
+        }
+      ],
+      "default": "square"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "header_bg",
+      "label": "Header background",
+      "default": "#f5f6f8"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "summary_bg",
+      "label": "Summary background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "summary_border",
+      "label": "Summary border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border",
+      "label": "Card border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "progress_text_color",
+      "label": "Progress text",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "discount_color",
+      "label": "Discount text",
+      "default": "#008060"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Checkout button",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Checkout button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "add_btn_bg",
+      "label": "Add button",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "add_btn_text",
+      "label": "Add button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "added_btn_bg",
+      "label": "Added button",
+      "default": "#008060"
+    },
+    {
+      "type": "color",
+      "id": "added_btn_text",
+      "label": "Added button text",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle builder"
+    }
+  ]
+}
+{% endschema %}

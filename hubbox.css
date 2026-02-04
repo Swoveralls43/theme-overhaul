@@ -1,0 +1,92 @@
+.hubbox-theme {
+    border-color: #ef286b;
+    background: #ef286b;
+    color: white;
+}
+.ups-theme {
+    border-color: #feba00;
+    background: #feba00;
+    color: black;
+}
+.dpd-theme {
+    border-color: #dc0232;
+    background: #dc0232;
+    color: white;
+}
+#hb-not-going-to-be-home-helper {
+    display:none;
+    cursor:pointer;
+    color: #197bbd;
+    position: absolute;
+    margin-top: -23px;
+    margin-left: 180px;
+}
+#click-and-collect {
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: sans-serif;
+    min-width: 48.5%;
+    padding: 15px 32px;
+}
+#home-delivery {
+    border: 1px solid;
+    border-radius: 5px;
+    color: #0089ff;
+    background: #fff;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: sans-serif;
+    min-width: 49%;
+    border-image: initial;
+    border-color: #0089ff;
+    padding: 15px 32px;
+}
+#hubbox-widget-1 > iframe {
+    width: 100%;
+    height: 500px;
+}
+.hubbox-modal > iframe {
+    height: 100% !important;
+}
+.hubbox-modal {
+    position: fixed;
+    position: fixed;
+    top: 5%;
+    width: 90%;
+    height: 80%;
+    z-index: 1000;
+    outline: 9999px solid rgba(0,0,0,0.5);
+    left: 5%;
+}
+img#hb-close-sw {
+    display: none;
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 30px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.hubbox-checkout-confirmation-container {
+    margin-top: 20px;
+}
+@media (min-width: 1281px) {
+    .hubbox-modal {
+      top: 10%!important;
+      width: 70%!important;
+      height: 80%!important;
+      left: 15%!important;
+}

@@ -1,0 +1,368 @@
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-giveaway-{{ ai_gen_id }} { width: 100%; max-width: 100%; }
+
+  /* HERO WRAPPER */
+  .ai-giveaway-hero-{{ ai_gen_id }} {
+    width: 100%;
+    background-color: {{ block.settings.hero_bg_color }};
+  }
+
+  /* CONTENT ABOVE IMAGE */
+  .ai-giveaway-hero-content-{{ ai_gen_id }} {
+    text-align: center;
+    padding: 40px 20px;
+    max-width: {{ block.settings.content_max_width }}px;
+    margin: 0 auto;
+    color: {{ block.settings.hero_text_color }};
+  }
+  .ai-giveaway-hero-heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    font-weight: 700;
+    margin: 0 0 20px;
+    line-height: 1.2;
+    color: {{ block.settings.hero_text_color }};
+  }
+  .ai-giveaway-hero-subheading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subheading_size }}px;
+    margin: 0 0 30px;
+    line-height: 1.5;
+    color: {{ block.settings.hero_text_color }};
+  }
+  .ai-giveaway-hero-cta-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 16px 40px;
+    background-color: {{ block.settings.cta_bg_color }};
+    color: {{ block.settings.cta_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.cta_border_radius }}px;
+    font-size: {{ block.settings.cta_font_size }}px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid {{ block.settings.cta_bg_color }};
+  }
+  .ai-giveaway-hero-cta-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.cta_hover_bg_color }};
+    color: {{ block.settings.cta_hover_text_color }};
+    border-color: {{ block.settings.cta_hover_bg_color }};
+    transform: translateY(-2px);
+  }
+
+  /* IMAGE AREA */
+  .ai-giveaway-hero-media-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  .ai-giveaway-hero-media-{{ ai_gen_id }} img {
+    width: 100%;
+    height: {{ block.settings.hero_height_desktop }}px;
+    object-fit: cover;
+    object-position: {{ block.settings.image_object_position_desktop }};
+    display: block;
+    opacity: {{ block.settings.image_opacity }};
+  }
+  .ai-giveaway-hero-img--desktop-{{ ai_gen_id }} { display: block; }
+  .ai-giveaway-hero-img--mobile-{{ ai_gen_id }} { display: none; }
+
+  /* PLACEHOLDER */
+  .ai-giveaway-hero-placeholder-{{ ai_gen_id }} {
+    height: {{ block.settings.hero_height_desktop }}px;
+    background-color: #f4f4f4;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ai-giveaway-hero-placeholder-{{ ai_gen_id }} svg {
+    width: 100%; height: 100%; max-width: 600px; max-height: 600px;
+  }
+
+  /* INFO AREA (unchanged) */
+  .ai-giveaway-info-{{ ai_gen_id }} {
+    padding: {{ block.settings.info_padding_top }}px 20px {{ block.settings.info_padding_bottom }}px;
+    background-color: {{ block.settings.info_bg_color }};
+  }
+  .ai-giveaway-info-container-{{ ai_gen_id }} { max-width: 1200px; margin: 0 auto; }
+  .ai-giveaway-info-grid-{{ ai_gen_id }} {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px; margin-bottom: 60px;
+  }
+  .ai-giveaway-info-card-{{ ai_gen_id }} {
+    text-align: center; padding: 30px 20px;
+    background-color: {{ block.settings.card_bg_color }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .ai-giveaway-info-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.icon_size }}px; height: {{ block.settings.icon_size }}px;
+    margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;
+    background-color: {{ block.settings.icon_bg_color }};
+    border-radius: 50%; color: {{ block.settings.icon_color }};
+  }
+  .ai-giveaway-info-icon-{{ ai_gen_id }} svg {
+    width: calc({{ block.settings.icon_size }}px * 0.5);
+    height: calc({{ block.settings.icon_size }}px * 0.5);
+  }
+  .ai-giveaway-info-title-{{ ai_gen_id }} {
+    font-size: 20px; font-weight: 600; margin: 0 0 12px; color: {{ block.settings.info_text_color }};
+  }
+  .ai-giveaway-info-text-{{ ai_gen_id }} {
+    font-size: 16px; line-height: 1.6; color: {{ block.settings.info_text_color }}; margin: 0;
+  }
+  .ai-giveaway-details-{{ ai_gen_id }} { max-width: 800px; margin: 0 auto; text-align: center; }
+  .ai-giveaway-details-heading-{{ ai_gen_id }} {
+    font-size: 32px; font-weight: 700; margin: 0 0 30px; color: {{ block.settings.info_text_color }};
+  }
+  .ai-giveaway-details-content-{{ ai_gen_id }} {
+    font-size: 18px; line-height: 1.8; color: {{ block.settings.info_text_color }}; margin-bottom: 40px;
+  }
+  .ai-giveaway-final-cta-{{ ai_gen_id }} {
+    display: inline-block; padding: 18px 50px; background-color: {{ block.settings.final_cta_bg_color }};
+    color: {{ block.settings.final_cta_text_color }}; text-decoration: none;
+    border-radius: {{ block.settings.final_cta_border_radius }}px; font-size: {{ block.settings.final_cta_font_size }}px;
+    font-weight: 700; transition: all 0.3s ease; border: 2px solid {{ block.settings.final_cta_bg_color }};
+  }
+  .ai-giveaway-final-cta-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.final_cta_hover_bg_color }};
+    color: {{ block.settings.final_cta_hover_text_color }};
+    border-color: {{ block.settings.final_cta_hover_bg_color }};
+    transform: translateY(-2px);
+  }
+
+  /* MOBILE */
+  @media screen and (max-width: 749px) {
+    .ai-giveaway-hero-heading-{{ ai_gen_id }} { font-size: {{ block.settings.heading_size | times: 0.6 }}px; }
+    .ai-giveaway-hero-subheading-{{ ai_gen_id }} { font-size: {{ block.settings.subheading_size | times: 0.8 }}px; }
+
+    .ai-giveaway-hero-media-{{ ai_gen_id }} img {
+      height: {{ block.settings.hero_height_mobile }}px;
+      object-position: {{ block.settings.image_object_position_mobile }};
+    }
+    .ai-giveaway-hero-placeholder-{{ ai_gen_id }} { height: {{ block.settings.hero_height_mobile }}px; }
+
+    .ai-giveaway-hero-img--desktop-{{ ai_gen_id }} { display: none; }
+    .ai-giveaway-hero-img--mobile-{{ ai_gen_id }} { display: block; }
+
+    .ai-giveaway-info-grid-{{ ai_gen_id }} { grid-template-columns: 1fr; gap: 24px; }
+    .ai-giveaway-details-heading-{{ ai_gen_id }} { font-size: 24px; }
+    .ai-giveaway-details-content-{{ ai_gen_id }} { font-size: 16px; }
+  }
+{% endstyle %}
+
+<div class="ai-giveaway-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-giveaway-hero-{{ ai_gen_id }}">
+    <!-- CONTENT ABOVE IMAGE -->
+    <div class="ai-giveaway-hero-content-{{ ai_gen_id }}">
+      {% if block.settings.hero_heading != blank %}
+        <h1 class="ai-giveaway-hero-heading-{{ ai_gen_id }}">{{ block.settings.hero_heading }}</h1>
+      {% endif %}
+      {% if block.settings.hero_subheading != blank %}
+        <div class="ai-giveaway-hero-subheading-{{ ai_gen_id }}">{{ block.settings.hero_subheading }}</div>
+      {% endif %}
+      {% if block.settings.hero_cta_text != blank %}
+        <a href="{{ block.settings.hero_cta_link }}" class="ai-giveaway-hero-cta-{{ ai_gen_id }}">{{ block.settings.hero_cta_text }}</a>
+      {% endif %}
+    </div>
+
+    <!-- IMAGE AREA -->
+    <div class="ai-giveaway-hero-media-{{ ai_gen_id }}">
+      {% if block.settings.hero_image_mobile or block.settings.hero_image_desktop or block.settings.hero_image %}
+        {% assign desktop_image = block.settings.hero_image_desktop | default: block.settings.hero_image %}
+        {% assign mobile_image = block.settings.hero_image_mobile | default: block.settings.hero_image %}
+
+        {% if desktop_image %}
+          <img
+            src="{{ desktop_image | image_url: width: 2000 }}"
+            alt="{{ desktop_image.alt | default: 'Hero image' | escape }}"
+            loading="lazy"
+            width="{{ desktop_image.width }}"
+            height="{{ desktop_image.height }}"
+            class="ai-giveaway-hero-img--desktop-{{ ai_gen_id }}"
+            style="object-position: {{ block.settings.image_object_position_desktop }};"
+          >
+        {% endif %}
+
+        {% if mobile_image %}
+          <img
+            src="{{ mobile_image | image_url: width: 1200 }}"
+            alt="{{ mobile_image.alt | default: 'Hero image mobile' | escape }}"
+            loading="lazy"
+            width="{{ mobile_image.width }}"
+            height="{{ mobile_image.height }}"
+            class="ai-giveaway-hero-img--mobile-{{ ai_gen_id }}"
+            style="object-position: {{ block.settings.image_object_position_mobile }};"
+          >
+        {% endif %}
+      {% else %}
+        <div class="ai-giveaway-hero-placeholder-{{ ai_gen_id }}">
+          {{ 'hero-apparel-1' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- INFO SECTION (unchanged) -->
+  <div class="ai-giveaway-info-{{ ai_gen_id }}">
+    <div class="ai-giveaway-info-container-{{ ai_gen_id }}">
+      <div class="ai-giveaway-info-grid-{{ ai_gen_id }}">
+        {% if block.settings.show_card_1 %}
+          <div class="ai-giveaway-info-card-{{ ai_gen_id }}">
+            <div class="ai-giveaway-info-icon-{{ ai_gen_id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+              </svg>
+            </div>
+            {% if block.settings.card_1_title != blank %}<h3 class="ai-giveaway-info-title-{{ ai_gen_id }}">{{ block.settings.card_1_title }}</h3>{% endif %}
+            {% if block.settings.card_1_text != blank %}<div class="ai-giveaway-info-text-{{ ai_gen_id }}">{{ block.settings.card_1_text }}</div>{% endif %}
+          </div>
+        {% endif %}
+
+        {% if block.settings.show_card_2 %}
+          <div class="ai-giveaway-info-card-{{ ai_gen_id }}">
+            <div class="ai-giveaway-info-icon-{{ ai_gen_id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            {% if block.settings.card_2_title != blank %}<h3 class="ai-giveaway-info-title-{{ ai_gen_id }}">{{ block.settings.card_2_title }}</h3>{% endif %}
+            {% if block.settings.card_2_text != blank %}<div class="ai-giveaway-info-text-{{ ai_gen_id }}">{{ block.settings.card_2_text }}</div>{% endif %}
+          </div>
+        {% endif %}
+
+        {% if block.settings.show_card_3 %}
+          <div class="ai-giveaway-info-card-{{ ai_gen_id }}">
+            <div class="ai-giveaway-info-icon-{{ ai_gen_id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </div>
+            {% if block.settings.card_3_title != blank %}<h3 class="ai-giveaway-info-title-{{ ai_gen_id }}">{{ block.settings.card_3_title }}</h3>{% endif %}
+            {% if block.settings.card_3_text != blank %}<div class="ai-giveaway-info-text-{{ ai_gen_id }}">{{ block.settings.card_3_text }}</div>{% endif %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="ai-giveaway-details-{{ ai_gen_id }}">
+        {% if block.settings.details_heading != blank %}<h2 class="ai-giveaway-details-heading-{{ ai_gen_id }}">{{ block.settings.details_heading }}</h2>{% endif %}
+        {% if block.settings.details_content != blank %}<div class="ai-giveaway-details-content-{{ ai_gen_id }}">{{ block.settings.details_content }}</div>{% endif %}
+        {% if block.settings.final_cta_text != blank %}
+          <a href="{{ block.settings.final_cta_link }}" class="ai-giveaway-final-cta-{{ ai_gen_id }}">{{ block.settings.final_cta_text }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Giveaway landing page",
+  "tag": null,
+  "settings": [
+    { "type": "header", "content": "Hero section" },
+
+    { "type": "image_picker", "id": "hero_image_desktop", "label": "Hero image desktop" },
+    { "type": "image_picker", "id": "hero_image_mobile", "label": "Hero image mobile" },
+    { "type": "image_picker", "id": "hero_image", "label": "Fallback hero image" },
+
+    { "type": "range", "id": "image_opacity", "min": 0, "max": 1, "step": 0.1, "label": "Image opacity", "default": 1 },
+
+    { "type": "range", "id": "hero_height_desktop", "min": 200, "max": 900, "step": 25, "unit": "px", "label": "Image height desktop", "default": 500 },
+    { "type": "range", "id": "hero_height_mobile", "min": 160, "max": 700, "step": 20, "unit": "px", "label": "Image height mobile", "default": 320 },
+
+    {
+      "type": "select",
+      "id": "image_object_position_desktop",
+      "label": "Image focal point desktop",
+      "default": "50% 50%",
+      "options": [
+        { "value": "50% 50%", "label": "Center" },
+        { "value": "50% 0%", "label": "Top" },
+        { "value": "50% 100%", "label": "Bottom" },
+        { "value": "0% 50%", "label": "Left" },
+        { "value": "100% 50%", "label": "Right" },
+        { "value": "0% 0%", "label": "Top left" },
+        { "value": "100% 0%", "label": "Top right" },
+        { "value": "0% 100%", "label": "Bottom left" },
+        { "value": "100% 100%", "label": "Bottom right" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "image_object_position_mobile",
+      "label": "Image focal point mobile",
+      "default": "50% 50%",
+      "options": [
+        { "value": "50% 50%", "label": "Center" },
+        { "value": "50% 0%", "label": "Top" },
+        { "value": "50% 100%", "label": "Bottom" },
+        { "value": "0% 50%", "label": "Left" },
+        { "value": "100% 50%", "label": "Right" },
+        { "value": "0% 0%", "label": "Top left" },
+        { "value": "100% 0%", "label": "Top right" },
+        { "value": "0% 100%", "label": "Bottom left" },
+        { "value": "100% 100%", "label": "Bottom right" }
+      ]
+    },
+
+    { "type": "inline_richtext", "id": "hero_heading", "label": "Heading", "default": "Win Amazing Prizes!" },
+    { "type": "richtext", "id": "hero_subheading", "label": "Subheading", "default": "<p>Enter our exclusive giveaway for a chance to win premium Swoveralls and more</p>" },
+
+    { "type": "range", "id": "heading_size", "min": 24, "max": 80, "step": 4, "unit": "px", "label": "Heading size", "default": 56 },
+    { "type": "range", "id": "subheading_size", "min": 14, "max": 32, "step": 2, "unit": "px", "label": "Subheading size", "default": 20 },
+    { "type": "range", "id": "content_max_width", "min": 400, "max": 1000, "step": 50, "unit": "px", "label": "Content max width", "default": 700 },
+
+    { "type": "color", "id": "hero_bg_color", "label": "Background color", "default": "#334FB4" },
+    { "type": "color", "id": "hero_text_color", "label": "Text color", "default": "#FFFFFF" },
+
+    { "type": "header", "content": "Hero CTA button" },
+    { "type": "inline_richtext", "id": "hero_cta_text", "label": "Button text", "default": "Enter Now" },
+    { "type": "url", "id": "hero_cta_link", "label": "Button link" },
+    { "type": "range", "id": "cta_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 18 },
+    { "type": "range", "id": "cta_border_radius", "min": 0, "max": 50, "step": 2, "unit": "px", "label": "Border radius", "default": 8 },
+    { "type": "color", "id": "cta_bg_color", "label": "Background color", "default": "#FFFFFF" },
+    { "type": "color", "id": "cta_text_color", "label": "Text color", "default": "#121212" },
+    { "type": "color", "id": "cta_hover_bg_color", "label": "Hover background color", "default": "#121212" },
+    { "type": "color", "id": "cta_hover_text_color", "label": "Hover text color", "default": "#FFFFFF" },
+
+    { "type": "header", "content": "Info section" },
+    { "type": "range", "id": "info_padding_top", "min": 20, "max": 120, "step": 10, "unit": "px", "label": "Top padding", "default": 80 },
+    { "type": "range", "id": "info_padding_bottom", "min": 20, "max": 120, "step": 10, "unit": "px", "label": "Bottom padding", "default": 80 },
+    { "type": "color", "id": "info_bg_color", "label": "Background color", "default": "#f5f6f8" },
+    { "type": "color", "id": "info_text_color", "label": "Text color", "default": "#121212" },
+    { "type": "color", "id": "card_bg_color", "label": "Card background color", "default": "#FFFFFF" },
+    { "type": "range", "id": "card_border_radius", "min": 0, "max": 30, "step": 2, "unit": "px", "label": "Card border radius", "default": 12 },
+    { "type": "range", "id": "icon_size", "min": 40, "max": 100, "step": 5, "unit": "px", "label": "Icon size", "default": 70 },
+    { "type": "color", "id": "icon_bg_color", "label": "Icon background color", "default": "#334FB4" },
+    { "type": "color", "id": "icon_color", "label": "Icon color", "default": "#FFFFFF" },
+
+    { "type": "header", "content": "Card 1" },
+    { "type": "checkbox", "id": "show_card_1", "label": "Show card 1", "default": true },
+    { "type": "inline_richtext", "id": "card_1_title", "label": "Title", "default": "Amazing Prizes" },
+    { "type": "richtext", "id": "card_1_text", "label": "Text", "default": "<p>Win premium Swoveralls, exclusive merchandise, and special discounts</p>" },
+
+    { "type": "header", "content": "Card 2" },
+    { "type": "checkbox", "id": "show_card_2", "label": "Show card 2", "default": true },
+    { "type": "inline_richtext", "id": "card_2_title", "label": "Title", "default": "Easy to Enter" },
+    { "type": "richtext", "id": "card_2_text", "label": "Text", "default": "<p>Simple entry process takes less than 2 minutes. Enter daily for more chances!</p>" },
+
+    { "type": "header", "content": "Card 3" },
+    { "type": "checkbox", "id": "show_card_3", "label": "Show card 3", "default": true },
+    { "type": "inline_richtext", "id": "card_3_title", "label": "Title", "default": "Share & Win" },
+    { "type": "richtext", "id": "card_3_text", "label": "Text", "default": "<p>Earn bonus entries by sharing with friends and on social media</p>" },
+
+    { "type": "header", "content": "Details section" },
+    { "type": "inline_richtext", "id": "details_heading", "label": "Heading", "default": "How It Works" },
+    { "type": "richtext", "id": "details_content", "label": "Content", "default": "<p>Enter your email below to join our exclusive giveaway. Winners will be randomly selected and notified via email. Giveaway runs through the end of the month. No purchase necessary. See official rules for complete details and eligibility requirements.</p>" },
+
+    { "type": "header", "content": "Final CTA button" },
+    { "type": "inline_richtext", "id": "final_cta_text", "label": "Button text", "default": "Enter the Giveaway" },
+    { "type": "url", "id": "final_cta_link", "label": "Button link" },
+    { "type": "range", "id": "final_cta_font_size", "min": 14, "max": 28, "step": 2, "unit": "px", "label": "Font size", "default": 20 },
+    { "type": "range", "id": "final_cta_border_radius", "min": 0, "max": 50, "step": 2, "unit": "px", "label": "Border radius", "default": 8 },
+    { "type": "color", "id": "final_cta_bg_color", "label": "Background color", "default": "#334FB4" },
+    { "type": "color", "id": "final_cta_text_color", "label": "Text color", "default": "#FFFFFF" },
+    { "type": "color", "id": "final_cta_hover_bg_color", "label": "Hover background color", "default": "#121212" },
+    { "type": "color", "id": "final_cta_hover_text_color", "label": "Hover text color", "default": "#FFFFFF" }
+  ],
+  "presets": [{ "name": "Giveaway landing page" }]
+}
+{% endschema %}

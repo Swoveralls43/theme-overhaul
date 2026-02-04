@@ -1,0 +1,125 @@
+.filter-toggle {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  margin-right: 20px;
+}
+
+.filter-toggle span {
+  display: block;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.toolbar__filters {
+  display: flex;
+  align-items: center;
+}
+
+.active-filter__list {
+  display: none;
+}
+
+.active-filter__list.active-filter__list--mobile {
+  display: flex;
+  margin-top: 10px;
+  overflow: scroll;
+  position: relative;
+  left: -15px;
+  width: calc(100% + 30px);
+  padding: 0 15px;
+  padding-bottom: 10px;
+  clip-path: inset(0 0 10px 0);
+  
+}
+
+.active-filter {
+  padding: 8px 15px;
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+  border-radius: var(--border-radius);
+  margin-right: 6px;
+  text-transform: capitalize;
+}
+
+.active-filter:last-child {
+  margin: 0;
+}
+
+.active-filter span.upcase {
+  text-transform: uppercase;
+}
+
+.active-filter span:first-child {
+  font-size: 13px;
+  display: block;
+  margin-right: 13px;
+  white-space: nowrap;
+}
+
+.active-filter__remove {
+  position: relative;
+}
+
+.active-filter__remove a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-indent: -99999px;
+  overflow: hidden;
+}
+
+.active-filter  {
+  font-size: 13px;
+}
+
+@media screen and (min-width: 768px) {
+  .active-filter__list {
+    display: flex;
+  }
+  
+  .active-filter__list.active-filter__list--mobile {
+    display: none;
+  }
+}
+
+.custom-filter-button-size {
+  cursor: pointer;
+  padding: 2px;
+  width: 40px;
+  height: 30px;
+  margin-left: 4px;
+  margin-right: 4px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid #e5e5e5;
+  color: black;
+  background: none;
+  border-radius: 3px;
+}
+
+.scroll-container {
+  overflow: hidden;
+  cursor: grab;
+  margin-bottom: 8px;
+}
+
+.custom-filter-button-size.active{
+  border: 1px solid black;
+}
+
+.remove-filter{
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid black;
+  margin: 4px;
+  cursor: pointer;
+  padding: 4px;
+  color: black;
+  background: none;
+  border-radius: 3px;
+}

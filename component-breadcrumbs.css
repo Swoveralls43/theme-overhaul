@@ -1,0 +1,39 @@
+.breadcrumbs {
+  margin: 0 0 10px 0;
+}
+
+.breadcrumbs ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumbs li {
+  display: inline-block;
+  opacity: 1;
+  font-size: 11px;
+}
+
+.breadcrumbs a {
+  text-decoration: none;
+  font-weight: 600;
+  color: black;
+}
+
+.breadcrumbs li:not(:last-child)::after {
+  content: "/";
+  display: inline-block;
+  padding: 0 3px;
+  speak: none;
+}
+
+.breadcrumbs [aria-current="page"] {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media screen and (min-width: 768px) {
+  .breadcrumbs {
+    margin: 0 0 30px 0;
+  }
+}

@@ -1,0 +1,45 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+.h0,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5 {
+  font-family: var(--font-heading);
+  font-style: var(--font-heading-style);
+  font-weight: var(--font-heading-weight);
+  letter-spacing: calc(var(--font-heading-scale) * 0.06rem);
+  color: rgb(var(--color-foreground));
+  line-height: 1.17;
+  text-transform: uppercase;
+}
+
+p,
+a,
+li,
+div,
+button,
+body,
+button,
+label,
+input {
+  font-family: var(--font-body);
+  font-weight: 200;
+}
+
+/* Yotpo */
+
+.yotpo-point-balance-text {
+  font-family: var(--font-heading) !important;
+  font-weight: normal !important;
+  font-size: 25px !important;
+}
+
+.yotpo-not-enough-points-text {
+  font-family: var(--font-body) !important;
+  font-weight: normal !important;
+}

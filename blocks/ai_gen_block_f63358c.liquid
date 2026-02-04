@@ -1,0 +1,1551 @@
+{% doc %}
+  @prompt
+    Immediate Social Proof 
+    Strategic Direction: Humanistic + Methodical shoppers need immediate validation
+    Specific Copy:
+    Editorial style custome review section that is mobile optimized. Section for testimonial and image and CTA
+    
+    show 5-star rating too. 
+    Why This Works:
+    
+    Humanistic shoppers see real person
+    Methodical shoppers get social proof data
+    Spontaneous shoppers feel the emotion
+    Takes 2 seconds to scan, builds instant credibility, include a section header and subheader, Make this entire section a carousel so there are 4 separate slides with the same format. Also within each slide, have 3 slider bars, one for Comfort, one for quality, and one for fit, and little circles on them that I can adjust. I should be able to customize the ends of each slider bar and also where the marker is , this is great but needs to be optimized for both desktop and mobile. Reformat but looking good, image is too big and the scale is really off. Need you to do a complete overhaul and fix the formating.  , let's remove the carousel selector and instead turn this section into an accordion style with the first accordion default to open and have two more underneath it. Make sure scales and copy are all indented and fit in properly, revise so the customer review title as right above the image. Make sure, and also put the review title when the accordion is closed. Remove customer name from where it sits right above CTA, ok have the customers name right above the image and keep the review title above the stars. For the fit scale, have their be a middle too, and an end point. , looking good. last thing - give me one more accordion section so 4 total keep everything else the same
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-review-accordion-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.padding_desktop }}px 20px;
+  }
+
+  .ai-review-accordion__container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-review-accordion__header-{{ ai_gen_id }} {
+    text-align: {{ block.settings.header_alignment }};
+    margin-bottom: 40px;
+  }
+
+  .ai-review-accordion__heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 12px 0;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .ai-review-accordion__subheading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subheading_size }}px;
+    color: {{ block.settings.subheading_color }};
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .ai-review-accordion__list-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.accordion_gap }}px;
+  }
+
+  .ai-review-accordion__item-{{ ai_gen_id }} {
+    border: {{ block.settings.accordion_border_width }}px solid {{ block.settings.accordion_border_color }};
+    border-radius: {{ block.settings.accordion_border_radius }}px;
+    overflow: hidden;
+    background-color: {{ block.settings.accordion_bg_color }};
+  }
+
+  .ai-review-accordion__button-{{ ai_gen_id }} {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: {{ block.settings.accordion_header_padding }}px;
+    background-color: {{ block.settings.accordion_header_bg }};
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-review-accordion__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.accordion_header_hover_bg }};
+  }
+
+  .ai-review-accordion__button-content-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .ai-review-accordion__button-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.accordion_title_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.text_color }};
+    margin: 0;
+  }
+
+  .ai-review-accordion__button-stars-{{ ai_gen_id }} {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+  }
+
+  .ai-review-accordion__button-star-{{ ai_gen_id }} {
+    width: 14px;
+    height: 14px;
+    fill: {{ block.settings.star_color }};
+    flex-shrink: 0;
+  }
+
+  .ai-review-accordion__icon-{{ ai_gen_id }} {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-review-accordion__item-{{ ai_gen_id }}.active .ai-review-accordion__icon-{{ ai_gen_id }} {
+    transform: rotate(180deg);
+  }
+
+  .ai-review-accordion__panel-{{ ai_gen_id }} {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .ai-review-accordion__panel-content-{{ ai_gen_id }} {
+    padding: {{ block.settings.accordion_content_padding }}px;
+    padding-top: 0;
+  }
+
+  .ai-review-accordion__grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .ai-review-accordion__image-section-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ai-review-accordion__customer-name-{{ ai_gen_id }} {
+    font-size: {{ block.settings.customer_name_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.text_color }};
+    margin: 0;
+  }
+
+  .ai-review-accordion__image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    aspect-ratio: {{ block.settings.image_aspect_ratio }};
+    overflow: hidden;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-review-accordion__image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-review-accordion__image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-review-accordion__image-placeholder-{{ ai_gen_id }} svg {
+    width: 50%;
+    height: 50%;
+    max-width: 100px;
+    max-height: 100px;
+  }
+
+  .ai-review-accordion__content-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .ai-review-accordion__quote-{{ ai_gen_id }} {
+    font-size: {{ block.settings.quote_size }}px;
+    line-height: 1.6;
+    color: {{ block.settings.text_color }};
+    font-style: italic;
+    margin: 0;
+  }
+
+  .ai-review-accordion__metrics-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ai-review-accordion__metric-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ai-review-accordion__metric-label-{{ ai_gen_id }} {
+    font-size: {{ block.settings.metric_label_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-review-accordion__slider-track-{{ ai_gen_id }} {
+    position: relative;
+    height: {{ block.settings.slider_height }}px;
+    background-color: {{ block.settings.slider_track_color }};
+    border-radius: {{ block.settings.slider_border_radius }}px;
+  }
+
+  .ai-review-accordion__slider-fill-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: {{ block.settings.slider_fill_color }};
+    border-radius: {{ block.settings.slider_border_radius }}px;
+  }
+
+  .ai-review-accordion__slider-marker-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: {{ block.settings.marker_size }}px;
+    height: {{ block.settings.marker_size }}px;
+    background-color: {{ block.settings.marker_color }};
+    border: {{ block.settings.marker_border_width }}px solid {{ block.settings.marker_border_color }};
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .ai-review-accordion__metric-labels-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    font-size: {{ block.settings.metric_end_label_size }}px;
+    color: {{ block.settings.metric_end_label_color }};
+    position: relative;
+  }
+
+  .ai-review-accordion__metric-labels-{{ ai_gen_id }} span:nth-child(2) {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .ai-review-accordion__cta-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_text_size }}px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    align-self: flex-start;
+  }
+
+  .ai-review-accordion__cta-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-review-accordion__grid-{{ ai_gen_id }} {
+      grid-template-columns: 220px 1fr;
+      gap: 24px;
+    }
+
+    .ai-review-accordion__heading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.heading_size }}px * 0.85);
+    }
+
+    .ai-review-accordion__subheading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.subheading_size }}px * 0.9);
+    }
+
+    .ai-review-accordion__quote-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.quote_size }}px * 0.9);
+    }
+
+    .ai-review-accordion__content-{{ ai_gen_id }} {
+      gap: 16px;
+    }
+
+    .ai-review-accordion__metrics-{{ ai_gen_id }} {
+      gap: 14px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-review-accordion-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding_mobile }}px 16px;
+    }
+
+    .ai-review-accordion__header-{{ ai_gen_id }} {
+      margin-bottom: 32px;
+    }
+
+    .ai-review-accordion__heading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.heading_size }}px * 0.7);
+      margin-bottom: 8px;
+    }
+
+    .ai-review-accordion__subheading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.subheading_size }}px * 0.85);
+    }
+
+    .ai-review-accordion__button-{{ ai_gen_id }} {
+      padding: {{ block.settings.accordion_header_padding | times: 0.75 }}px;
+    }
+
+    .ai-review-accordion__button-content-{{ ai_gen_id }} {
+      gap: 6px;
+    }
+
+    .ai-review-accordion__button-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.accordion_title_size }}px * 0.9);
+    }
+
+    .ai-review-accordion__button-star-{{ ai_gen_id }} {
+      width: 12px;
+      height: 12px;
+    }
+
+    .ai-review-accordion__panel-content-{{ ai_gen_id }} {
+      padding: {{ block.settings.accordion_content_padding | times: 0.75 }}px;
+      padding-top: 0;
+    }
+
+    .ai-review-accordion__grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .ai-review-accordion__image-wrapper-{{ ai_gen_id }} {
+      max-width: 100%;
+    }
+
+    {% if block.settings.mobile_image_position == 'bottom' %}
+      .ai-review-accordion__image-section-{{ ai_gen_id }} {
+        order: 2;
+      }
+      .ai-review-accordion__content-{{ ai_gen_id }} {
+        order: 1;
+      }
+    {% endif %}
+
+    .ai-review-accordion__customer-name-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.customer_name_size }}px * 0.85);
+    }
+
+    .ai-review-accordion__content-{{ ai_gen_id }} {
+      gap: 16px;
+    }
+
+    .ai-review-accordion__quote-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.quote_size }}px * 0.8);
+      line-height: 1.5;
+    }
+
+    .ai-review-accordion__metric-label-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.metric_label_size }}px * 0.85);
+    }
+
+    .ai-review-accordion__metric-labels-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.metric_end_label_size }}px * 0.85);
+    }
+
+    .ai-review-accordion__metrics-{{ ai_gen_id }} {
+      gap: 14px;
+    }
+
+    .ai-review-accordion__metric-{{ ai_gen_id }} {
+      gap: 6px;
+    }
+
+    .ai-review-accordion__cta-{{ ai_gen_id }} {
+      width: 100%;
+      text-align: center;
+      padding: calc({{ block.settings.button_padding_vertical }}px * 0.9) {{ block.settings.button_padding_horizontal }}px;
+      font-size: calc({{ block.settings.button_text_size }}px * 0.9);
+    }
+  }
+{% endstyle %}
+
+<ai-review-accordion-{{ ai_gen_id }} class="ai-review-accordion-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-review-accordion__container-{{ ai_gen_id }}">
+    {% if block.settings.heading != blank or block.settings.subheading != blank %}
+      <div class="ai-review-accordion__header-{{ ai_gen_id }}">
+        {% if block.settings.heading != blank %}
+          <h2 class="ai-review-accordion__heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+        {% endif %}
+        {% if block.settings.subheading != blank %}
+          <div class="ai-review-accordion__subheading-{{ ai_gen_id }}">{{ block.settings.subheading }}</div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="ai-review-accordion__list-{{ ai_gen_id }}">
+      {% for i in (1..4) %}
+        {% liquid
+          assign testimonial_key = 'review_' | append: i | append: '_testimonial'
+          assign title_key = 'review_' | append: i | append: '_title'
+          assign name_key = 'review_' | append: i | append: '_name'
+          assign image_key = 'review_' | append: i | append: '_image'
+          assign comfort_key = 'review_' | append: i | append: '_comfort'
+          assign quality_key = 'review_' | append: i | append: '_quality'
+          assign fit_key = 'review_' | append: i | append: '_fit'
+          assign comfort_left_key = 'review_' | append: i | append: '_comfort_left'
+          assign comfort_middle_key = 'review_' | append: i | append: '_comfort_middle'
+          assign comfort_right_key = 'review_' | append: i | append: '_comfort_right'
+          assign quality_left_key = 'review_' | append: i | append: '_quality_left'
+          assign quality_middle_key = 'review_' | append: i | append: '_quality_middle'
+          assign quality_right_key = 'review_' | append: i | append: '_quality_right'
+          assign fit_left_key = 'review_' | append: i | append: '_fit_left'
+          assign fit_middle_key = 'review_' | append: i | append: '_fit_middle'
+          assign fit_right_key = 'review_' | append: i | append: '_fit_right'
+
+          assign testimonial = block.settings[testimonial_key]
+          assign title = block.settings[title_key]
+          assign name = block.settings[name_key]
+          assign image = block.settings[image_key]
+          assign comfort = block.settings[comfort_key]
+          assign quality = block.settings[quality_key]
+          assign fit = block.settings[fit_key]
+          assign comfort_left = block.settings[comfort_left_key]
+          assign comfort_middle = block.settings[comfort_middle_key]
+          assign comfort_right = block.settings[comfort_right_key]
+          assign quality_left = block.settings[quality_left_key]
+          assign quality_middle = block.settings[quality_middle_key]
+          assign quality_right = block.settings[quality_right_key]
+          assign fit_left = block.settings[fit_left_key]
+          assign fit_middle = block.settings[fit_middle_key]
+          assign fit_right = block.settings[fit_right_key]
+        %}
+
+        <div class="ai-review-accordion__item-{{ ai_gen_id }} {% if i == 1 %}active{% endif %}" data-index="{{ i }}">
+          <button class="ai-review-accordion__button-{{ ai_gen_id }}" aria-expanded="{% if i == 1 %}true{% else %}false{% endif %}">
+            <div class="ai-review-accordion__button-content-{{ ai_gen_id }}">
+              {% if title != blank %}
+                <p class="ai-review-accordion__button-title-{{ ai_gen_id }}">{{ title }}</p>
+              {% else %}
+                <p class="ai-review-accordion__button-title-{{ ai_gen_id }}">Review title</p>
+              {% endif %}
+
+              <div class="ai-review-accordion__button-stars-{{ ai_gen_id }}">
+                {% for star in (1..5) %}
+                  <svg class="ai-review-accordion__button-star-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                {% endfor %}
+              </div>
+            </div>
+
+            <svg class="ai-review-accordion__icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          <div class="ai-review-accordion__panel-{{ ai_gen_id }}">
+            <div class="ai-review-accordion__panel-content-{{ ai_gen_id }}">
+              <div class="ai-review-accordion__grid-{{ ai_gen_id }}">
+                <div class="ai-review-accordion__image-section-{{ ai_gen_id }}">
+                  {% if name != blank %}
+                    <p class="ai-review-accordion__customer-name-{{ ai_gen_id }}">{{ name }}</p>
+                  {% else %}
+                    <p class="ai-review-accordion__customer-name-{{ ai_gen_id }}">Customer name</p>
+                  {% endif %}
+
+                  <div class="ai-review-accordion__image-wrapper-{{ ai_gen_id }}">
+                    {% if image %}
+                      <img
+                        src="{{ image | image_url: width: 500 }}"
+                        alt="{{ image.alt | escape }}"
+                        loading="lazy"
+                        width="500"
+                        height="500"
+                        class="ai-review-accordion__image-{{ ai_gen_id }}"
+                      >
+                    {% else %}
+                      <div class="ai-review-accordion__image-placeholder-{{ ai_gen_id }}">
+                        {{ 'image' | placeholder_svg_tag }}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="ai-review-accordion__content-{{ ai_gen_id }}">
+                  {% if testimonial != blank %}
+                    <blockquote class="ai-review-accordion__quote-{{ ai_gen_id }}">
+                      "{{ testimonial }}"
+                    </blockquote>
+                  {% else %}
+                    <blockquote class="ai-review-accordion__quote-{{ ai_gen_id }}">
+                      "Add your customer testimonial here to build instant credibility and trust."
+                    </blockquote>
+                  {% endif %}
+
+                  <div class="ai-review-accordion__metrics-{{ ai_gen_id }}">
+                    <div class="ai-review-accordion__metric-{{ ai_gen_id }}">
+                      <span class="ai-review-accordion__metric-label-{{ ai_gen_id }}">Comfort</span>
+                      <div class="ai-review-accordion__slider-track-{{ ai_gen_id }}">
+                        <div class="ai-review-accordion__slider-fill-{{ ai_gen_id }}" style="width: {{ comfort }}%;"></div>
+                        <div class="ai-review-accordion__slider-marker-{{ ai_gen_id }}" style="left: {{ comfort }}%;"></div>
+                      </div>
+                      <div class="ai-review-accordion__metric-labels-{{ ai_gen_id }}">
+                        <span>{{ comfort_left }}</span>
+                        <span>{{ comfort_middle }}</span>
+                        <span>{{ comfort_right }}</span>
+                      </div>
+                    </div>
+
+                    <div class="ai-review-accordion__metric-{{ ai_gen_id }}">
+                      <span class="ai-review-accordion__metric-label-{{ ai_gen_id }}">Quality</span>
+                      <div class="ai-review-accordion__slider-track-{{ ai_gen_id }}">
+                        <div class="ai-review-accordion__slider-fill-{{ ai_gen_id }}" style="width: {{ quality }}%;"></div>
+                        <div class="ai-review-accordion__slider-marker-{{ ai_gen_id }}" style="left: {{ quality }}%;"></div>
+                      </div>
+                      <div class="ai-review-accordion__metric-labels-{{ ai_gen_id }}">
+                        <span>{{ quality_left }}</span>
+                        <span>{{ quality_middle }}</span>
+                        <span>{{ quality_right }}</span>
+                      </div>
+                    </div>
+
+                    <div class="ai-review-accordion__metric-{{ ai_gen_id }}">
+                      <span class="ai-review-accordion__metric-label-{{ ai_gen_id }}">Fit</span>
+                      <div class="ai-review-accordion__slider-track-{{ ai_gen_id }}">
+                        <div class="ai-review-accordion__slider-fill-{{ ai_gen_id }}" style="width: {{ fit }}%;"></div>
+                        <div class="ai-review-accordion__slider-marker-{{ ai_gen_id }}" style="left: {{ fit }}%;"></div>
+                      </div>
+                      <div class="ai-review-accordion__metric-labels-{{ ai_gen_id }}">
+                        <span>{{ fit_left }}</span>
+                        <span>{{ fit_middle }}</span>
+                        <span>{{ fit_right }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {% if block.settings.cta_text != blank and block.settings.cta_link != blank %}
+                    <a href="{{ block.settings.cta_link }}" class="ai-review-accordion__cta-{{ ai_gen_id }}">
+                      {{ block.settings.cta_text }}
+                    </a>
+                  {% elsif block.settings.cta_text != blank %}
+                    <a href="#" class="ai-review-accordion__cta-{{ ai_gen_id }}">
+                      {{ block.settings.cta_text }}
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</ai-review-accordion-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class AiReviewAccordion{{ai_gen_id}} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.items = this.querySelectorAll('.ai-review-accordion__item-{{ ai_gen_id }}');
+        this.setupEventListeners();
+        this.openFirstItem();
+      }
+
+      setupEventListeners() {
+        this.items.forEach((item) => {
+          const button = item.querySelector('.ai-review-accordion__button-{{ ai_gen_id }}');
+          const panel = item.querySelector('.ai-review-accordion__panel-{{ ai_gen_id }}');
+
+          button.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+
+            if (isActive) {
+              this.closeItem(item);
+            } else {
+              this.items.forEach((otherItem) => {
+                if (otherItem !== item) {
+                  this.closeItem(otherItem);
+                }
+              });
+              this.openItem(item);
+            }
+          });
+        });
+      }
+
+      openFirstItem() {
+        const firstItem = this.items[0];
+        if (firstItem) {
+          this.openItem(firstItem);
+        }
+      }
+
+      openItem(item) {
+        const button = item.querySelector('.ai-review-accordion__button-{{ ai_gen_id }}');
+        const panel = item.querySelector('.ai-review-accordion__panel-{{ ai_gen_id }}');
+        const content = panel.querySelector('.ai-review-accordion__panel-content-{{ ai_gen_id }}');
+
+        item.classList.add('active');
+        button.setAttribute('aria-expanded', 'true');
+        panel.style.maxHeight = content.scrollHeight + 'px';
+      }
+
+      closeItem(item) {
+        const button = item.querySelector('.ai-review-accordion__button-{{ ai_gen_id }}');
+        const panel = item.querySelector('.ai-review-accordion__panel-{{ ai_gen_id }}');
+
+        item.classList.remove('active');
+        button.setAttribute('aria-expanded', 'false');
+        panel.style.maxHeight = '0';
+      }
+    }
+
+    customElements.define('ai-review-accordion-{{ ai_gen_id }}', AiReviewAccordion{{ai_gen_id}});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Review accordion",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What our customers say"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Real reviews from real people who love our products"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "min": 14,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Subheading size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Review 1"
+    },
+    {
+      "type": "text",
+      "id": "review_1_title",
+      "label": "Review title",
+      "default": "Best Swoveralls Ever!"
+    },
+    {
+      "type": "text",
+      "id": "review_1_name",
+      "label": "Customer name",
+      "default": "Sarah M."
+    },
+    {
+      "type": "textarea",
+      "id": "review_1_testimonial",
+      "label": "Testimonial",
+      "default": "These Swoveralls changed my life. The quality is incredible and I get compliments everywhere I go!"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_1_image",
+      "label": "Customer image"
+    },
+    {
+      "type": "range",
+      "id": "review_1_comfort",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Comfort rating",
+      "default": 90
+    },
+    {
+      "type": "text",
+      "id": "review_1_comfort_left",
+      "label": "Comfort left label",
+      "default": "Stiff"
+    },
+    {
+      "type": "text",
+      "id": "review_1_comfort_middle",
+      "label": "Comfort middle label",
+      "default": "Good"
+    },
+    {
+      "type": "text",
+      "id": "review_1_comfort_right",
+      "label": "Comfort right label",
+      "default": "Cozy"
+    },
+    {
+      "type": "range",
+      "id": "review_1_quality",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Quality rating",
+      "default": 95
+    },
+    {
+      "type": "text",
+      "id": "review_1_quality_left",
+      "label": "Quality left label",
+      "default": "Poor"
+    },
+    {
+      "type": "text",
+      "id": "review_1_quality_middle",
+      "label": "Quality middle label",
+      "default": "Good"
+    },
+    {
+      "type": "text",
+      "id": "review_1_quality_right",
+      "label": "Quality right label",
+      "default": "Premium"
+    },
+    {
+      "type": "range",
+      "id": "review_1_fit",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Fit rating",
+      "default": 85
+    },
+    {
+      "type": "text",
+      "id": "review_1_fit_left",
+      "label": "Fit left label",
+      "default": "Tight"
+    },
+    {
+      "type": "text",
+      "id": "review_1_fit_middle",
+      "label": "Fit middle label",
+      "default": "True"
+    },
+    {
+      "type": "text",
+      "id": "review_1_fit_right",
+      "label": "Fit right label",
+      "default": "Perfect"
+    },
+    {
+      "type": "header",
+      "content": "Review 2"
+    },
+    {
+      "type": "text",
+      "id": "review_2_title",
+      "label": "Review title",
+      "default": "Perfect Fit & Quality"
+    },
+    {
+      "type": "text",
+      "id": "review_2_name",
+      "label": "Customer name",
+      "default": "Mike T."
+    },
+    {
+      "type": "textarea",
+      "id": "review_2_testimonial",
+      "label": "Testimonial",
+      "default": "Best purchase I've made all year. The fit is perfect and they're so comfortable!"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_2_image",
+      "label": "Customer image"
+    },
+    {
+      "type": "range",
+      "id": "review_2_comfort",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Comfort rating",
+      "default": 85
+    },
+    {
+      "type": "text",
+      "id": "review_2_comfort_left",
+      "label": "Comfort left label",
+      "default": "Stiff"
+    },
+    {
+      "type": "text",
+      "id": "review_2_comfort_middle",
+      "label": "Comfort middle label",
+      "default": "Good"
+    },
+    {
+      "type": "text",
+      "id": "review_2_comfort_right",
+      "label": "Comfort right label",
+      "default": "Cozy"
+    },
+    {
+      "type": "range",
+      "id": "review_2_quality",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Quality rating",
+      "default": 90
+    },
+    {
+      "type": "text",
+      "id": "review_2_quality_left",
+      "label": "Quality left label",
+      "default": "Poor"
+    },
+    {
+      "type": "text",
+      "id": "review_2_quality_middle",
+      "label": "Quality middle label",
+      "default": "Good"
+    },
+    {
+      "type": "text",
+      "id": "review_2_quality_right",
+      "label": "Quality right label",
+      "default": "Premium"
+    },
+    {
+      "type": "range",
+      "id": "review_2_fit",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Fit rating",
+      "default": 95
+    },
+    {
+      "type": "text",
+      "id": "review_2_fit_left",
+      "label": "Fit left label",
+      "default": "Tight"
+    },
+    {
+      "type": "text",
+      "id": "review_2_fit_middle",
+      "label": "Fit middle label",
+      "default": "True"
+    },
+    {
+      "type": "text",
+      "id": "review_2_fit_right",
+      "label": "Fit right label",
+      "default": "Perfect"
+    },
+    {
+      "type": "header",
+      "content": "Review 3"
+    },
+    {
+      "type": "text",
+      "id": "review_3_title",
+      "label": "Review title",
+      "default": "Worth Every Penny"
+    },
+    {
+      "type": "text",
+      "id": "review_3_name",
+      "label": "Customer name",
+      "default": "Alex K."
+    },
+    {
+      "type": "textarea",
+      "id": "review_3_testimonial",
+      "label": "Testimonial",
+      "default": "I wear these every day. They're durable, stylish, and worth every penny."
+    },
+    {
+      "type": "image_picker",
+      "id": "review_3_image",
+      "label": "Customer image"
+    },
+    {
+      "type": "range",
+      "id": "review_3_comfort",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Comfort rating",
+      "default": 95
+    },
+    {
+      "type": "text",
+      "id": "review_3_comfort_left",
+      "label": "Comfort left label",
+      "default": "Stiff"
+    },
+    {
+      "type": "text",
+      "id": "review_3_comfort_middle",
+      "label": "Comfort middle label",
+      "default": "Good"
+    },
+    {
+      "type": "text",
+      "id": "review_3_comfort_right",
+      "label": "Comfort right label",
+      "default": "Cozy"
+    },
+    {
+      "type": "range",
+      "id": "review_3_quality",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Quality rating",
+      "default": 100
+    },
+    {
+      "type": "text",
+      "id": "review_3_quality_left",
+      "label": "Quality left label",
+      "default": "Poor"
+    },
+    {
+      "type": "text",
+      "id": "review_3_quality_middle",
+      "label": "Quality middle label",
+      "default": "Good"
+    },
+    {
+      "type": "text",
+      "id": "review_3_quality_right",
+      "label": "Quality right label",
+      "default": "Premium"
+    },
+    {
+      "type": "range",
+      "id": "review_3_fit",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Fit rating",
+      "default": 90
+    },
+    {
+      "type": "text",
+      "id": "review_3_fit_left",
+      "label": "Fit left label",
+      "default": "Tight"
+    },
+    {
+      "type": "text",
+      "id": "review_3_fit_middle",
+      "label": "Fit middle label",
+      "default": "True"
+    },
+    {
+      "type": "text",
+      "id": "review_3_fit_right",
+      "label": "Fit right label",
+      "default": "Perfect"
+    },
+    {
+      "type": "header",
+      "content": "Review 4"
+    },
+    {
+      "type": "text",
+      "id": "review_4_title",
+      "label": "Review title",
+      "default": "Absolutely Love Them"
+    },
+    {
+      "type": "text",
+      "id": "review_4_name",
+      "label": "Customer name",
+      "default": "Jordan P."
+    },
+    {
+      "type": "textarea",
+      "id": "review_4_testimonial",
+      "label": "Testimonial",
+      "default": "Can't believe how comfortable these are. I've already ordered two more pairs!"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_4_image",
+      "label": "Customer image"
+    },
+    {
+      "type": "range",
+      "id": "review_4_comfort",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Comfort rating",
+      "default": 100
+    },
+    {
+      "type": "text",
+      "id": "review_4_comfort_left",
+      "label": "Comfort left label",
+      "default": "Stiff"
+    },
+    {
+      "type": "text",
+      "id": "review_4_comfort_middle",
+      "label": "Comfort middle label",
+      "default": "Good"
+    },
+    {
+      "type": "text",
+      "id": "review_4_comfort_right",
+      "label": "Comfort right label",
+      "default": "Cozy"
+    },
+    {
+      "type": "range",
+      "id": "review_4_quality",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Quality rating",
+      "default": 95
+    },
+    {
+      "type": "text",
+      "id": "review_4_quality_left",
+      "label": "Quality left label",
+      "default": "Poor"
+    },
+    {
+      "type": "text",
+      "id": "review_4_quality_middle",
+      "label": "Quality middle label",
+      "default": "Good"
+    },
+    {
+      "type": "text",
+      "id": "review_4_quality_right",
+      "label": "Quality right label",
+      "default": "Premium"
+    },
+    {
+      "type": "range",
+      "id": "review_4_fit",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Fit rating",
+      "default": 90
+    },
+    {
+      "type": "text",
+      "id": "review_4_fit_left",
+      "label": "Fit left label",
+      "default": "Tight"
+    },
+    {
+      "type": "text",
+      "id": "review_4_fit_middle",
+      "label": "Fit middle label",
+      "default": "True"
+    },
+    {
+      "type": "text",
+      "id": "review_4_fit_right",
+      "label": "Fit right label",
+      "default": "Perfect"
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "padding_desktop",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Desktop padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_mobile",
+      "min": 20,
+      "max": 80,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile padding",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "mobile_image_position",
+      "label": "Mobile image position",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "top"
+    },
+    {
+      "type": "header",
+      "content": "Accordion style"
+    },
+    {
+      "type": "range",
+      "id": "accordion_gap",
+      "min": 8,
+      "max": 32,
+      "step": 4,
+      "unit": "px",
+      "label": "Gap between items",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "accordion_border_width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "accordion_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "accordion_header_padding",
+      "min": 12,
+      "max": 32,
+      "step": 4,
+      "unit": "px",
+      "label": "Header padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "accordion_content_padding",
+      "min": 12,
+      "max": 32,
+      "step": 4,
+      "unit": "px",
+      "label": "Content padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "accordion_title_size",
+      "min": 14,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "accordion_bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accordion_border_color",
+      "label": "Border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "accordion_header_bg",
+      "label": "Header background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accordion_header_hover_bg",
+      "label": "Header hover background",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "header",
+      "content": "Image style"
+    },
+    {
+      "type": "range",
+      "id": "customer_name_size",
+      "min": 12,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Customer name size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image aspect ratio",
+      "options": [
+        {
+          "value": "1/1",
+          "label": "Square (1:1)"
+        },
+        {
+          "value": "4/5",
+          "label": "Portrait (4:5)"
+        },
+        {
+          "value": "3/4",
+          "label": "Portrait (3:4)"
+        },
+        {
+          "value": "16/9",
+          "label": "Landscape (16:9)"
+        }
+      ],
+      "default": "1/1"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Image border radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Star rating"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#FFD700"
+    },
+    {
+      "type": "header",
+      "content": "Slider style"
+    },
+    {
+      "type": "range",
+      "id": "slider_height",
+      "min": 4,
+      "max": 12,
+      "step": 2,
+      "unit": "px",
+      "label": "Slider height",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "slider_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Slider border radius",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "slider_track_color",
+      "label": "Track color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "slider_fill_color",
+      "label": "Fill color",
+      "default": "#334FB4"
+    },
+    {
+      "type": "range",
+      "id": "marker_size",
+      "min": 12,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Marker size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "marker_color",
+      "label": "Marker color",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "marker_border_color",
+      "label": "Marker border color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "marker_border_width",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Marker border width",
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "quote_size",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Quote size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "metric_label_size",
+      "min": 12,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Metric label size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "metric_end_label_size",
+      "min": 10,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "label": "Metric end label size",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Button style"
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "min": 12,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "min": 16,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "metric_end_label_color",
+      "label": "Metric end label",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Button hover background",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Review accordion"
+    }
+  ]
+}
+{% endschema %}

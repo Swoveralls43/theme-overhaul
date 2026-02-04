@@ -1,0 +1,898 @@
+{% doc %}
+  @prompt
+    Create a best-in-class PDP that is mobile-optimized and has a drop-down where you can select the product variance, and it shows thumbnails for the additional products, accordion for product description, returns and exchanges, and fabric care. You can customize the background of it and make it awesome. , Create a block underneath the accordion section where I can add selling features and logos, like three different value props with text, and I can upload logos. , Create a best-in-class PDP that is mobile-optimized and has a drop-down where you can select the product variance, and it shows thumbnails for the additional products, accordion for product description, returns and exchanges, and fabric care. You can customize the background of it and include a section underneath the accordion section where I can add selling features and logos, like three different value props with text, and I can upload logos.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-pdp-complete-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.section_padding }}px 20px;
+  }
+
+  .ai-pdp-wrapper-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-pdp-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 40px;
+  }
+
+  .ai-pdp-gallery-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ai-pdp-main-image-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    background-color: #f4f4f4;
+  }
+
+  .ai-pdp-main-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-pdp-thumbnails-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 12px;
+  }
+
+  .ai-pdp-thumbnail-{{ ai_gen_id }} {
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+
+  .ai-pdp-thumbnail-{{ ai_gen_id }}.active {
+    border-color: {{ block.settings.accent_color }};
+  }
+
+  .ai-pdp-thumbnail-{{ ai_gen_id }}:hover {
+    border-color: {{ block.settings.accent_color }};
+    opacity: 0.8;
+  }
+
+  .ai-pdp-thumbnail-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-pdp-info-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .ai-pdp-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.text_color }};
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .ai-pdp-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-pdp-variant-selector-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ai-pdp-variant-label-{{ ai_gen_id }} {
+    font-size: 14px;
+    font-weight: 600;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-pdp-variant-select-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 2px solid {{ block.settings.border_color }};
+    border-radius: {{ block.settings.input_border_radius }}px;
+    background-color: #ffffff;
+    color: {{ block.settings.text_color }};
+    cursor: pointer;
+  }
+
+  .ai-pdp-variant-select-{{ ai_gen_id }}:focus {
+    outline: none;
+    border-color: {{ block.settings.accent_color }};
+  }
+
+  .ai-pdp-add-to-cart-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .ai-pdp-add-to-cart-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_color }};
+  }
+
+  .ai-pdp-add-to-cart-{{ ai_gen_id }}:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+
+  .ai-pdp-accordions-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid {{ block.settings.border_color }};
+  }
+
+  .ai-pdp-accordion-{{ ai_gen_id }} {
+    border-bottom: 1px solid {{ block.settings.border_color }};
+  }
+
+  .ai-pdp-accordion-header-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .ai-pdp-accordion-title-{{ ai_gen_id }} {
+    font-size: 16px;
+    font-weight: 600;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-pdp-accordion-icon-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-pdp-accordion-{{ ai_gen_id }}.active .ai-pdp-accordion-icon-{{ ai_gen_id }} {
+    transform: rotate(180deg);
+  }
+
+  .ai-pdp-accordion-content-{{ ai_gen_id }} {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .ai-pdp-accordion-{{ ai_gen_id }}.active .ai-pdp-accordion-content-{{ ai_gen_id }} {
+    max-height: 1000px;
+  }
+
+  .ai-pdp-accordion-body-{{ ai_gen_id }} {
+    padding-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-pdp-value-props-{{ ai_gen_id }} {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid {{ block.settings.border_color }};
+  }
+
+  .ai-pdp-value-props-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+
+  .ai-pdp-value-prop-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .ai-pdp-value-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-pdp-value-icon-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .ai-pdp-value-icon-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-pdp-value-icon-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-pdp-value-title-{{ ai_gen_id }} {
+    font-size: 16px;
+    font-weight: 600;
+    color: {{ block.settings.text_color }};
+    margin: 0;
+  }
+
+  .ai-pdp-value-text-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.8;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-pdp-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    .ai-pdp-thumbnails-{{ ai_gen_id }} {
+      grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+      gap: 8px;
+    }
+
+    .ai-pdp-value-props-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .ai-pdp-value-prop-{{ ai_gen_id }} {
+      flex-direction: row;
+      text-align: left;
+      gap: 16px;
+    }
+
+    .ai-pdp-value-icon-{{ ai_gen_id }} {
+      width: {{ block.settings.icon_size | times: 0.8 }}px;
+      height: {{ block.settings.icon_size | times: 0.8 }}px;
+      flex-shrink: 0;
+    }
+  }
+{% endstyle %}
+
+<product-pdp-{{ ai_gen_id }} class="ai-pdp-complete-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-pdp-wrapper-{{ ai_gen_id }}">
+    <div class="ai-pdp-grid-{{ ai_gen_id }}">
+      <div class="ai-pdp-gallery-{{ ai_gen_id }}">
+        <div class="ai-pdp-main-image-{{ ai_gen_id }}">
+          {% if product.featured_image %}
+            <img
+              src="{{ product.featured_image | image_url: width: 1000 }}"
+              alt="{{ product.featured_image.alt | escape }}"
+              width="1000"
+              height="1000"
+              loading="eager"
+              data-main-image
+            >
+          {% else %}
+            {{ 'product-1' | placeholder_svg_tag }}
+          {% endif %}
+        </div>
+
+        {% if product.images.size > 1 %}
+          <div class="ai-pdp-thumbnails-{{ ai_gen_id }}">
+            {% for image in product.images limit: 6 %}
+              <div class="ai-pdp-thumbnail-{{ ai_gen_id }} {% if forloop.first %}active{% endif %}" data-thumbnail data-image-url="{{ image | image_url: width: 1000 }}">
+                <img
+                  src="{{ image | image_url: width: 200 }}"
+                  alt="{{ image.alt | escape }}"
+                  width="200"
+                  height="200"
+                  loading="lazy"
+                >
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="ai-pdp-info-{{ ai_gen_id }}">
+        <h1 class="ai-pdp-title-{{ ai_gen_id }}">{{ product.title }}</h1>
+
+        <div class="ai-pdp-price-{{ ai_gen_id }}" data-price>
+          {{ product.selected_or_first_available_variant.price | money }}
+        </div>
+
+        {% if product.has_only_default_variant == false %}
+          <div class="ai-pdp-variant-selector-{{ ai_gen_id }}">
+            <label class="ai-pdp-variant-label-{{ ai_gen_id }}" for="variant-select-{{ ai_gen_id }}">
+              {{ block.settings.variant_label }}
+            </label>
+            <select
+              id="variant-select-{{ ai_gen_id }}"
+              class="ai-pdp-variant-select-{{ ai_gen_id }}"
+              data-variant-select
+            >
+              {% for variant in product.variants %}
+                <option
+                  value="{{ variant.id }}"
+                  {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+                  {% unless variant.available %}disabled{% endunless %}
+                  data-price="{{ variant.price }}"
+                >
+                  {{ variant.title }} - {{ variant.price | money }}
+                  {% unless variant.available %} (Sold out){% endunless %}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+        {% endif %}
+
+        <button
+          type="button"
+          class="ai-pdp-add-to-cart-{{ ai_gen_id }}"
+          data-add-to-cart
+          {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+        >
+          {% if product.selected_or_first_available_variant.available %}
+            {{ block.settings.add_to_cart_text }}
+          {% else %}
+            Sold out
+          {% endif %}
+        </button>
+
+        <div class="ai-pdp-accordions-{{ ai_gen_id }}">
+          {% if block.settings.show_description and product.description != blank %}
+            <div class="ai-pdp-accordion-{{ ai_gen_id }}" data-accordion>
+              <button class="ai-pdp-accordion-header-{{ ai_gen_id }}" type="button" data-accordion-trigger>
+                <span class="ai-pdp-accordion-title-{{ ai_gen_id }}">{{ block.settings.description_title }}</span>
+                <svg class="ai-pdp-accordion-icon-{{ ai_gen_id }}" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+              <div class="ai-pdp-accordion-content-{{ ai_gen_id }}">
+                <div class="ai-pdp-accordion-body-{{ ai_gen_id }}">
+                  {{ product.description }}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+
+          {% if block.settings.show_returns and block.settings.returns_text != blank %}
+            <div class="ai-pdp-accordion-{{ ai_gen_id }}" data-accordion>
+              <button class="ai-pdp-accordion-header-{{ ai_gen_id }}" type="button" data-accordion-trigger>
+                <span class="ai-pdp-accordion-title-{{ ai_gen_id }}">{{ block.settings.returns_title }}</span>
+                <svg class="ai-pdp-accordion-icon-{{ ai_gen_id }}" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+              <div class="ai-pdp-accordion-content-{{ ai_gen_id }}">
+                <div class="ai-pdp-accordion-body-{{ ai_gen_id }}">
+                  {{ block.settings.returns_text }}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+
+          {% if block.settings.show_fabric_care and block.settings.fabric_care_text != blank %}
+            <div class="ai-pdp-accordion-{{ ai_gen_id }}" data-accordion>
+              <button class="ai-pdp-accordion-header-{{ ai_gen_id }}" type="button" data-accordion-trigger>
+                <span class="ai-pdp-accordion-title-{{ ai_gen_id }}">{{ block.settings.fabric_care_title }}</span>
+                <svg class="ai-pdp-accordion-icon-{{ ai_gen_id }}" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+              <div class="ai-pdp-accordion-content-{{ ai_gen_id }}">
+                <div class="ai-pdp-accordion-body-{{ ai_gen_id }}">
+                  {{ block.settings.fabric_care_text }}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {% if block.settings.show_value_props %}
+      <div class="ai-pdp-value-props-{{ ai_gen_id }}">
+        <div class="ai-pdp-value-props-grid-{{ ai_gen_id }}">
+          {% for i in (1..3) %}
+            {% liquid
+              assign enabled_key = 'feature_' | append: i | append: '_enabled'
+              assign icon_key = 'feature_' | append: i | append: '_icon'
+              assign title_key = 'feature_' | append: i | append: '_title'
+              assign text_key = 'feature_' | append: i | append: '_text'
+
+              assign enabled = block.settings[enabled_key]
+              assign icon = block.settings[icon_key]
+              assign title = block.settings[title_key]
+              assign text = block.settings[text_key]
+            %}
+
+            {% if enabled %}
+              <div class="ai-pdp-value-prop-{{ ai_gen_id }}">
+                <div class="ai-pdp-value-icon-{{ ai_gen_id }}">
+                  {% if icon %}
+                    <img
+                      src="{{ icon | image_url: width: 200 }}"
+                      alt="{{ title | escape }}"
+                      width="200"
+                      height="200"
+                      loading="lazy"
+                    >
+                  {% else %}
+                    <div class="ai-pdp-value-icon-placeholder-{{ ai_gen_id }}">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                      </svg>
+                    </div>
+                  {% endif %}
+                </div>
+                <div>
+                  {% if title != blank %}
+                    <h3 class="ai-pdp-value-title-{{ ai_gen_id }}">{{ title }}</h3>
+                  {% endif %}
+                  {% if text != blank %}
+                    <p class="ai-pdp-value-text-{{ ai_gen_id }}">{{ text }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</product-pdp-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ProductPDP{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.variantSelect = this.querySelector('[data-variant-select]');
+        this.addToCartButton = this.querySelector('[data-add-to-cart]');
+        this.priceElement = this.querySelector('[data-price]');
+        this.mainImage = this.querySelector('[data-main-image]');
+        this.thumbnails = this.querySelectorAll('[data-thumbnail]');
+        this.accordions = this.querySelectorAll('[data-accordion]');
+      }
+
+      connectedCallback() {
+        this.setupVariantSelector();
+        this.setupThumbnails();
+        this.setupAccordions();
+        this.setupAddToCart();
+      }
+
+      setupVariantSelector() {
+        if (!this.variantSelect) return;
+
+        this.variantSelect.addEventListener('change', (e) => {
+          const selectedOption = e.target.options[e.target.selectedIndex];
+          const price = selectedOption.dataset.price;
+          const isAvailable = !selectedOption.disabled;
+
+          if (this.priceElement && price) {
+            const formattedPrice = new Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'USD'
+            }).format(price / 100);
+            this.priceElement.textContent = formattedPrice;
+          }
+
+          if (this.addToCartButton) {
+            this.addToCartButton.disabled = !isAvailable;
+            this.addToCartButton.textContent = isAvailable ? '{{ block.settings.add_to_cart_text }}' : 'Sold out';
+          }
+        });
+      }
+
+      setupThumbnails() {
+        this.thumbnails.forEach((thumbnail) => {
+          thumbnail.addEventListener('click', () => {
+            this.thumbnails.forEach(t => t.classList.remove('active'));
+            thumbnail.classList.add('active');
+
+            const imageUrl = thumbnail.dataset.imageUrl;
+            if (this.mainImage && imageUrl) {
+              this.mainImage.src = imageUrl;
+            }
+          });
+        });
+      }
+
+      setupAccordions() {
+        this.accordions.forEach((accordion) => {
+          const trigger = accordion.querySelector('[data-accordion-trigger]');
+          
+          trigger.addEventListener('click', () => {
+            const isActive = accordion.classList.contains('active');
+            
+            this.accordions.forEach(acc => acc.classList.remove('active'));
+            
+            if (!isActive) {
+              accordion.classList.add('active');
+            }
+          });
+        });
+      }
+
+      setupAddToCart() {
+        if (!this.addToCartButton) return;
+
+        this.addToCartButton.addEventListener('click', () => {
+          const variantId = this.variantSelect 
+            ? this.variantSelect.value 
+            : this.addToCartButton.dataset.variantId;
+
+          if (!variantId) return;
+
+          const formData = {
+            items: [{
+              id: variantId,
+              quantity: 1
+            }]
+          };
+
+          fetch('/cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+          })
+          .then(response => response.json())
+          .then(data => {
+            window.location.href = '/cart';
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+        });
+      }
+    }
+
+    customElements.define('product-pdp-{{ ai_gen_id }}', ProductPDP{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Complete product page",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#334FB4"
+    },
+    {
+      "type": "header",
+      "content": "Product images"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Image border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Product info"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "label": "Price size",
+      "min": 16,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "text",
+      "id": "variant_label",
+      "label": "Variant label",
+      "default": "Select variant"
+    },
+    {
+      "type": "range",
+      "id": "input_border_radius",
+      "label": "Input border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Add to cart button"
+    },
+    {
+      "type": "text",
+      "id": "add_to_cart_text",
+      "label": "Button text",
+      "default": "Add to cart"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button hover color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Product description"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show description",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "description_title",
+      "label": "Description title",
+      "default": "Product details"
+    },
+    {
+      "type": "header",
+      "content": "Returns and exchanges"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_returns",
+      "label": "Show returns",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "returns_title",
+      "label": "Returns title",
+      "default": "Returns & exchanges"
+    },
+    {
+      "type": "textarea",
+      "id": "returns_text",
+      "label": "Returns text",
+      "default": "We offer free returns within 30 days of purchase. Items must be unworn and in original condition with tags attached."
+    },
+    {
+      "type": "header",
+      "content": "Fabric care"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_fabric_care",
+      "label": "Show fabric care",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "fabric_care_title",
+      "label": "Fabric care title",
+      "default": "Fabric care"
+    },
+    {
+      "type": "textarea",
+      "id": "fabric_care_text",
+      "label": "Fabric care text",
+      "default": "Machine wash cold with like colors. Tumble dry low. Do not bleach. Iron on low heat if needed."
+    },
+    {
+      "type": "header",
+      "content": "Value propositions"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_value_props",
+      "label": "Show value propositions",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "min": 40,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Feature 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "feature_1_enabled",
+      "label": "Enable feature 1",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "feature_1_icon",
+      "label": "Icon or logo"
+    },
+    {
+      "type": "text",
+      "id": "feature_1_title",
+      "label": "Title",
+      "default": "Free shipping"
+    },
+    {
+      "type": "textarea",
+      "id": "feature_1_text",
+      "label": "Description",
+      "default": "On orders over $50"
+    },
+    {
+      "type": "header",
+      "content": "Feature 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "feature_2_enabled",
+      "label": "Enable feature 2",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "feature_2_icon",
+      "label": "Icon or logo"
+    },
+    {
+      "type": "text",
+      "id": "feature_2_title",
+      "label": "Title",
+      "default": "Easy returns"
+    },
+    {
+      "type": "textarea",
+      "id": "feature_2_text",
+      "label": "Description",
+      "default": "30-day return policy"
+    },
+    {
+      "type": "header",
+      "content": "Feature 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "feature_3_enabled",
+      "label": "Enable feature 3",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "feature_3_icon",
+      "label": "Icon or logo"
+    },
+    {
+      "type": "text",
+      "id": "feature_3_title",
+      "label": "Title",
+      "default": "Premium quality"
+    },
+    {
+      "type": "textarea",
+      "id": "feature_3_text",
+      "label": "Description",
+      "default": "Made with care in the USA"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Complete product page"
+    }
+  ]
+}
+{% endschema %}

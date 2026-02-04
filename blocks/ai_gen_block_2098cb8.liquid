@@ -1,0 +1,639 @@
+{% doc %}
+  @prompt
+    Create a mobile-optimized section where I can drop in a 9:16 vertical video along with accompanying text that describes the video. In the text section, we should have a hero copy subheader and then body copy. In the video, I should be able to also include a placeholder image. There should be a play button that overlays on the video as well. , Include a CTA button at the bottom 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-video-text-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .ai-video-text-container-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.section_gap }}px;
+    padding: {{ block.settings.section_padding }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-video-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    background-color: #000000;
+    border-radius: {{ block.settings.video_border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-video-element-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-video-placeholder-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+  }
+
+  .ai-video-placeholder-{{ ai_gen_id }}.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .ai-video-placeholder-empty-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-video-placeholder-empty-{{ ai_gen_id }} svg {
+    width: 80px;
+    height: 80px;
+    opacity: 0.3;
+  }
+
+  .ai-play-button-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: {{ block.settings.play_button_size }}px;
+    height: {{ block.settings.play_button_size }}px;
+    background-color: {{ block.settings.play_button_color }};
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    z-index: 2;
+  }
+
+  .ai-play-button-{{ ai_gen_id }}:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  .ai-play-button-{{ ai_gen_id }}.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .ai-play-button-{{ ai_gen_id }} svg {
+    width: calc({{ block.settings.play_button_size }}px * 0.4);
+    height: calc({{ block.settings.play_button_size }}px * 0.4);
+    fill: {{ block.settings.play_button_icon_color }};
+    margin-left: 4px;
+  }
+
+  .ai-text-content-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.text_gap }}px;
+  }
+
+  .ai-hero-copy-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hero_font_size }}px;
+    font-weight: {{ block.settings.hero_font_weight }};
+    color: {{ block.settings.hero_text_color }};
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .ai-subheader-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subheader_font_size }}px;
+    font-weight: {{ block.settings.subheader_font_weight }};
+    color: {{ block.settings.subheader_text_color }};
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .ai-body-copy-{{ ai_gen_id }} {
+    font-size: {{ block.settings.body_font_size }}px;
+    color: {{ block.settings.body_text_color }};
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .ai-cta-button-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    font-size: {{ block.settings.button_font_size }}px;
+    font-weight: {{ block.settings.button_font_weight }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+  }
+
+  .ai-cta-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+    transform: translateY(-2px);
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-video-text-container-{{ ai_gen_id }} {
+      {% if block.settings.desktop_layout == 'side-by-side' %}
+        flex-direction: row;
+        align-items: center;
+      {% endif %}
+    }
+
+    .ai-video-wrapper-{{ ai_gen_id }} {
+      {% if block.settings.desktop_layout == 'side-by-side' %}
+        max-width: 400px;
+      {% else %}
+        max-width: 500px;
+        margin: 0 auto;
+      {% endif %}
+    }
+
+    .ai-text-content-{{ ai_gen_id }} {
+      {% if block.settings.desktop_layout == 'side-by-side' %}
+        flex: 1;
+      {% endif %}
+    }
+  }
+{% endstyle %}
+
+<mobile-video-text-{{ ai_gen_id }}
+  class="ai-video-text-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-video-text-container-{{ ai_gen_id }}">
+    <div class="ai-video-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.video_url != blank %}
+        <video
+          class="ai-video-element-{{ ai_gen_id }}"
+          playsinline
+          preload="metadata"
+          {% if block.settings.enable_loop %}loop{% endif %}
+          {% if block.settings.enable_mute %}muted{% endif %}
+        >
+          <source src="{{ block.settings.video_url }}" type="video/mp4">
+        </video>
+      {% endif %}
+
+      {% if block.settings.placeholder_image %}
+        <img
+          src="{{ block.settings.placeholder_image | image_url: width: 800 }}"
+          alt="{{ block.settings.placeholder_image.alt | escape }}"
+          class="ai-video-placeholder-{{ ai_gen_id }}"
+          loading="lazy"
+          width="800"
+          height="1422"
+        >
+      {% elsif block.settings.video_url == blank %}
+        <div class="ai-video-placeholder-empty-{{ ai_gen_id }}">
+          {{ 'image' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+
+      <button
+        class="ai-play-button-{{ ai_gen_id }}"
+        aria-label="Play video"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="ai-text-content-{{ ai_gen_id }}">
+      {% if block.settings.hero_copy != blank %}
+        <h2 class="ai-hero-copy-{{ ai_gen_id }}">{{ block.settings.hero_copy }}</h2>
+      {% endif %}
+
+      {% if block.settings.subheader != blank %}
+        <h3 class="ai-subheader-{{ ai_gen_id }}">{{ block.settings.subheader }}</h3>
+      {% endif %}
+
+      {% if block.settings.body_copy != blank %}
+        <div class="ai-body-copy-{{ ai_gen_id }}">{{ block.settings.body_copy }}</div>
+      {% endif %}
+
+      {% if block.settings.button_text != blank %}
+        <a
+          href="{{ block.settings.button_link }}"
+          class="ai-cta-button-{{ ai_gen_id }}"
+        >
+          {{ block.settings.button_text }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</mobile-video-text-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class MobileVideoText{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.video = this.querySelector('.ai-video-element-{{ ai_gen_id }}');
+        this.playButton = this.querySelector('.ai-play-button-{{ ai_gen_id }}');
+        this.placeholder = this.querySelector('.ai-video-placeholder-{{ ai_gen_id }}');
+
+        if (this.playButton && this.video) {
+          this.playButton.addEventListener('click', () => this.handlePlayClick());
+          this.video.addEventListener('play', () => this.handleVideoPlay());
+          this.video.addEventListener('pause', () => this.handleVideoPause());
+          this.video.addEventListener('ended', () => this.handleVideoEnded());
+        }
+      }
+
+      handlePlayClick() {
+        if (this.video.paused) {
+          this.video.play();
+        } else {
+          this.video.pause();
+        }
+      }
+
+      handleVideoPlay() {
+        this.playButton.classList.add('hidden');
+        if (this.placeholder) {
+          this.placeholder.classList.add('hidden');
+        }
+      }
+
+      handleVideoPause() {
+        this.playButton.classList.remove('hidden');
+      }
+
+      handleVideoEnded() {
+        this.playButton.classList.remove('hidden');
+        if (this.placeholder) {
+          this.placeholder.classList.remove('hidden');
+        }
+      }
+    }
+
+    customElements.define('mobile-video-text-{{ ai_gen_id }}', MobileVideoText{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Mobile video with text",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "Video URL",
+      "info": "Upload video to Files and paste URL here"
+    },
+    {
+      "type": "image_picker",
+      "id": "placeholder_image",
+      "label": "Placeholder image",
+      "info": "Shows before video plays"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_loop",
+      "label": "Loop video",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_mute",
+      "label": "Mute video",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "video_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Play button"
+    },
+    {
+      "type": "range",
+      "id": "play_button_size",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Size",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "play_button_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "play_button_icon_color",
+      "label": "Icon color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Text content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "hero_copy",
+      "label": "Hero copy",
+      "default": "Watch Our Story"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheader",
+      "label": "Subheader",
+      "default": "Discover what makes us different"
+    },
+    {
+      "type": "richtext",
+      "id": "body_copy",
+      "label": "Body copy",
+      "default": "<p>Experience the journey behind our brand and see how we create products that make a difference in your everyday life.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Text style"
+    },
+    {
+      "type": "range",
+      "id": "hero_font_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Hero font size",
+      "default": 28
+    },
+    {
+      "type": "select",
+      "id": "hero_font_weight",
+      "label": "Hero font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "hero_text_color",
+      "label": "Hero text color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "subheader_font_size",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Subheader font size",
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "subheader_font_weight",
+      "label": "Subheader font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "subheader_text_color",
+      "label": "Subheader text color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "body_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Body font size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "body_text_color",
+      "label": "Body text color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "text_gap",
+      "min": 8,
+      "max": 32,
+      "step": 4,
+      "unit": "px",
+      "label": "Text spacing",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "CTA button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Background color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Hover background color",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "button_font_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "min": 16,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "desktop_layout",
+      "label": "Desktop layout",
+      "options": [
+        {
+          "value": "stacked",
+          "label": "Stacked"
+        },
+        {
+          "value": "side-by-side",
+          "label": "Side by side"
+        }
+      ],
+      "default": "stacked"
+    },
+    {
+      "type": "range",
+      "id": "section_gap",
+      "min": 16,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "label": "Section gap",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Section padding",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f5f6f8"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mobile video with text"
+    }
+  ]
+}
+{% endschema %}

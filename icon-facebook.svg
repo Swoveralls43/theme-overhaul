@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+    <g data-name="Rectangle 13" style="stroke:rgba(255,255,255,.3);fill:none">
+        <rect width="50" height="50" rx="25" style="stroke:none"/>
+        <rect x=".5" y=".5" width="49" height="49" rx="24.5" style="fill:none"/>
+    </g>
+    <path d="M60.385 71v-8.571h3.97l.508-3.81h-4.478v-1.846c0-1.176.317-1.978 1.951-1.978H65V51.16a27.05 27.05 0 0 0-3.039-.16 4.974 4.974 0 0 0-5.269 5.371v2.248H53v3.81h3.692V71z" transform="translate(-34 -35)" style="fill:#fff"/>
+</svg>

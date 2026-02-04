@@ -1,0 +1,1147 @@
+{% doc %}
+  @prompt
+    create a design contest page informatoinal section. Accordion FAQ with 10 placeholders. rich text section, anything else you think would be helpful, This is a great start. include buttons in each section that smooth scrolll all the way to bottom. Give me options to customize the contest timeline circles and text colors. Include an image block in header section to the left of the copy. , give me option to left, center, or right align buttons. give me option to choose background color for header section
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-contest-info-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-contest-info__header-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+    margin-bottom: 48px;
+    padding: 40px;
+    background-color: {{ block.settings.header_bg_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-contest-info__header-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-contest-info__header-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-contest-info__header-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-contest-info__header-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-contest-info__header-content-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ai-contest-info__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .ai-contest-info__subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.8;
+    margin: 0;
+  }
+
+  .ai-contest-info__button-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    {% if block.settings.button_alignment == 'left' %}
+      justify-content: flex-start;
+    {% elsif block.settings.button_alignment == 'center' %}
+      justify-content: center;
+    {% elsif block.settings.button_alignment == 'right' %}
+      justify-content: flex-end;
+    {% endif %}
+  }
+
+  .ai-contest-info__intro-{{ ai_gen_id }} {
+    margin-bottom: 48px;
+    padding: 32px;
+    background-color: {{ block.settings.intro_bg_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    border-left: 4px solid {{ block.settings.accent_color }};
+  }
+
+  .ai-contest-info__intro-content-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .ai-contest-info__intro-content-{{ ai_gen_id }} p {
+    margin: 0 0 16px;
+  }
+
+  .ai-contest-info__intro-content-{{ ai_gen_id }} p:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-contest-info__scroll-button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 12px 32px;
+    background-color: {{ block.settings.scroll_button_bg }};
+    color: {{ block.settings.scroll_button_text }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .ai-contest-info__scroll-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.scroll_button_hover_bg }};
+    transform: translateY(-2px);
+  }
+
+  .ai-contest-info__timeline-{{ ai_gen_id }} {
+    margin-bottom: 48px;
+  }
+
+  .ai-contest-info__section-title-{{ ai_gen_id }} {
+    font-size: 28px;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 24px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .ai-contest-info__timeline-items-{{ ai_gen_id }} {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .ai-contest-info__timeline-item-{{ ai_gen_id }} {
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    background-color: {{ block.settings.card_bg_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    border: 1px solid {{ block.settings.border_color }};
+  }
+
+  .ai-contest-info__timeline-icon-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: {{ block.settings.timeline_circle_size }}px;
+    height: {{ block.settings.timeline_circle_size }}px;
+    background-color: {{ block.settings.timeline_circle_bg }};
+    color: {{ block.settings.timeline_circle_text }};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: {{ block.settings.timeline_circle_size | times: 0.4 }}px;
+  }
+
+  .ai-contest-info__timeline-content-{{ ai_gen_id }} {
+    flex-grow: 1;
+  }
+
+  .ai-contest-info__timeline-date-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.timeline_date_color }};
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+
+  .ai-contest-info__timeline-title-{{ ai_gen_id }} {
+    font-size: 18px;
+    color: {{ block.settings.timeline_title_color }};
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+
+  .ai-contest-info__timeline-desc-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.timeline_desc_color }};
+    margin: 0;
+  }
+
+  .ai-contest-info__timeline-footer-{{ ai_gen_id }} {
+    {% if block.settings.button_alignment == 'left' %}
+      text-align: left;
+    {% elsif block.settings.button_alignment == 'center' %}
+      text-align: center;
+    {% elsif block.settings.button_alignment == 'right' %}
+      text-align: right;
+    {% endif %}
+  }
+
+  .ai-contest-info__faq-{{ ai_gen_id }} {
+    margin-bottom: 48px;
+  }
+
+  .ai-contest-info__accordion-{{ ai_gen_id }} {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .ai-contest-info__accordion-item-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_bg_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    border: 1px solid {{ block.settings.border_color }};
+    overflow: hidden;
+  }
+
+  .ai-contest-info__accordion-button-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 20px 24px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    transition: background-color 0.2s ease;
+  }
+
+  .ai-contest-info__accordion-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.hover_bg_color }};
+  }
+
+  .ai-contest-info__accordion-question-{{ ai_gen_id }} {
+    font-size: 16px;
+    color: {{ block.settings.text_color }};
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .ai-contest-info__accordion-icon-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    color: {{ block.settings.accent_color }};
+    transition: transform 0.3s ease;
+  }
+
+  .ai-contest-info__accordion-item-{{ ai_gen_id }}.active .ai-contest-info__accordion-icon-{{ ai_gen_id }} {
+    transform: rotate(180deg);
+  }
+
+  .ai-contest-info__accordion-content-{{ ai_gen_id }} {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .ai-contest-info__accordion-answer-{{ ai_gen_id }} {
+    padding: 0 24px 20px;
+    color: {{ block.settings.text_color }};
+    font-size: 14px;
+    line-height: 1.6;
+    opacity: 0.8;
+  }
+
+  .ai-contest-info__faq-footer-{{ ai_gen_id }} {
+    {% if block.settings.button_alignment == 'left' %}
+      text-align: left;
+    {% elsif block.settings.button_alignment == 'center' %}
+      text-align: center;
+    {% elsif block.settings.button_alignment == 'right' %}
+      text-align: right;
+    {% endif %}
+  }
+
+  .ai-contest-info__cta-{{ ai_gen_id }} {
+    text-align: center;
+    padding: 48px 32px;
+    background-color: {{ block.settings.cta_bg_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    border: 2px solid {{ block.settings.accent_color }};
+    scroll-margin-top: 20px;
+  }
+
+  .ai-contest-info__cta-title-{{ ai_gen_id }} {
+    font-size: 32px;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 16px;
+    font-weight: 700;
+  }
+
+  .ai-contest-info__cta-text-{{ ai_gen_id }} {
+    font-size: 16px;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 24px;
+    opacity: 0.8;
+  }
+
+  .ai-contest-info__cta-button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 16px 40px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .ai-contest-info__cta-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-contest-info__header-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 32px 24px;
+    }
+
+    .ai-contest-info__header-image-{{ ai_gen_id }} {
+      order: -1;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-contest-info-{{ ai_gen_id }} {
+      padding: 24px 16px;
+    }
+
+    .ai-contest-info__header-{{ ai_gen_id }} {
+      padding: 24px 20px;
+    }
+
+    .ai-contest-info__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.7 }}px;
+    }
+
+    .ai-contest-info__subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtitle_size | times: 0.8 }}px;
+    }
+
+    .ai-contest-info__intro-{{ ai_gen_id }} {
+      padding: 20px;
+    }
+
+    .ai-contest-info__section-title-{{ ai_gen_id }} {
+      font-size: 22px;
+    }
+
+    .ai-contest-info__cta-title-{{ ai_gen_id }} {
+      font-size: 24px;
+    }
+
+    .ai-contest-info__cta-{{ ai_gen_id }} {
+      padding: 32px 20px;
+    }
+
+    .ai-contest-info__timeline-icon-{{ ai_gen_id }} {
+      width: {{ block.settings.timeline_circle_size | times: 0.8 }}px;
+      height: {{ block.settings.timeline_circle_size | times: 0.8 }}px;
+      font-size: {{ block.settings.timeline_circle_size | times: 0.32 }}px;
+    }
+  }
+{% endstyle %}
+
+<design-contest-info-{{ ai_gen_id }} class="ai-contest-info-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-contest-info__header-{{ ai_gen_id }}">
+    <div class="ai-contest-info__header-image-{{ ai_gen_id }}">
+      {% if block.settings.header_image %}
+        <img
+          src="{{ block.settings.header_image | image_url: width: 800 }}"
+          alt="{{ block.settings.header_image.alt | escape }}"
+          loading="lazy"
+          width="{{ block.settings.header_image.width }}"
+          height="{{ block.settings.header_image.height }}"
+        >
+      {% else %}
+        <div class="ai-contest-info__header-image-placeholder-{{ ai_gen_id }}">
+          {{ 'hero-apparel-1' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+    </div>
+    
+    <div class="ai-contest-info__header-content-{{ ai_gen_id }}">
+      {% if block.settings.title != blank %}
+        <h1 class="ai-contest-info__title-{{ ai_gen_id }}">{{ block.settings.title }}</h1>
+      {% endif %}
+      {% if block.settings.subtitle != blank %}
+        <p class="ai-contest-info__subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</p>
+      {% endif %}
+      {% if block.settings.show_header_button %}
+        <div class="ai-contest-info__button-wrapper-{{ ai_gen_id }}">
+          <button 
+            class="ai-contest-info__scroll-button-{{ ai_gen_id }}"
+            data-scroll-to-cta
+          >
+            {{ block.settings.header_button_text }}
+          </button>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if block.settings.intro_text != blank %}
+    <div class="ai-contest-info__intro-{{ ai_gen_id }}">
+      <div class="ai-contest-info__intro-content-{{ ai_gen_id }}">
+        {{ block.settings.intro_text }}
+      </div>
+      {% if block.settings.show_intro_button %}
+        <div class="ai-contest-info__button-wrapper-{{ ai_gen_id }}">
+          <button 
+            class="ai-contest-info__scroll-button-{{ ai_gen_id }}"
+            data-scroll-to-cta
+          >
+            {{ block.settings.intro_button_text }}
+          </button>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if block.settings.show_timeline %}
+    <div class="ai-contest-info__timeline-{{ ai_gen_id }}">
+      <h2 class="ai-contest-info__section-title-{{ ai_gen_id }}">{{ block.settings.timeline_title }}</h2>
+      <div class="ai-contest-info__timeline-items-{{ ai_gen_id }}">
+        {% for i in (1..4) %}
+          {% liquid
+            assign date_key = 'timeline_' | append: i | append: '_date'
+            assign title_key = 'timeline_' | append: i | append: '_title'
+            assign desc_key = 'timeline_' | append: i | append: '_desc'
+            
+            assign date = block.settings[date_key]
+            assign title = block.settings[title_key]
+            assign desc = block.settings[desc_key]
+          %}
+          
+          {% if title != blank %}
+            <div class="ai-contest-info__timeline-item-{{ ai_gen_id }}">
+              <div class="ai-contest-info__timeline-icon-{{ ai_gen_id }}">{{ i }}</div>
+              <div class="ai-contest-info__timeline-content-{{ ai_gen_id }}">
+                {% if date != blank %}
+                  <div class="ai-contest-info__timeline-date-{{ ai_gen_id }}">{{ date }}</div>
+                {% endif %}
+                <h3 class="ai-contest-info__timeline-title-{{ ai_gen_id }}">{{ title }}</h3>
+                {% if desc != blank %}
+                  <p class="ai-contest-info__timeline-desc-{{ ai_gen_id }}">{{ desc }}</p>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% if block.settings.show_timeline_button %}
+        <div class="ai-contest-info__timeline-footer-{{ ai_gen_id }}">
+          <button 
+            class="ai-contest-info__scroll-button-{{ ai_gen_id }}"
+            data-scroll-to-cta
+          >
+            {{ block.settings.timeline_button_text }}
+          </button>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="ai-contest-info__faq-{{ ai_gen_id }}">
+    <h2 class="ai-contest-info__section-title-{{ ai_gen_id }}">{{ block.settings.faq_title }}</h2>
+    <div class="ai-contest-info__accordion-{{ ai_gen_id }}">
+      {% for i in (1..10) %}
+        {% liquid
+          assign question_key = 'faq_' | append: i | append: '_question'
+          assign answer_key = 'faq_' | append: i | append: '_answer'
+          
+          assign question = block.settings[question_key]
+          assign answer = block.settings[answer_key]
+        %}
+        
+        {% if question != blank %}
+          <div class="ai-contest-info__accordion-item-{{ ai_gen_id }}" data-accordion-item>
+            <button 
+              class="ai-contest-info__accordion-button-{{ ai_gen_id }}"
+              aria-expanded="false"
+              data-accordion-trigger
+            >
+              <h3 class="ai-contest-info__accordion-question-{{ ai_gen_id }}">{{ question }}</h3>
+              <svg class="ai-contest-info__accordion-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="ai-contest-info__accordion-content-{{ ai_gen_id }}" data-accordion-content>
+              <div class="ai-contest-info__accordion-answer-{{ ai_gen_id }}">{{ answer }}</div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% if block.settings.show_faq_button %}
+      <div class="ai-contest-info__faq-footer-{{ ai_gen_id }}">
+        <button 
+          class="ai-contest-info__scroll-button-{{ ai_gen_id }}"
+          data-scroll-to-cta
+        >
+          {{ block.settings.faq_button_text }}
+        </button>
+      </div>
+    {% endif %}
+  </div>
+
+  {% if block.settings.show_cta %}
+    <div class="ai-contest-info__cta-{{ ai_gen_id }}" data-cta-section>
+      {% if block.settings.cta_title != blank %}
+        <h2 class="ai-contest-info__cta-title-{{ ai_gen_id }}">{{ block.settings.cta_title }}</h2>
+      {% endif %}
+      {% if block.settings.cta_text != blank %}
+        <p class="ai-contest-info__cta-text-{{ ai_gen_id }}">{{ block.settings.cta_text }}</p>
+      {% endif %}
+      {% if block.settings.cta_button_text != blank and block.settings.cta_button_link != blank %}
+        <a href="{{ block.settings.cta_button_link }}" class="ai-contest-info__cta-button-{{ ai_gen_id }}">
+          {{ block.settings.cta_button_text }}
+        </a>
+      {% endif %}
+    </div>
+  {% endif %}
+</design-contest-info-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class DesignContestInfo{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.accordionItems = this.querySelectorAll('[data-accordion-item]');
+        this.scrollButtons = this.querySelectorAll('[data-scroll-to-cta]');
+        this.ctaSection = this.querySelector('[data-cta-section]');
+        
+        this.setupAccordion();
+        this.setupScrollButtons();
+      }
+
+      setupAccordion() {
+        this.accordionItems.forEach((item) => {
+          const trigger = item.querySelector('[data-accordion-trigger]');
+          const content = item.querySelector('[data-accordion-content]');
+          
+          trigger.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+            
+            this.accordionItems.forEach((otherItem) => {
+              if (otherItem !== item) {
+                otherItem.classList.remove('active');
+                const otherContent = otherItem.querySelector('[data-accordion-content]');
+                const otherTrigger = otherItem.querySelector('[data-accordion-trigger]');
+                otherContent.style.maxHeight = null;
+                otherTrigger.setAttribute('aria-expanded', 'false');
+              }
+            });
+            
+            if (isActive) {
+              item.classList.remove('active');
+              content.style.maxHeight = null;
+              trigger.setAttribute('aria-expanded', 'false');
+            } else {
+              item.classList.add('active');
+              content.style.maxHeight = content.scrollHeight + 'px';
+              trigger.setAttribute('aria-expanded', 'true');
+            }
+          });
+        });
+      }
+
+      setupScrollButtons() {
+        if (!this.ctaSection) return;
+
+        this.scrollButtons.forEach((button) => {
+          button.addEventListener('click', () => {
+            this.ctaSection.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          });
+        });
+      }
+    }
+
+    customElements.define('design-contest-info-{{ ai_gen_id }}', DesignContestInfo{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Design contest info",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "color",
+      "id": "header_bg_color",
+      "label": "Header background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "image_picker",
+      "id": "header_image",
+      "label": "Header image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "2025 Design Contest"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Submit your boldest pattern designs for a chance to win"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Subtitle size",
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "show_header_button",
+      "label": "Show header button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "header_button_text",
+      "label": "Header button text",
+      "default": "Enter Now"
+    },
+    {
+      "type": "header",
+      "content": "Introduction"
+    },
+    {
+      "type": "richtext",
+      "id": "intro_text",
+      "label": "Introduction text",
+      "default": "<p>Welcome to the Swoveralls Design Contest! We're looking for creative, bold, and unique pattern designs that capture the spirit of our brand. Whether you're a professional designer or just getting started, we want to see your vision come to life.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_intro_button",
+      "label": "Show intro button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "intro_button_text",
+      "label": "Intro button text",
+      "default": "Submit Your Design"
+    },
+    {
+      "type": "header",
+      "content": "Timeline"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_timeline",
+      "label": "Show timeline",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "timeline_title",
+      "label": "Timeline title",
+      "default": "Contest Timeline"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_timeline_button",
+      "label": "Show timeline button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "timeline_button_text",
+      "label": "Timeline button text",
+      "default": "Get Started"
+    },
+    {
+      "type": "range",
+      "id": "timeline_circle_size",
+      "min": 32,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Circle size",
+      "default": 48
+    },
+    {
+      "type": "color",
+      "id": "timeline_circle_bg",
+      "label": "Circle background",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "timeline_circle_text",
+      "label": "Circle text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "timeline_date_color",
+      "label": "Date color",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "timeline_title_color",
+      "label": "Title color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "timeline_desc_color",
+      "label": "Description color",
+      "default": "#121212"
+    },
+    {
+      "type": "text",
+      "id": "timeline_1_date",
+      "label": "Phase 1 date",
+      "default": "January 1 - February 15"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "timeline_1_title",
+      "label": "Phase 1 title",
+      "default": "Submission Period"
+    },
+    {
+      "type": "text",
+      "id": "timeline_1_desc",
+      "label": "Phase 1 description",
+      "default": "Submit your design entries through our online portal"
+    },
+    {
+      "type": "text",
+      "id": "timeline_2_date",
+      "label": "Phase 2 date",
+      "default": "February 16 - February 28"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "timeline_2_title",
+      "label": "Phase 2 title",
+      "default": "Judging Period"
+    },
+    {
+      "type": "text",
+      "id": "timeline_2_desc",
+      "label": "Phase 2 description",
+      "default": "Our panel reviews all submissions and selects finalists"
+    },
+    {
+      "type": "text",
+      "id": "timeline_3_date",
+      "label": "Phase 3 date",
+      "default": "March 1 - March 15"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "timeline_3_title",
+      "label": "Phase 3 title",
+      "default": "Community Voting"
+    },
+    {
+      "type": "text",
+      "id": "timeline_3_desc",
+      "label": "Phase 3 description",
+      "default": "Vote for your favorite designs from our finalists"
+    },
+    {
+      "type": "text",
+      "id": "timeline_4_date",
+      "label": "Phase 4 date",
+      "default": "March 20"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "timeline_4_title",
+      "label": "Phase 4 title",
+      "default": "Winner Announcement"
+    },
+    {
+      "type": "text",
+      "id": "timeline_4_desc",
+      "label": "Phase 4 description",
+      "default": "Winners announced and prizes awarded"
+    },
+    {
+      "type": "header",
+      "content": "FAQ"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "faq_title",
+      "label": "FAQ title",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_faq_button",
+      "label": "Show FAQ button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "faq_button_text",
+      "label": "FAQ button text",
+      "default": "Ready to Enter?"
+    },
+    {
+      "type": "text",
+      "id": "faq_1_question",
+      "label": "Question 1",
+      "default": "Who can enter the contest?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_1_answer",
+      "label": "Answer 1",
+      "default": "The contest is open to anyone 18 years or older. Professional designers, hobbyists, and first-time creators are all welcome to submit."
+    },
+    {
+      "type": "text",
+      "id": "faq_2_question",
+      "label": "Question 2",
+      "default": "What are the design requirements?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_2_answer",
+      "label": "Answer 2",
+      "default": "Designs should be original pattern artwork suitable for apparel. Submit high-resolution files (minimum 300 DPI) in PNG, JPG, or vector format. Patterns should be seamless and repeatable."
+    },
+    {
+      "type": "text",
+      "id": "faq_3_question",
+      "label": "Question 3",
+      "default": "How many designs can I submit?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_3_answer",
+      "label": "Answer 3",
+      "default": "You can submit up to 3 unique designs. Each design must be submitted as a separate entry with its own description and inspiration statement."
+    },
+    {
+      "type": "text",
+      "id": "faq_4_question",
+      "label": "Question 4",
+      "default": "What are the prizes?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_4_answer",
+      "label": "Answer 4",
+      "default": "Grand Prize: $2,500 cash + your design produced as a limited edition product. Runner-up prizes include $500 cash and Swoveralls merchandise packages."
+    },
+    {
+      "type": "text",
+      "id": "faq_5_question",
+      "label": "Question 5",
+      "default": "How will designs be judged?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_5_answer",
+      "label": "Answer 5",
+      "default": "Designs will be evaluated on creativity, originality, technical execution, and alignment with the Swoveralls brand aesthetic. A combination of expert judging and community voting will determine winners."
+    },
+    {
+      "type": "text",
+      "id": "faq_6_question",
+      "label": "Question 6",
+      "default": "Do I retain rights to my design?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_6_answer",
+      "label": "Answer 6",
+      "default": "You retain ownership of your design. However, winning designs grant Swoveralls a license to produce and sell products featuring your design. Full terms are outlined in the contest rules."
+    },
+    {
+      "type": "text",
+      "id": "faq_7_question",
+      "label": "Question 7",
+      "default": "Can I submit designs I've created for other projects?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_7_answer",
+      "label": "Answer 7",
+      "default": "Designs must be original and not previously published or sold. You must own all rights to the design and any elements within it."
+    },
+    {
+      "type": "text",
+      "id": "faq_8_question",
+      "label": "Question 8",
+      "default": "What file formats should I use?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_8_answer",
+      "label": "Answer 8",
+      "default": "We accept PNG, JPG, and vector files (AI, EPS, SVG). All submissions should be high-resolution (minimum 300 DPI) and include both a full pattern tile and a mockup showing the pattern in use."
+    },
+    {
+      "type": "text",
+      "id": "faq_9_question",
+      "label": "Question 9",
+      "default": "When will winners be notified?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_9_answer",
+      "label": "Answer 9",
+      "default": "Winners will be announced publicly on March 20th and contacted directly via the email address provided during submission within 48 hours of the announcement."
+    },
+    {
+      "type": "text",
+      "id": "faq_10_question",
+      "label": "Question 10",
+      "default": "Where can I find the complete contest rules?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_10_answer",
+      "label": "Answer 10",
+      "default": "Complete official rules, eligibility requirements, and terms can be found on our contest rules page. Please review them carefully before submitting your entry."
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Show call to action",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "cta_title",
+      "label": "CTA title",
+      "default": "Ready to Submit Your Design?"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA text",
+      "default": "Join hundreds of designers competing for the grand prize"
+    },
+    {
+      "type": "text",
+      "id": "cta_button_text",
+      "label": "Button text",
+      "default": "Submit Your Entry"
+    },
+    {
+      "type": "url",
+      "id": "cta_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Button style"
+    },
+    {
+      "type": "select",
+      "id": "button_alignment",
+      "label": "Button alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#f5f6f8"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "intro_bg_color",
+      "label": "Introduction background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "cta_bg_color",
+      "label": "CTA background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "hover_bg_color",
+      "label": "Hover background",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "color",
+      "id": "scroll_button_bg",
+      "label": "Scroll button background",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "scroll_button_text",
+      "label": "Scroll button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "scroll_button_hover_bg",
+      "label": "Scroll button hover background",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "CTA button background",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "CTA button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "CTA button hover background",
+      "default": "#334FB4"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Design contest info"
+    }
+  ]
+}
+{% endschema %}

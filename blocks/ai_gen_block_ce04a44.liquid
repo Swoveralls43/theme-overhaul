@@ -1,0 +1,634 @@
+{% doc %}
+  @prompt
+    Featured Press Section
+    Create a press/media section with two distinct components:
+    Top Component: A featured press highlight with:
+    
+    Large, centered quote/testimonial text in elegant typography
+    Space above or beside the quote for a publication logo image upload
+    Optional attribution line below the quote (publication name, date, journalist name)
+    Clean, minimal design with ample white space
+    Background color customizable (suggest cream or light neutral)
+    
+    Bottom Component: An infinite auto-scrolling logo marquee that:
+    
+    Continuously scrolls horizontally from right to left at a slow, smooth speed
+    Repeats seamlessly when it reaches the end (infinite loop)
+    Allows multiple logo image uploads (suggest 8-12 slots)
+    Displays logos in a single horizontal row
+    Has even spacing between logos
+    Includes hover pause functionality (optional)
+    Grayscale filter on logos with option to show color on hover
+    Adjustable scroll speed in section settings
+    Responsive on mobile (stacks appropriately or continues scrolling)
+    
+    Overall styling should feel modern, credible, and clean. Include section settings for: background colors, text colors, logo sizing, scroll speed, and spacing., this is great, can you revise it so you can easily add or delete additional logos and it automatically spaces them out evenly. 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-press-section-{{ ai_gen_id }} {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .ai-press-featured-{{ ai_gen_id }} {
+    background-color: {{ block.settings.featured_bg_color }};
+    padding: {{ block.settings.featured_padding_top }}px {{ block.settings.featured_padding_horizontal }}px {{ block.settings.featured_padding_bottom }}px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .ai-press-logo-wrapper-{{ ai_gen_id }} {
+    margin-bottom: {{ block.settings.logo_spacing }}px;
+  }
+
+  .ai-press-logo-{{ ai_gen_id }} {
+    max-width: {{ block.settings.logo_max_width }}px;
+    height: auto;
+    display: block;
+  }
+
+  .ai-press-logo-placeholder-{{ ai_gen_id }} {
+    width: {{ block.settings.logo_max_width }}px;
+    height: 60px;
+    background-color: #e5e5e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-press-logo-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 200px;
+    max-height: 50px;
+    opacity: 0.3;
+  }
+
+  .ai-press-quote-{{ ai_gen_id }} {
+    font-size: {{ block.settings.quote_font_size }}px;
+    line-height: 1.4;
+    color: {{ block.settings.quote_text_color }};
+    font-weight: {{ block.settings.quote_font_weight }};
+    max-width: {{ block.settings.quote_max_width }}px;
+    margin: 0 auto {{ block.settings.quote_spacing }}px;
+    font-style: {{ block.settings.quote_style }};
+  }
+
+  .ai-press-attribution-{{ ai_gen_id }} {
+    font-size: {{ block.settings.attribution_font_size }}px;
+    color: {{ block.settings.attribution_text_color }};
+    margin: 0;
+  }
+
+  .ai-press-marquee-container-{{ ai_gen_id }} {
+    background-color: {{ block.settings.marquee_bg_color }};
+    padding: {{ block.settings.marquee_padding_vertical }}px 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .ai-press-marquee-track-{{ ai_gen_id }} {
+    display: flex;
+    width: fit-content;
+    animation: ai-press-scroll-{{ ai_gen_id }} {{ block.settings.scroll_speed }}s linear infinite;
+  }
+
+  {% if block.settings.pause_on_hover %}
+    .ai-press-marquee-track-{{ ai_gen_id }}:hover {
+      animation-play-state: paused;
+    }
+  {% endif %}
+
+  .ai-press-marquee-group-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.logo_gap }}px;
+    padding-right: {{ block.settings.logo_gap }}px;
+  }
+
+  .ai-press-marquee-logo-{{ ai_gen_id }} {
+    height: {{ block.settings.marquee_logo_height }}px;
+    width: auto;
+    object-fit: contain;
+    {% if block.settings.grayscale_logos %}
+      filter: grayscale(100%);
+      transition: filter 0.3s ease;
+    {% endif %}
+  }
+
+  {% if block.settings.grayscale_logos %}
+    .ai-press-marquee-logo-{{ ai_gen_id }}:hover {
+      filter: grayscale(0%);
+    }
+  {% endif %}
+
+  .ai-press-marquee-logo-placeholder-{{ ai_gen_id }} {
+    height: {{ block.settings.marquee_logo_height }}px;
+    width: 120px;
+    background-color: #e5e5e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .ai-press-marquee-logo-placeholder-{{ ai_gen_id }} svg {
+    width: 80px;
+    height: 40px;
+    opacity: 0.3;
+  }
+
+  @keyframes ai-press-scroll-{{ ai_gen_id }} {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-press-featured-{{ ai_gen_id }} {
+      padding: {{ block.settings.featured_padding_top | times: 0.6 }}px {{ block.settings.featured_padding_horizontal | times: 0.6 }}px {{ block.settings.featured_padding_bottom | times: 0.6 }}px;
+    }
+
+    .ai-press-quote-{{ ai_gen_id }} {
+      font-size: {{ block.settings.quote_font_size | times: 0.7 }}px;
+    }
+
+    .ai-press-logo-{{ ai_gen_id }} {
+      max-width: {{ block.settings.logo_max_width | times: 0.7 }}px;
+    }
+
+    .ai-press-logo-placeholder-{{ ai_gen_id }} {
+      width: {{ block.settings.logo_max_width | times: 0.7 }}px;
+    }
+
+    .ai-press-attribution-{{ ai_gen_id }} {
+      font-size: {{ block.settings.attribution_font_size | times: 0.9 }}px;
+    }
+
+    .ai-press-marquee-logo-{{ ai_gen_id }} {
+      height: {{ block.settings.marquee_logo_height | times: 0.7 }}px;
+    }
+
+    .ai-press-marquee-logo-placeholder-{{ ai_gen_id }} {
+      height: {{ block.settings.marquee_logo_height | times: 0.7 }}px;
+      width: 84px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-press-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-press-featured-{{ ai_gen_id }}">
+    {% if block.settings.publication_logo != blank %}
+      <div class="ai-press-logo-wrapper-{{ ai_gen_id }}">
+        <img
+          src="{{ block.settings.publication_logo | image_url: width: 600 }}"
+          alt="{{ block.settings.publication_logo.alt | escape }}"
+          class="ai-press-logo-{{ ai_gen_id }}"
+          loading="lazy"
+          width="{{ block.settings.publication_logo.width }}"
+          height="{{ block.settings.publication_logo.height }}"
+        >
+      </div>
+    {% elsif block.settings.quote_text != blank %}
+      <div class="ai-press-logo-wrapper-{{ ai_gen_id }}">
+        <div class="ai-press-logo-placeholder-{{ ai_gen_id }}">
+          {{ 'image' | placeholder_svg_tag }}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if block.settings.quote_text != blank %}
+      <blockquote class="ai-press-quote-{{ ai_gen_id }}">
+        {{ block.settings.quote_text }}
+      </blockquote>
+    {% endif %}
+
+    {% if block.settings.attribution != blank %}
+      <p class="ai-press-attribution-{{ ai_gen_id }}">
+        {{ block.settings.attribution }}
+      </p>
+    {% endif %}
+  </div>
+
+  {% assign has_logos = false %}
+  {% for i in (1..20) %}
+    {% assign logo_key = 'marquee_logo_' | append: i %}
+    {% assign logo = block.settings[logo_key] %}
+    {% if logo != blank %}
+      {% assign has_logos = true %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+
+  {% if has_logos %}
+    <div class="ai-press-marquee-container-{{ ai_gen_id }}">
+      <div class="ai-press-marquee-track-{{ ai_gen_id }}">
+        <div class="ai-press-marquee-group-{{ ai_gen_id }}">
+          {% for i in (1..20) %}
+            {% assign logo_key = 'marquee_logo_' | append: i %}
+            {% assign logo = block.settings[logo_key] %}
+            {% if logo != blank %}
+              <img
+                src="{{ logo | image_url: width: 400 }}"
+                alt="{{ logo.alt | escape }}"
+                class="ai-press-marquee-logo-{{ ai_gen_id }}"
+                loading="lazy"
+                width="{{ logo.width }}"
+                height="{{ logo.height }}"
+              >
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="ai-press-marquee-group-{{ ai_gen_id }}" aria-hidden="true">
+          {% for i in (1..20) %}
+            {% assign logo_key = 'marquee_logo_' | append: i %}
+            {% assign logo = block.settings[logo_key] %}
+            {% if logo != blank %}
+              <img
+                src="{{ logo | image_url: width: 400 }}"
+                alt="{{ logo.alt | escape }}"
+                class="ai-press-marquee-logo-{{ ai_gen_id }}"
+                loading="lazy"
+                width="{{ logo.width }}"
+                height="{{ logo.height }}"
+              >
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Featured press",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Featured quote"
+    },
+    {
+      "type": "image_picker",
+      "id": "publication_logo",
+      "label": "Publication logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "min": 100,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo max width",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "logo_spacing",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo spacing",
+      "default": 30
+    },
+    {
+      "type": "textarea",
+      "id": "quote_text",
+      "label": "Quote text"
+    },
+    {
+      "type": "range",
+      "id": "quote_font_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Quote font size",
+      "default": 28
+    },
+    {
+      "type": "select",
+      "id": "quote_font_weight",
+      "label": "Quote font weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "select",
+      "id": "quote_style",
+      "label": "Quote style",
+      "options": [
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "italic",
+          "label": "Italic"
+        }
+      ],
+      "default": "italic"
+    },
+    {
+      "type": "range",
+      "id": "quote_max_width",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "label": "Quote max width",
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "quote_spacing",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Quote spacing",
+      "default": 20
+    },
+    {
+      "type": "text",
+      "id": "attribution",
+      "label": "Attribution"
+    },
+    {
+      "type": "range",
+      "id": "attribution_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Attribution font size",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Featured quote colors"
+    },
+    {
+      "type": "color",
+      "id": "featured_bg_color",
+      "label": "Background",
+      "default": "#f5f1e8"
+    },
+    {
+      "type": "color",
+      "id": "quote_text_color",
+      "label": "Quote text",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "attribution_text_color",
+      "label": "Attribution text",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Featured quote spacing"
+    },
+    {
+      "type": "range",
+      "id": "featured_padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "featured_padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "featured_padding_horizontal",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Logo marquee"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add up to 20 logos. Only uploaded logos will appear in the marquee."
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_1",
+      "label": "Logo 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_2",
+      "label": "Logo 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_3",
+      "label": "Logo 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_4",
+      "label": "Logo 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_5",
+      "label": "Logo 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_6",
+      "label": "Logo 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_7",
+      "label": "Logo 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_8",
+      "label": "Logo 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_9",
+      "label": "Logo 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_10",
+      "label": "Logo 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_11",
+      "label": "Logo 11"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_12",
+      "label": "Logo 12"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_13",
+      "label": "Logo 13"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_14",
+      "label": "Logo 14"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_15",
+      "label": "Logo 15"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_16",
+      "label": "Logo 16"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_17",
+      "label": "Logo 17"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_18",
+      "label": "Logo 18"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_19",
+      "label": "Logo 19"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_logo_20",
+      "label": "Logo 20"
+    },
+    {
+      "type": "header",
+      "content": "Marquee style"
+    },
+    {
+      "type": "range",
+      "id": "marquee_logo_height",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo height",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "logo_gap",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo spacing",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "label": "Scroll speed",
+      "default": 30
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on hover",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "grayscale_logos",
+      "label": "Grayscale logos",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Marquee colors"
+    },
+    {
+      "type": "color",
+      "id": "marquee_bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Marquee spacing"
+    },
+    {
+      "type": "range",
+      "id": "marquee_padding_vertical",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured press"
+    }
+  ]
+}
+{% endschema %}

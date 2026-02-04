@@ -1,0 +1,1195 @@
+{% doc %}
+  @prompt
+    I'd like you to create a best-in-class design contest voting page. I want you to make it easy for me to upload images of designs that people have, and then I also want people to be able to vote on which design they like the best. When you click the button to vote, it prompts that you have to enter your email. Then we capture that within the Shopify system and also be great if we could have that connected to Klaviyo so have a third-party integration within here. Let's see what you can do. , when you click vote, the modal should pop up and it doesn't seem to be pls fix, better, but there is liquid error when modal pops up please fix, optimize for mobile with 2 product cards per row on mobile. Also give me ability to adjust the padding within the modal pop-up. Also give me the option to customize the thank you page after people submit their vote
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-design-contest-{{ ai_gen_id }} {
+    padding: 40px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .ai-design-contest__header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .ai-design-contest__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 16px;
+    font-weight: 700;
+  }
+
+  .ai-design-contest__description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0;
+    opacity: 0.85;
+  }
+
+  .ai-design-contest__grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: {{ block.settings.grid_gap }}px;
+    margin-bottom: 40px;
+  }
+
+  .ai-design-card-{{ ai_gen_id }} {
+    background: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+  }
+
+  .ai-design-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .ai-design-card__image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    background: #f4f4f4;
+    overflow: hidden;
+  }
+
+  .ai-design-card__image-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-design-card__placeholder-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f4f4f4;
+  }
+
+  .ai-design-card__placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-design-card__content-{{ ai_gen_id }} {
+    padding: 20px;
+  }
+
+  .ai-design-card__name-{{ ai_gen_id }} {
+    font-size: 18px;
+    font-weight: 600;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 8px;
+  }
+
+  .ai-design-card__designer-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.7;
+    margin: 0 0 16px;
+  }
+
+  .ai-design-card__vote-section-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .ai-design-card__vote-count-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.text_color }};
+    font-weight: 600;
+  }
+
+  .ai-design-card__vote-btn-{{ ai_gen_id }} {
+    padding: 10px 20px;
+    background: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .ai-design-card__vote-btn-{{ ai_gen_id }}:hover {
+    background: {{ block.settings.button_hover_color }};
+  }
+
+  .ai-design-card__vote-btn-{{ ai_gen_id }}:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+
+  .ai-design-card__voted-{{ ai_gen_id }} {
+    background: {{ block.settings.voted_color }};
+    color: #fff;
+  }
+
+  .ai-design-card__voted-{{ ai_gen_id }}:hover {
+    background: {{ block.settings.voted_color }};
+  }
+
+  .ai-modal-{{ ai_gen_id }} {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .ai-modal-{{ ai_gen_id }}.active {
+    display: flex;
+  }
+
+  .ai-modal__content-{{ ai_gen_id }} {
+    background: {{ block.settings.modal_background }};
+    border-radius: {{ block.settings.modal_border_radius }}px;
+    padding: {{ block.settings.modal_padding }}px;
+    max-width: 500px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .ai-modal__close-{{ ai_gen_id }} {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: {{ block.settings.text_color }};
+    opacity: 0.6;
+    padding: 4px;
+    line-height: 1;
+    z-index: 1;
+  }
+
+  .ai-modal__close-{{ ai_gen_id }}:hover {
+    opacity: 1;
+  }
+
+  .ai-modal__title-{{ ai_gen_id }} {
+    font-size: 24px;
+    font-weight: 700;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 12px;
+    padding-right: 30px;
+  }
+
+  .ai-modal__subtitle-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.7;
+    margin: 0 0 24px;
+  }
+
+  .ai-modal__form-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ai-modal__input-{{ ai_gen_id }} {
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: {{ block.settings.input_border_radius }}px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+  }
+
+  .ai-modal__input-{{ ai_gen_id }}:focus {
+    outline: none;
+    border-color: {{ block.settings.button_color }};
+  }
+
+  .ai-modal__submit-{{ ai_gen_id }} {
+    padding: 14px 24px;
+    background: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .ai-modal__submit-{{ ai_gen_id }}:hover {
+    background: {{ block.settings.button_hover_color }};
+  }
+
+  .ai-modal__error-{{ ai_gen_id }} {
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-align: center;
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+
+  .ai-thank-you-{{ ai_gen_id }} {
+    display: none;
+    text-align: center;
+  }
+
+  .ai-thank-you-{{ ai_gen_id }}.active {
+    display: block;
+  }
+
+  .ai-thank-you__icon-{{ ai_gen_id }} {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+    background: {{ block.settings.voted_color }};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 32px;
+  }
+
+  .ai-thank-you__title-{{ ai_gen_id }} {
+    font-size: 28px;
+    font-weight: 700;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 12px;
+  }
+
+  .ai-thank-you__message-{{ ai_gen_id }} {
+    font-size: 16px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.85;
+    margin: 0 0 24px;
+    line-height: 1.5;
+  }
+
+  .ai-thank-you__cta-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 12px 24px;
+    background: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-weight: 600;
+    transition: background 0.3s ease;
+  }
+
+  .ai-thank-you__cta-{{ ai_gen_id }}:hover {
+    background: {{ block.settings.button_hover_color }};
+  }
+
+  .ai-design-contest__empty-{{ ai_gen_id }} {
+    text-align: center;
+    padding: 60px 20px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.6;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-design-contest-{{ ai_gen_id }} {
+      padding: 30px 16px;
+    }
+
+    .ai-design-contest__grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .ai-design-card__content-{{ ai_gen_id }} {
+      padding: 12px;
+    }
+
+    .ai-design-card__name-{{ ai_gen_id }} {
+      font-size: 14px;
+      margin: 0 0 4px;
+    }
+
+    .ai-design-card__designer-{{ ai_gen_id }} {
+      font-size: 12px;
+      margin: 0 0 12px;
+    }
+
+    .ai-design-card__vote-section-{{ ai_gen_id }} {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+    }
+
+    .ai-design-card__vote-count-{{ ai_gen_id }} {
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .ai-design-card__vote-btn-{{ ai_gen_id }} {
+      width: 100%;
+      padding: 8px 16px;
+      font-size: 13px;
+    }
+
+    .ai-modal__content-{{ ai_gen_id }} {
+      padding: {{ block.settings.modal_padding_mobile }}px;
+      max-width: 100%;
+    }
+
+    .ai-modal__title-{{ ai_gen_id }} {
+      font-size: 20px;
+    }
+
+    .ai-design-contest__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.7 }}px;
+    }
+
+    .ai-design-contest__description-{{ ai_gen_id }} {
+      font-size: {{ block.settings.description_size | times: 0.9 }}px;
+    }
+
+    .ai-thank-you__title-{{ ai_gen_id }} {
+      font-size: 22px;
+    }
+
+    .ai-thank-you__message-{{ ai_gen_id }} {
+      font-size: 14px;
+    }
+  }
+{% endstyle %}
+
+<design-contest-{{ ai_gen_id }} class="ai-design-contest-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-design-contest__header-{{ ai_gen_id }}">
+    {% if block.settings.title != blank %}
+      <h2 class="ai-design-contest__title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+    {% endif %}
+    {% if block.settings.description != blank %}
+      <div class="ai-design-contest__description-{{ ai_gen_id }}">{{ block.settings.description }}</div>
+    {% endif %}
+  </div>
+
+  <div class="ai-design-contest__grid-{{ ai_gen_id }}">
+    {% liquid
+      assign has_designs = false
+      for i in (1..12)
+        assign image_key = 'design_' | append: i | append: '_image'
+        assign name_key = 'design_' | append: i | append: '_name'
+        assign designer_key = 'design_' | append: i | append: '_designer'
+        
+        assign design_image = block.settings[image_key]
+        assign design_name = block.settings[name_key]
+        assign design_designer = block.settings[designer_key]
+        
+        if design_image != blank or design_name != blank
+          assign has_designs = true
+        endif
+      endfor
+    %}
+
+    {% if has_designs %}
+      {% for i in (1..12) %}
+        {% liquid
+          assign image_key = 'design_' | append: i | append: '_image'
+          assign name_key = 'design_' | append: i | append: '_name'
+          assign designer_key = 'design_' | append: i | append: '_designer'
+          
+          assign design_image = block.settings[image_key]
+          assign design_name = block.settings[name_key]
+          assign design_designer = block.settings[designer_key]
+        %}
+
+        {% if design_image != blank or design_name != blank %}
+          <div class="ai-design-card-{{ ai_gen_id }}" data-design-id="{{ i }}">
+            <div class="ai-design-card__image-wrapper-{{ ai_gen_id }}">
+              {% if design_image %}
+                <img
+                  src="{{ design_image | image_url: width: 600 }}"
+                  alt="{{ design_name | escape }}"
+                  class="ai-design-card__image-{{ ai_gen_id }}"
+                  loading="lazy"
+                  width="600"
+                  height="600"
+                >
+              {% else %}
+                <div class="ai-design-card__placeholder-{{ ai_gen_id }}">
+                  {{ 'image' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+            </div>
+            <div class="ai-design-card__content-{{ ai_gen_id }}">
+              {% if design_name != blank %}
+                <h3 class="ai-design-card__name-{{ ai_gen_id }}">{{ design_name }}</h3>
+              {% endif %}
+              {% if design_designer != blank %}
+                <p class="ai-design-card__designer-{{ ai_gen_id }}">by {{ design_designer }}</p>
+              {% endif %}
+              <div class="ai-design-card__vote-section-{{ ai_gen_id }}">
+                <span class="ai-design-card__vote-count-{{ ai_gen_id }}" data-vote-count="{{ i }}">0 votes</span>
+                <button
+                  type="button"
+                  class="ai-design-card__vote-btn-{{ ai_gen_id }}"
+                  data-vote-button="{{ i }}"
+                  data-design-name="{{ design_name | escape }}"
+                  aria-label="Vote for {{ design_name | escape }}"
+                >
+                  {{ block.settings.vote_button_text }}
+                </button>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <div class="ai-design-contest__empty-{{ ai_gen_id }}" style="grid-column: 1 / -1;">
+        <p>Add your first design to get started with the contest!</p>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="ai-modal-{{ ai_gen_id }}" data-modal="{{ ai_gen_id }}">
+    <div class="ai-modal__content-{{ ai_gen_id }}">
+      <button type="button" class="ai-modal__close-{{ ai_gen_id }}" data-modal-close="{{ ai_gen_id }}" aria-label="Close">×</button>
+      
+      <div class="ai-modal__form-wrapper-{{ ai_gen_id }}" data-form-wrapper="{{ ai_gen_id }}">
+        <h3 class="ai-modal__title-{{ ai_gen_id }}">{{ block.settings.modal_title }}</h3>
+        <p class="ai-modal__subtitle-{{ ai_gen_id }}">{{ block.settings.modal_subtitle }}</p>
+        
+        {% assign form_id = 'design-contest-form-' | append: ai_gen_id %}
+        {%- form 'contact', id: form_id -%}
+          <input type="hidden" name="contact[contest_name]" value="{{ block.settings.title | escape }}">
+          <input type="hidden" name="contact[design_id]" data-design-id-input="{{ ai_gen_id }}">
+          <input type="hidden" name="contact[design_name]" data-design-name-input="{{ ai_gen_id }}">
+          <input type="hidden" name="contact[tags]" value="design-contest-vote">
+          
+          {% if form.errors %}
+            <div class="ai-modal__error-{{ ai_gen_id }}">
+              {% for field in form.errors %}
+                {{ form.errors.messages[field] }}
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <input
+            type="email"
+            name="contact[email]"
+            class="ai-modal__input-{{ ai_gen_id }}"
+            placeholder="{{ block.settings.email_placeholder }}"
+            required
+            autocomplete="email"
+            aria-label="Email address"
+          >
+
+          <input
+            type="text"
+            name="contact[name]"
+            class="ai-modal__input-{{ ai_gen_id }}"
+            placeholder="{{ block.settings.name_placeholder }}"
+            autocomplete="name"
+            aria-label="Your name"
+          >
+
+          <button type="submit" class="ai-modal__submit-{{ ai_gen_id }}">
+            {{ block.settings.submit_button_text }}
+          </button>
+        {%- endform -%}
+      </div>
+
+      <div class="ai-thank-you-{{ ai_gen_id }}" data-thank-you="{{ ai_gen_id }}">
+        <div class="ai-thank-you__icon-{{ ai_gen_id }}">✓</div>
+        <h3 class="ai-thank-you__title-{{ ai_gen_id }}">{{ block.settings.thank_you_title }}</h3>
+        <div class="ai-thank-you__message-{{ ai_gen_id }}">{{ block.settings.thank_you_message }}</div>
+        {% if block.settings.thank_you_cta_text != blank and block.settings.thank_you_cta_url != blank %}
+          <a href="{{ block.settings.thank_you_cta_url }}" class="ai-thank-you__cta-{{ ai_gen_id }}">
+            {{ block.settings.thank_you_cta_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</design-contest-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class DesignContest{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.storageKey = 'design_contest_votes_{{ ai_gen_id }}';
+        this.userVoteKey = 'design_contest_user_vote_{{ ai_gen_id }}';
+      }
+
+      connectedCallback() {
+        this.modal = this.querySelector('[data-modal="{{ ai_gen_id }}"]');
+        this.modalClose = this.querySelector('[data-modal-close="{{ ai_gen_id }}"]');
+        this.voteButtons = this.querySelectorAll('[data-vote-button]');
+        this.designIdInput = this.querySelector('[data-design-id-input="{{ ai_gen_id }}"]');
+        this.designNameInput = this.querySelector('[data-design-name-input="{{ ai_gen_id }}"]');
+        this.form = this.querySelector('form');
+        this.formWrapper = this.querySelector('[data-form-wrapper="{{ ai_gen_id }}"]');
+        this.thankYou = this.querySelector('[data-thank-you="{{ ai_gen_id }}"]');
+        
+        this.loadVotes();
+        this.checkUserVote();
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        const self = this;
+        
+        this.voteButtons.forEach(function(button) {
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const designId = this.getAttribute('data-vote-button');
+            const designName = this.getAttribute('data-design-name') || 'Design ' + designId;
+            
+            self.openModal(designId, designName);
+          });
+        });
+
+        if (this.modalClose) {
+          this.modalClose.addEventListener('click', function(e) {
+            e.preventDefault();
+            self.closeModal();
+          });
+        }
+        
+        if (this.modal) {
+          this.modal.addEventListener('click', function(e) {
+            if (e.target === self.modal) {
+              self.closeModal();
+            }
+          });
+        }
+
+        if (this.form) {
+          this.form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(self.form);
+            const designId = self.designIdInput.value;
+            
+            fetch(self.form.action, {
+              method: 'POST',
+              body: formData,
+              headers: {
+                'Accept': 'application/json'
+              }
+            }).then(function(response) {
+              if (response.ok) {
+                if (designId) {
+                  self.recordVote(designId);
+                }
+                self.showThankYou();
+              }
+            }).catch(function(error) {
+              console.error('Error:', error);
+            });
+          });
+        }
+
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && self.modal && self.modal.classList.contains('active')) {
+            self.closeModal();
+          }
+        });
+      }
+
+      openModal(designId, designName) {
+        const userVote = localStorage.getItem(this.userVoteKey);
+        if (userVote) {
+          alert('You have already voted in this contest!');
+          return;
+        }
+
+        if (this.designIdInput) {
+          this.designIdInput.value = designId;
+        }
+        if (this.designNameInput) {
+          this.designNameInput.value = designName;
+        }
+        
+        if (this.formWrapper) {
+          this.formWrapper.style.display = 'block';
+        }
+        if (this.thankYou) {
+          this.thankYou.classList.remove('active');
+        }
+        
+        if (this.modal) {
+          this.modal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+
+      closeModal() {
+        if (this.modal) {
+          this.modal.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      }
+
+      showThankYou() {
+        if (this.formWrapper) {
+          this.formWrapper.style.display = 'none';
+        }
+        if (this.thankYou) {
+          this.thankYou.classList.add('active');
+        }
+      }
+
+      loadVotes() {
+        const votes = this.getVotes();
+        const self = this;
+        Object.keys(votes).forEach(function(designId) {
+          self.updateVoteDisplay(designId, votes[designId]);
+        });
+      }
+
+      getVotes() {
+        const stored = localStorage.getItem(this.storageKey);
+        return stored ? JSON.parse(stored) : {};
+      }
+
+      saveVotes(votes) {
+        localStorage.setItem(this.storageKey, JSON.stringify(votes));
+      }
+
+      recordVote(designId) {
+        const votes = this.getVotes();
+        votes[designId] = (votes[designId] || 0) + 1;
+        this.saveVotes(votes);
+        this.updateVoteDisplay(designId, votes[designId]);
+        localStorage.setItem(this.userVoteKey, designId);
+        this.markAsVoted(designId);
+      }
+
+      updateVoteDisplay(designId, count) {
+        const voteCountEl = this.querySelector('[data-vote-count="' + designId + '"]');
+        if (voteCountEl) {
+          voteCountEl.textContent = count + (count === 1 ? ' vote' : ' votes');
+        }
+      }
+
+      checkUserVote() {
+        const userVote = localStorage.getItem(this.userVoteKey);
+        if (userVote) {
+          this.markAsVoted(userVote);
+        }
+      }
+
+      markAsVoted(designId) {
+        const self = this;
+        this.voteButtons.forEach(function(button) {
+          const btnDesignId = button.getAttribute('data-vote-button');
+          if (btnDesignId === designId) {
+            button.classList.add('ai-design-card__voted-{{ ai_gen_id }}');
+            button.textContent = '{{ block.settings.voted_button_text }}';
+            button.disabled = true;
+          } else {
+            button.disabled = true;
+            button.style.opacity = '0.5';
+          }
+        });
+      }
+    }
+
+    customElements.define('design-contest-{{ ai_gen_id }}', DesignContest{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Design contest voting",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Contest details"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Contest title",
+      "default": "Vote for Your Favorite Design"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Contest description",
+      "default": "Help us choose the winning design! Vote for your favorite below."
+    },
+    {
+      "type": "header",
+      "content": "Design 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "design_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "design_1_name",
+      "label": "Design name"
+    },
+    {
+      "type": "text",
+      "id": "design_1_designer",
+      "label": "Designer name"
+    },
+    {
+      "type": "header",
+      "content": "Design 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "design_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "design_2_name",
+      "label": "Design name"
+    },
+    {
+      "type": "text",
+      "id": "design_2_designer",
+      "label": "Designer name"
+    },
+    {
+      "type": "header",
+      "content": "Design 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "design_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "design_3_name",
+      "label": "Design name"
+    },
+    {
+      "type": "text",
+      "id": "design_3_designer",
+      "label": "Designer name"
+    },
+    {
+      "type": "header",
+      "content": "Design 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "design_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "design_4_name",
+      "label": "Design name"
+    },
+    {
+      "type": "text",
+      "id": "design_4_designer",
+      "label": "Designer name"
+    },
+    {
+      "type": "header",
+      "content": "Design 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "design_5_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "design_5_name",
+      "label": "Design name"
+    },
+    {
+      "type": "text",
+      "id": "design_5_designer",
+      "label": "Designer name"
+    },
+    {
+      "type": "header",
+      "content": "Design 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "design_6_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "design_6_name",
+      "label": "Design name"
+    },
+    {
+      "type": "text",
+      "id": "design_6_designer",
+      "label": "Designer name"
+    },
+    {
+      "type": "header",
+      "content": "Design 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "design_7_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "design_7_name",
+      "label": "Design name"
+    },
+    {
+      "type": "text",
+      "id": "design_7_designer",
+      "label": "Designer name"
+    },
+    {
+      "type": "header",
+      "content": "Design 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "design_8_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "design_8_name",
+      "label": "Design name"
+    },
+    {
+      "type": "text",
+      "id": "design_8_designer",
+      "label": "Designer name"
+    },
+    {
+      "type": "header",
+      "content": "Design 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "design_9_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "design_9_name",
+      "label": "Design name"
+    },
+    {
+      "type": "text",
+      "id": "design_9_designer",
+      "label": "Designer name"
+    },
+    {
+      "type": "header",
+      "content": "Design 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "design_10_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "design_10_name",
+      "label": "Design name"
+    },
+    {
+      "type": "text",
+      "id": "design_10_designer",
+      "label": "Designer name"
+    },
+    {
+      "type": "header",
+      "content": "Design 11"
+    },
+    {
+      "type": "image_picker",
+      "id": "design_11_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "design_11_name",
+      "label": "Design name"
+    },
+    {
+      "type": "text",
+      "id": "design_11_designer",
+      "label": "Designer name"
+    },
+    {
+      "type": "header",
+      "content": "Design 12"
+    },
+    {
+      "type": "image_picker",
+      "id": "design_12_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "design_12_name",
+      "label": "Design name"
+    },
+    {
+      "type": "text",
+      "id": "design_12_designer",
+      "label": "Designer name"
+    },
+    {
+      "type": "header",
+      "content": "Email capture modal"
+    },
+    {
+      "type": "text",
+      "id": "modal_title",
+      "label": "Modal title",
+      "default": "Cast Your Vote"
+    },
+    {
+      "type": "text",
+      "id": "modal_subtitle",
+      "label": "Modal subtitle",
+      "default": "Enter your email to vote for this design"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "your@email.com"
+    },
+    {
+      "type": "text",
+      "id": "name_placeholder",
+      "label": "Name placeholder",
+      "default": "Your name (optional)"
+    },
+    {
+      "type": "text",
+      "id": "submit_button_text",
+      "label": "Submit button text",
+      "default": "Submit Vote"
+    },
+    {
+      "type": "range",
+      "id": "modal_padding",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Modal padding (desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "modal_padding_mobile",
+      "min": 15,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Modal padding (mobile)",
+      "default": 25
+    },
+    {
+      "type": "header",
+      "content": "Thank you page"
+    },
+    {
+      "type": "text",
+      "id": "thank_you_title",
+      "label": "Title",
+      "default": "Thank You!"
+    },
+    {
+      "type": "textarea",
+      "id": "thank_you_message",
+      "label": "Message",
+      "default": "Your vote has been recorded. We'll announce the winner soon!"
+    },
+    {
+      "type": "text",
+      "id": "thank_you_cta_text",
+      "label": "Button text"
+    },
+    {
+      "type": "url",
+      "id": "thank_you_cta_url",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Button labels"
+    },
+    {
+      "type": "text",
+      "id": "vote_button_text",
+      "label": "Vote button text",
+      "default": "Vote"
+    },
+    {
+      "type": "text",
+      "id": "voted_button_text",
+      "label": "Voted button text",
+      "default": "Voted"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Description size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Grid gap",
+      "default": 30
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button hover color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "voted_color",
+      "label": "Voted button color",
+      "default": "#008060"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "modal_background",
+      "label": "Modal background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "modal_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Modal border radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "input_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Input border radius",
+      "default": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "Design contest voting"
+    }
+  ]
+}
+{% endschema %}

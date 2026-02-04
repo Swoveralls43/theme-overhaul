@@ -1,0 +1,177 @@
+{% doc %}
+  @prompt
+    create a cool transition wavy block where I can change the top/bottom half of the graphic to create smooth transitions between blocks
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-wavy-transition-{{ ai_gen_id }} {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: {{ block.settings.wave_height }}px;
+    overflow: hidden;
+  }
+
+  .ai-wavy-transition__top-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background-color: {{ block.settings.top_color }};
+    z-index: 1;
+  }
+
+  .ai-wavy-transition__bottom-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background-color: {{ block.settings.bottom_color }};
+    z-index: 0;
+  }
+
+  .ai-wavy-transition__wave-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+
+  .ai-wavy-transition__wave-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  {% if block.settings.flip_wave %}
+    .ai-wavy-transition__wave-{{ ai_gen_id }} svg {
+      transform: scaleY(-1);
+    }
+  {% endif %}
+
+  @media screen and (max-width: 749px) {
+    .ai-wavy-transition-{{ ai_gen_id }} {
+      height: {{ block.settings.wave_height | times: 0.6 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-wavy-transition-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-wavy-transition__top-{{ ai_gen_id }}"></div>
+  <div class="ai-wavy-transition__bottom-{{ ai_gen_id }}"></div>
+  <div class="ai-wavy-transition__wave-{{ ai_gen_id }}">
+    {% case block.settings.wave_style %}
+      {% when 'smooth' %}
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,60 C300,100 900,20 1200,60 L1200,120 L0,120 Z" fill="{{ block.settings.bottom_color }}"/>
+        </svg>
+      {% when 'dramatic' %}
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,60 C200,10 400,110 600,60 C800,10 1000,110 1200,60 L1200,120 L0,120 Z" fill="{{ block.settings.bottom_color }}"/>
+        </svg>
+      {% when 'gentle' %}
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,60 C400,80 800,40 1200,60 L1200,120 L0,120 Z" fill="{{ block.settings.bottom_color }}"/>
+        </svg>
+      {% when 'multi' %}
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,60 C150,80 300,40 450,60 C600,80 750,40 900,60 C1050,80 1150,40 1200,60 L1200,120 L0,120 Z" fill="{{ block.settings.bottom_color }}"/>
+        </svg>
+      {% when 'sharp' %}
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,60 L300,20 L600,100 L900,20 L1200,60 L1200,120 L0,120 Z" fill="{{ block.settings.bottom_color }}"/>
+        </svg>
+      {% when 'asymmetric' %}
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,80 C400,20 700,100 1200,40 L1200,120 L0,120 Z" fill="{{ block.settings.bottom_color }}"/>
+        </svg>
+    {% endcase %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Wavy transition",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "top_color",
+      "label": "Top color",
+      "default": "#f5f6f8"
+    },
+    {
+      "type": "color",
+      "id": "bottom_color",
+      "label": "Bottom color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Wave style"
+    },
+    {
+      "type": "select",
+      "id": "wave_style",
+      "label": "Wave pattern",
+      "options": [
+        {
+          "value": "smooth",
+          "label": "Smooth"
+        },
+        {
+          "value": "dramatic",
+          "label": "Dramatic"
+        },
+        {
+          "value": "gentle",
+          "label": "Gentle"
+        },
+        {
+          "value": "multi",
+          "label": "Multi-wave"
+        },
+        {
+          "value": "sharp",
+          "label": "Sharp peaks"
+        },
+        {
+          "value": "asymmetric",
+          "label": "Asymmetric"
+        }
+      ],
+      "default": "smooth"
+    },
+    {
+      "type": "range",
+      "id": "wave_height",
+      "min": 40,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Wave height",
+      "default": 100
+    },
+    {
+      "type": "checkbox",
+      "id": "flip_wave",
+      "label": "Flip wave direction",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wavy transition"
+    }
+  ]
+}
+{% endschema %}

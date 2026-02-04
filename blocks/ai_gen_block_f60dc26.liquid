@@ -1,0 +1,861 @@
+{% doc %}
+  @prompt
+    I need you to enhance the existing bundle promo right now. The Swoveralls collection is not including all the Swoveralls. I also want you to gamify it a little bit and show the savings. When someone selects a pair of Swoveralls, automatically scroll them to a pair of Swovie shorts. When they select a pair of Swovie shorts, automatically scroll them to the bottom where they can add bundle to cart and show the savings at the bottom with 50% off based on the auto-applied discount. 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-bundle-promo-{{ ai_gen_id }} {
+    padding: 40px 20px;
+    background-color: {{ block.settings.background_color }};
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .ai-bundle-promo__header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .ai-bundle-promo__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 16px;
+    font-weight: 700;
+  }
+
+  .ai-bundle-promo__subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0;
+  }
+
+  .ai-bundle-promo__progress-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+  }
+
+  .ai-bundle-promo__step-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    background-color: {{ block.settings.step_bg_color }};
+    border-radius: 50px;
+    border: 2px solid {{ block.settings.step_border_color }};
+    transition: all 0.3s ease;
+  }
+
+  .ai-bundle-promo__step-{{ ai_gen_id }}.active {
+    background-color: {{ block.settings.step_active_bg }};
+    border-color: {{ block.settings.step_active_border }};
+    transform: scale(1.05);
+  }
+
+  .ai-bundle-promo__step-{{ ai_gen_id }}.completed {
+    background-color: {{ block.settings.step_completed_bg }};
+    border-color: {{ block.settings.step_completed_border }};
+  }
+
+  .ai-bundle-promo__step-number-{{ ai_gen_id }} {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: {{ block.settings.step_number_bg }};
+    color: {{ block.settings.step_number_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .ai-bundle-promo__step-{{ ai_gen_id }}.active .ai-bundle-promo__step-number-{{ ai_gen_id }} {
+    background-color: {{ block.settings.step_active_number_bg }};
+    color: {{ block.settings.step_active_number_color }};
+  }
+
+  .ai-bundle-promo__step-{{ ai_gen_id }}.completed .ai-bundle-promo__step-number-{{ ai_gen_id }} {
+    background-color: {{ block.settings.step_completed_number_bg }};
+    color: {{ block.settings.step_completed_number_color }};
+  }
+
+  .ai-bundle-promo__step-text-{{ ai_gen_id }} {
+    font-size: 16px;
+    font-weight: 600;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-bundle-promo__section-{{ ai_gen_id }} {
+    margin-bottom: 60px;
+    scroll-margin-top: 100px;
+  }
+
+  .ai-bundle-promo__section-title-{{ ai_gen_id }} {
+    font-size: 28px;
+    font-weight: 700;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 24px;
+    text-align: center;
+  }
+
+  .ai-bundle-promo__products-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 24px;
+    margin-bottom: 20px;
+  }
+
+  .ai-bundle-promo__product-{{ ai_gen_id }} {
+    border: 3px solid transparent;
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: {{ block.settings.product_bg_color }};
+    position: relative;
+  }
+
+  .ai-bundle-promo__product-{{ ai_gen_id }}:hover {
+    border-color: {{ block.settings.product_hover_border }};
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-bundle-promo__product-{{ ai_gen_id }}.selected {
+    border-color: {{ block.settings.product_selected_border }};
+    background-color: {{ block.settings.product_selected_bg }};
+  }
+
+  .ai-bundle-promo__product-image-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+
+  .ai-bundle-promo__product-title-{{ ai_gen_id }} {
+    font-size: 16px;
+    font-weight: 600;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 8px;
+    min-height: 40px;
+  }
+
+  .ai-bundle-promo__product-price-{{ ai_gen_id }} {
+    font-size: 18px;
+    font-weight: 700;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-bundle-promo__checkmark-{{ ai_gen_id }} {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    background-color: {{ block.settings.checkmark_bg }};
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color: {{ block.settings.checkmark_color }};
+  }
+
+  .ai-bundle-promo__product-{{ ai_gen_id }}.selected .ai-bundle-promo__checkmark-{{ ai_gen_id }} {
+    display: flex;
+  }
+
+  .ai-bundle-promo__checkout-{{ ai_gen_id }} {
+    background: linear-gradient(135deg, {{ block.settings.checkout_bg_start }}, {{ block.settings.checkout_bg_end }});
+    padding: 40px;
+    border-radius: 16px;
+    text-align: center;
+    scroll-margin-top: 100px;
+  }
+
+  .ai-bundle-promo__savings-{{ ai_gen_id }} {
+    margin-bottom: 30px;
+  }
+
+  .ai-bundle-promo__savings-label-{{ ai_gen_id }} {
+    font-size: 20px;
+    color: {{ block.settings.text_color }};
+    margin-bottom: 12px;
+  }
+
+  .ai-bundle-promo__savings-amount-{{ ai_gen_id }} {
+    font-size: 48px;
+    font-weight: 900;
+    color: {{ block.settings.savings_color }};
+    margin: 0;
+    line-height: 1;
+  }
+
+  .ai-bundle-promo__savings-detail-{{ ai_gen_id }} {
+    font-size: 16px;
+    color: {{ block.settings.text_color }};
+    margin-top: 8px;
+    opacity: 0.8;
+  }
+
+  .ai-bundle-promo__bundle-summary-{{ ai_gen_id }} {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+  }
+
+  .ai-bundle-promo__summary-item-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-bundle-promo__summary-item-{{ ai_gen_id }}:last-child {
+    border-bottom: none;
+  }
+
+  .ai-bundle-promo__summary-label-{{ ai_gen_id }} {
+    font-size: 16px;
+    color: #333;
+  }
+
+  .ai-bundle-promo__summary-value-{{ ai_gen_id }} {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .ai-bundle-promo__summary-total-{{ ai_gen_id }} {
+    font-size: 24px;
+    font-weight: 900;
+    color: {{ block.settings.savings_color }};
+  }
+
+  .ai-bundle-promo__add-button-{{ ai_gen_id }} {
+    background-color: {{ block.settings.button_bg }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    padding: 18px 48px;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .ai-bundle-promo__add-button-{{ ai_gen_id }}:hover:not(:disabled) {
+    background-color: {{ block.settings.button_hover_bg }};
+    transform: scale(1.05);
+  }
+
+  .ai-bundle-promo__add-button-{{ ai_gen_id }}:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .ai-bundle-promo__empty-state-{{ ai_gen_id }} {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+    font-style: italic;
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-bundle-promo__products-{{ ai_gen_id }} {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 16px;
+    }
+
+    .ai-bundle-promo__title-{{ ai_gen_id }} {
+      font-size: 28px;
+    }
+
+    .ai-bundle-promo__savings-amount-{{ ai_gen_id }} {
+      font-size: 36px;
+    }
+
+    .ai-bundle-promo__progress-{{ ai_gen_id }} {
+      gap: 12px;
+    }
+
+    .ai-bundle-promo__step-{{ ai_gen_id }} {
+      padding: 8px 16px;
+    }
+  }
+{% endstyle %}
+
+<bundle-promo-{{ ai_gen_id }}
+  class="ai-bundle-promo-{{ ai_gen_id }}"
+  data-discount-percent="{{ block.settings.discount_percentage }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-bundle-promo__header-{{ ai_gen_id }}">
+    {% if block.settings.title != blank %}
+      <h2 class="ai-bundle-promo__title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+    {% endif %}
+    {% if block.settings.subtitle != blank %}
+      <p class="ai-bundle-promo__subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</p>
+    {% endif %}
+  </div>
+
+  <div class="ai-bundle-promo__progress-{{ ai_gen_id }}">
+    <div class="ai-bundle-promo__step-{{ ai_gen_id }} ai-bundle-promo__step-1-{{ ai_gen_id }}" data-step="1">
+      <div class="ai-bundle-promo__step-number-{{ ai_gen_id }}">1</div>
+      <div class="ai-bundle-promo__step-text-{{ ai_gen_id }}">Pick Swoveralls</div>
+    </div>
+    <div class="ai-bundle-promo__step-{{ ai_gen_id }} ai-bundle-promo__step-2-{{ ai_gen_id }}" data-step="2">
+      <div class="ai-bundle-promo__step-number-{{ ai_gen_id }}">2</div>
+      <div class="ai-bundle-promo__step-text-{{ ai_gen_id }}">Pick Swovie Shorts</div>
+    </div>
+    <div class="ai-bundle-promo__step-{{ ai_gen_id }} ai-bundle-promo__step-3-{{ ai_gen_id }}" data-step="3">
+      <div class="ai-bundle-promo__step-number-{{ ai_gen_id }}">3</div>
+      <div class="ai-bundle-promo__step-text-{{ ai_gen_id }}">Add to Cart</div>
+    </div>
+  </div>
+
+  <div class="ai-bundle-promo__section-{{ ai_gen_id }} ai-bundle-promo__swoveralls-section-{{ ai_gen_id }}" data-section="swoveralls">
+    <h3 class="ai-bundle-promo__section-title-{{ ai_gen_id }}">{{ block.settings.swoveralls_title }}</h3>
+    <div class="ai-bundle-promo__products-{{ ai_gen_id }} ai-bundle-promo__swoveralls-grid-{{ ai_gen_id }}">
+      {% if block.settings.swoveralls_collection != blank %}
+        {% assign swoveralls_products = block.settings.swoveralls_collection.products %}
+        {% if swoveralls_products.size > 0 %}
+          {% for product in swoveralls_products %}
+            {% if product.available %}
+              <div class="ai-bundle-promo__product-{{ ai_gen_id }}" data-product-id="{{ product.id }}" data-product-price="{{ product.price }}" data-product-title="{{ product.title | escape }}" data-product-type="swoveralls">
+                <div class="ai-bundle-promo__checkmark-{{ ai_gen_id }}">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.6667 5L7.50004 14.1667L3.33337 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                {% if product.featured_image %}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 400 }}"
+                    alt="{{ product.featured_image.alt | escape }}"
+                    class="ai-bundle-promo__product-image-{{ ai_gen_id }}"
+                    loading="lazy"
+                    width="400"
+                    height="400"
+                  >
+                {% endif %}
+                <h4 class="ai-bundle-promo__product-title-{{ ai_gen_id }}">{{ product.title }}</h4>
+                <div class="ai-bundle-promo__product-price-{{ ai_gen_id }}">{{ product.price | money }}</div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <div class="ai-bundle-promo__empty-state-{{ ai_gen_id }}">
+            No Swoveralls products found in this collection.
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="ai-bundle-promo__empty-state-{{ ai_gen_id }}">
+          Please select a Swoveralls collection in the block settings.
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="ai-bundle-promo__section-{{ ai_gen_id }} ai-bundle-promo__shorts-section-{{ ai_gen_id }}" data-section="shorts">
+    <h3 class="ai-bundle-promo__section-title-{{ ai_gen_id }}">{{ block.settings.shorts_title }}</h3>
+    <div class="ai-bundle-promo__products-{{ ai_gen_id }} ai-bundle-promo__shorts-grid-{{ ai_gen_id }}">
+      {% if block.settings.shorts_collection != blank %}
+        {% assign shorts_products = block.settings.shorts_collection.products %}
+        {% if shorts_products.size > 0 %}
+          {% for product in shorts_products %}
+            {% if product.available %}
+              <div class="ai-bundle-promo__product-{{ ai_gen_id }}" data-product-id="{{ product.id }}" data-product-price="{{ product.price }}" data-product-title="{{ product.title | escape }}" data-product-type="shorts">
+                <div class="ai-bundle-promo__checkmark-{{ ai_gen_id }}">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.6667 5L7.50004 14.1667L3.33337 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                {% if product.featured_image %}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 400 }}"
+                    alt="{{ product.featured_image.alt | escape }}"
+                    class="ai-bundle-promo__product-image-{{ ai_gen_id }}"
+                    loading="lazy"
+                    width="400"
+                    height="400"
+                  >
+                {% endif %}
+                <h4 class="ai-bundle-promo__product-title-{{ ai_gen_id }}">{{ product.title }}</h4>
+                <div class="ai-bundle-promo__product-price-{{ ai_gen_id }}">{{ product.price | money }}</div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <div class="ai-bundle-promo__empty-state-{{ ai_gen_id }}">
+            No Swovie Shorts products found in this collection.
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="ai-bundle-promo__empty-state-{{ ai_gen_id }}">
+          Please select a Swovie Shorts collection in the block settings.
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="ai-bundle-promo__checkout-{{ ai_gen_id }} ai-bundle-promo__checkout-section-{{ ai_gen_id }}" data-section="checkout">
+    <div class="ai-bundle-promo__savings-{{ ai_gen_id }}">
+      <div class="ai-bundle-promo__savings-label-{{ ai_gen_id }}">Your Bundle Savings</div>
+      <h3 class="ai-bundle-promo__savings-amount-{{ ai_gen_id }}">$<span class="ai-bundle-promo__savings-value-{{ ai_gen_id }}">0.00</span></h3>
+      <div class="ai-bundle-promo__savings-detail-{{ ai_gen_id }}">{{ block.settings.discount_percentage }}% off Swovie Shorts automatically applied at checkout!</div>
+    </div>
+
+    <div class="ai-bundle-promo__bundle-summary-{{ ai_gen_id }}">
+      <div class="ai-bundle-promo__summary-item-{{ ai_gen_id }}">
+        <span class="ai-bundle-promo__summary-label-{{ ai_gen_id }}">Swoveralls:</span>
+        <span class="ai-bundle-promo__summary-value-{{ ai_gen_id }} ai-bundle-promo__swoveralls-name-{{ ai_gen_id }}">Not selected</span>
+      </div>
+      <div class="ai-bundle-promo__summary-item-{{ ai_gen_id }}">
+        <span class="ai-bundle-promo__summary-label-{{ ai_gen_id }}">Swovie Shorts:</span>
+        <span class="ai-bundle-promo__summary-value-{{ ai_gen_id }} ai-bundle-promo__shorts-name-{{ ai_gen_id }}">Not selected</span>
+      </div>
+      <div class="ai-bundle-promo__summary-item-{{ ai_gen_id }}">
+        <span class="ai-bundle-promo__summary-label-{{ ai_gen_id }}">Original Total:</span>
+        <span class="ai-bundle-promo__summary-value-{{ ai_gen_id }} ai-bundle-promo__original-total-{{ ai_gen_id }}">$0.00</span>
+      </div>
+      <div class="ai-bundle-promo__summary-item-{{ ai_gen_id }}">
+        <span class="ai-bundle-promo__summary-label-{{ ai_gen_id }}">Bundle Total:</span>
+        <span class="ai-bundle-promo__summary-total-{{ ai_gen_id }} ai-bundle-promo__bundle-total-{{ ai_gen_id }}">$0.00</span>
+      </div>
+    </div>
+
+    <button class="ai-bundle-promo__add-button-{{ ai_gen_id }}" disabled>
+      {{ block.settings.button_label }}
+    </button>
+  </div>
+</bundle-promo-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class BundlePromo{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.selectedSwoveralls = null;
+        this.selectedShorts = null;
+        this.discountPercent = parseFloat(this.dataset.discountPercent) || 50;
+      }
+
+      connectedCallback() {
+        this.products = this.querySelectorAll('.ai-bundle-promo__product-{{ ai_gen_id }}');
+        this.addButton = this.querySelector('.ai-bundle-promo__add-button-{{ ai_gen_id }}');
+        this.savingsValue = this.querySelector('.ai-bundle-promo__savings-value-{{ ai_gen_id }}');
+        this.swoverallsName = this.querySelector('.ai-bundle-promo__swoveralls-name-{{ ai_gen_id }}');
+        this.shortsName = this.querySelector('.ai-bundle-promo__shorts-name-{{ ai_gen_id }}');
+        this.originalTotal = this.querySelector('.ai-bundle-promo__original-total-{{ ai_gen_id }}');
+        this.bundleTotal = this.querySelector('.ai-bundle-promo__bundle-total-{{ ai_gen_id }}');
+        this.shortsSection = this.querySelector('.ai-bundle-promo__shorts-section-{{ ai_gen_id }}');
+        this.checkoutSection = this.querySelector('.ai-bundle-promo__checkout-section-{{ ai_gen_id }}');
+        this.step1 = this.querySelector('.ai-bundle-promo__step-1-{{ ai_gen_id }}');
+        this.step2 = this.querySelector('.ai-bundle-promo__step-2-{{ ai_gen_id }}');
+        this.step3 = this.querySelector('.ai-bundle-promo__step-3-{{ ai_gen_id }}');
+
+        this.setupEventListeners();
+        this.updateSteps();
+      }
+
+      setupEventListeners() {
+        this.products.forEach(product => {
+          product.addEventListener('click', () => this.handleProductClick(product));
+        });
+
+        this.addButton.addEventListener('click', () => this.addToCart());
+      }
+
+      handleProductClick(product) {
+        const productType = product.dataset.productType;
+        const productId = product.dataset.productId;
+        const productPrice = parseFloat(product.dataset.productPrice);
+        const productTitle = product.dataset.productTitle;
+
+        if (productType === 'swoveralls') {
+          this.querySelectorAll('[data-product-type="swoveralls"]').forEach(p => {
+            p.classList.remove('selected');
+          });
+          product.classList.add('selected');
+          this.selectedSwoveralls = {
+            id: productId,
+            price: productPrice,
+            title: productTitle
+          };
+
+          setTimeout(() => {
+            this.shortsSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 300);
+        } else if (productType === 'shorts') {
+          this.querySelectorAll('[data-product-type="shorts"]').forEach(p => {
+            p.classList.remove('selected');
+          });
+          product.classList.add('selected');
+          this.selectedShorts = {
+            id: productId,
+            price: productPrice,
+            title: productTitle
+          };
+
+          setTimeout(() => {
+            this.checkoutSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 300);
+        }
+
+        this.updateSummary();
+        this.updateSteps();
+      }
+
+      updateSteps() {
+        this.step1.classList.remove('active', 'completed');
+        this.step2.classList.remove('active', 'completed');
+        this.step3.classList.remove('active', 'completed');
+
+        if (!this.selectedSwoveralls) {
+          this.step1.classList.add('active');
+        } else if (!this.selectedShorts) {
+          this.step1.classList.add('completed');
+          this.step2.classList.add('active');
+        } else {
+          this.step1.classList.add('completed');
+          this.step2.classList.add('completed');
+          this.step3.classList.add('active');
+        }
+      }
+
+      updateSummary() {
+        if (this.selectedSwoveralls) {
+          this.swoverallsName.textContent = this.selectedSwoveralls.title;
+        } else {
+          this.swoverallsName.textContent = 'Not selected';
+        }
+
+        if (this.selectedShorts) {
+          this.shortsName.textContent = this.selectedShorts.title;
+        } else {
+          this.shortsName.textContent = 'Not selected';
+        }
+
+        if (this.selectedSwoveralls && this.selectedShorts) {
+          const swoverallsPrice = this.selectedSwoveralls.price / 100;
+          const shortsPrice = this.selectedShorts.price / 100;
+          const discount = shortsPrice * (this.discountPercent / 100);
+          const originalTotal = swoverallsPrice + shortsPrice;
+          const bundleTotal = swoverallsPrice + (shortsPrice - discount);
+
+          this.savingsValue.textContent = discount.toFixed(2);
+          this.originalTotal.textContent = '$' + originalTotal.toFixed(2);
+          this.bundleTotal.textContent = '$' + bundleTotal.toFixed(2);
+          this.addButton.disabled = false;
+        } else {
+          this.savingsValue.textContent = '0.00';
+          this.originalTotal.textContent = '$0.00';
+          this.bundleTotal.textContent = '$0.00';
+          this.addButton.disabled = true;
+        }
+      }
+
+      addToCart() {
+        if (!this.selectedSwoveralls || !this.selectedShorts) return;
+
+        this.addButton.disabled = true;
+        this.addButton.textContent = 'Adding...';
+
+        const items = [
+          { id: this.selectedSwoveralls.id, quantity: 1 },
+          { id: this.selectedShorts.id, quantity: 1 }
+        ];
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ items: items })
+        })
+        .then(response => response.json())
+        .then(data => {
+          this.addButton.textContent = 'Added! ✓';
+          setTimeout(() => {
+            window.location.href = '/cart';
+          }, 500);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          this.addButton.textContent = 'Error - Try Again';
+          this.addButton.disabled = false;
+        });
+      }
+    }
+
+    customElements.define('bundle-promo-{{ ai_gen_id }}', BundlePromo{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Bundle promo builder",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Build Your Perfect Bundle"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Pick any Swoveralls + any Swovie Shorts and save 50%!"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "swoveralls_title",
+      "label": "Swoveralls section title",
+      "default": "Step 1: Choose Your Swoveralls"
+    },
+    {
+      "type": "collection",
+      "id": "swoveralls_collection",
+      "label": "Swoveralls collection"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "shorts_title",
+      "label": "Shorts section title",
+      "default": "Step 2: Choose Your Swovie Shorts"
+    },
+    {
+      "type": "collection",
+      "id": "shorts_collection",
+      "label": "Swovie Shorts collection"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Add Bundle to Cart"
+    },
+    {
+      "type": "range",
+      "id": "discount_percentage",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Discount percentage",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 24,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 14,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "label": "Subtitle size",
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#f5f6f8"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "product_bg_color",
+      "label": "Product background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "product_hover_border",
+      "label": "Product hover border",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "product_selected_border",
+      "label": "Product selected border",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "product_selected_bg",
+      "label": "Product selected background",
+      "default": "#f0f4ff"
+    },
+    {
+      "type": "color",
+      "id": "checkmark_bg",
+      "label": "Checkmark background",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "checkmark_color",
+      "label": "Checkmark color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Progress steps"
+    },
+    {
+      "type": "color",
+      "id": "step_bg_color",
+      "label": "Step background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "step_border_color",
+      "label": "Step border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "step_number_bg",
+      "label": "Step number background",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "step_number_color",
+      "label": "Step number color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "step_active_bg",
+      "label": "Active step background",
+      "default": "#f0f4ff"
+    },
+    {
+      "type": "color",
+      "id": "step_active_border",
+      "label": "Active step border",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "step_active_number_bg",
+      "label": "Active step number background",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "step_active_number_color",
+      "label": "Active step number color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "step_completed_bg",
+      "label": "Completed step background",
+      "default": "#e8f5e9"
+    },
+    {
+      "type": "color",
+      "id": "step_completed_border",
+      "label": "Completed step border",
+      "default": "#4caf50"
+    },
+    {
+      "type": "color",
+      "id": "step_completed_number_bg",
+      "label": "Completed step number background",
+      "default": "#4caf50"
+    },
+    {
+      "type": "color",
+      "id": "step_completed_number_color",
+      "label": "Completed step number color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Checkout section"
+    },
+    {
+      "type": "color",
+      "id": "checkout_bg_start",
+      "label": "Checkout background start",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "checkout_bg_end",
+      "label": "Checkout background end",
+      "default": "#1a2d6b"
+    },
+    {
+      "type": "color",
+      "id": "savings_color",
+      "label": "Savings color",
+      "default": "#ffd700"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button background",
+      "default": "#ffd700"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg",
+      "label": "Button hover background",
+      "default": "#ffed4e"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle promo builder"
+    }
+  ]
+}
+{% endschema %}
