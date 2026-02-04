@@ -1,0 +1,399 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "17606620213107e4b2": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_a88f61d_a3xJNJ": {
+          "type": "ai_gen_block_a88f61d",
+          "settings": {
+            "heading": "Bundle Up, Buttercup",
+            "subheading": "<p>It's quite simple really. </p><p>Pick any 2 pairs, save 15%. Pick 3+ save 20%</p>",
+            "text_alignment": "center",
+            "content_width": 800,
+            "spacing_between": 16,
+            "heading_size_mobile": 32,
+            "heading_size_desktop": 56,
+            "heading_weight": "700",
+            "heading_letter_spacing": 0,
+            "heading_color": "#121212",
+            "subheading_size_mobile": 16,
+            "subheading_size_desktop": 20,
+            "subheading_weight": "400",
+            "subheading_max_width": 700,
+            "subheading_color": "#121212",
+            "padding_top": 40,
+            "padding_bottom": 40,
+            "padding_top_desktop": 80,
+            "padding_bottom_desktop": 80,
+            "background_color": "#f5f6f8"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_a88f61d_a3xJNJ"
+      ],
+      "settings": {}
+    },
+    "workshop": {
+      "type": "tsio-workshop-product",
+      "disabled": true,
+      "settings": {
+        "ws_bar_height": "14px",
+        "ws_bar_border_width": "0",
+        "ws_bar_border_radius": "0",
+        "ws_bar_border_color": "#fafafa",
+        "ws_bar_color_bg": "#f2f2f2",
+        "ws_bar_color_progress": "#0f2130",
+        "ws_progress_font_size": "100%",
+        "ws_ship_date_font_size": "100%",
+        "ws_ship_date_border_color": "#666666"
+      }
+    },
+    "main": {
+      "type": "template-product",
+      "blocks": {
+        "f08a031d-a316-411c-b933-ffe7e762b71e": {
+          "type": "product_extra_info",
+          "disabled": true,
+          "settings": {
+            "info_text": "Take the size guide quiz HERE"
+          }
+        },
+        "144d0719-ca02-470a-9b7b-a4400d7632e1": {
+          "type": "product_extra_info",
+          "disabled": true,
+          "settings": {
+            "info_text": "30 days returns and exchanges"
+          }
+        },
+        "product_extra_info_pBzwMP": {
+          "type": "product_extra_info",
+          "disabled": true,
+          "settings": {
+            "info_text": "<h3>🎉 Get A Free Mystery Pair With Every Order of Swoveralls 🎉</h3>"
+          }
+        },
+        "4c2f2ba1-1c51-4d5c-a624-8524866d4310": {
+          "type": "product_extra_info",
+          "disabled": true,
+          "settings": {
+            "extra_info_logo": "shopify://shop_images/person-solid.png",
+            "info_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "f08a031d-a316-411c-b933-ffe7e762b71e",
+        "144d0719-ca02-470a-9b7b-a4400d7632e1",
+        "product_extra_info_pBzwMP",
+        "4c2f2ba1-1c51-4d5c-a624-8524866d4310"
+      ],
+      "disabled": true,
+      "custom_css": [
+        "h3 {color: red;}",
+        ".afterpay-paragraph {display: none !important;}"
+      ],
+      "settings": {
+        "size_guide": "shopify://shop_images/Swoveralls_Size_Guide.jpg",
+        "colorcodesnew": "Forest Green:#228B22;Midnight Black:#000000;Navy:#000080;Dark Athletic Grey:#63666A;Light Heather Grey:#B0ABB0;Crimson:#dc143c;Party Red:#FF0000;Candy Pink:#fcbcd6;Orange:#FFA500;Retro Terry Bumblebee:#eab642;Denim Heather:#779dd5;Cobalt Blue:#0047AB;Blush Pink:#f7e0e1;Matcha:#CEDCAB;Lavender:#D5ADD6;Rainbow Stripe Tie Dye:https://cdn.shopify.com/s/files/1/0047/6862/8836/files/swatch-filters-multi.png?v=1678308179;Swovie Shorts - Stars n Swoves:https://cdn.shopify.com/s/files/1/0047/6862/8836/files/starsnswove.png;Challah Challah:https://cdn.shopify.com/s/files/1/0764/6029/4429/files/challah_challah_swatch.png;Dijon:#eab642;Dino Print:https://cdn.shopify.com/s/files/1/0047/6862/8836/files/Dino_Print_1.jpg?v=1711722226;Doodle Print:https://cdn.shopify.com/s/files/1/0047/6862/8836/files/Doodle_Print_1.jpg?v=1711722226;Floral Print:https://cdn.shopify.com/s/files/1/0047/6862/8836/files/Floral_print_3af58a94-6a21-4c7c-8729-236a015435cc.jpg?v=1711722225;Peace and Shaka Print:https://cdn.shopify.com/s/files/1/0047/6862/8836/products/cream-towcho_shaka.jpg?v=1655911187; Retro Terry Orange Creamsicle:#fd6339;Sun:https://cdn.shopify.com/s/files/1/0047/6862/8836/files/sun.png?v=1719189226;Moon:https://cdn.shopify.com/s/files/1/0047/6862/8836/files/Screenshot_10.png?v=1719189480;Purple Rain:#613f88"
+      }
+    },
+    "replo_ugc_video_carousel_eYwyyx": {
+      "type": "replo-ugc-video-carousel",
+      "disabled": true,
+      "settings": {}
+    },
+    "recs": {
+      "type": "product-recommendations-slider",
+      "disabled": true,
+      "settings": {
+        "title": "SIMILAR ITEMS",
+        "product": "{{ product }}",
+        "limit": 15
+      }
+    },
+    "168263386588b4f614": {
+      "type": "apps",
+      "blocks": {
+        "mw_product_bundles_build_offer_app_block_LgRHFL": {
+          "type": "shopify://apps/mw-product-bundles/blocks/build-offer-app-block/5bcb1a6d-53b5-4d9c-b4f9-19f6620da62b",
+          "settings": {}
+        },
+        "379f9376-296c-4abc-a7fc-01856beebc6f": {
+          "type": "shopify://apps/junip/blocks/junip-product-review/dc14f5a8-ed15-41b1-ad08-cfba23f9789b",
+          "settings": {
+            "product": "{{product}}",
+            "title": "",
+            "alignment": ""
+          }
+        }
+      },
+      "block_order": [
+        "mw_product_bundles_build_offer_app_block_LgRHFL",
+        "379f9376-296c-4abc-a7fc-01856beebc6f"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "17544573221d733936": {
+      "type": "apps",
+      "blocks": {
+        "dynamatic_personalized_upsells_dynamatics_9f7FHx": {
+          "type": "shopify://apps/dynamatic-personalized-upsells/blocks/dynamatics/2d829c71-4e5c-4e51-8c3d-03c05ca003b3",
+          "disabled": true,
+          "settings": {
+            "zone_id": "ZID0880-THE76351754458075-WEBPAGE",
+            "custom_css": "",
+            "load_widget_after_page_load": false,
+            "event_triggerer": ""
+          }
+        }
+      },
+      "block_order": [
+        "dynamatic_personalized_upsells_dynamatics_9f7FHx"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "replo_us_vs_them_rRzTTX": {
+      "type": "replo-us-vs-them",
+      "disabled": true,
+      "settings": {}
+    },
+    "reviews": {
+      "type": "product-reviews",
+      "disabled": true,
+      "settings": {}
+    },
+    "4926ffde-f6c8-45c4-934d-6fe2a972857a": {
+      "type": "product-transparent-pricing",
+      "disabled": true,
+      "settings": {
+        "title": "Transparent Pricing"
+      }
+    },
+    "1730132559d58499db": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "175009742458415859": {
+      "type": "apps",
+      "blocks": {
+        "kiwi_size_chart_recommender_kiwi_sizing_mPAFNQ": {
+          "type": "shopify://apps/kiwi-size-chart-recommender/blocks/kiwiSizing/b7369922-bf15-44ce-a121-a22a8fcbc4b0",
+          "settings": {
+            "product": "{{product}}",
+            "waitForElementSelector": "",
+            "waitForElementDelay": 5
+          }
+        }
+      },
+      "block_order": [
+        "kiwi_size_chart_recommender_kiwi_sizing_mPAFNQ"
+      ],
+      "disabled": true,
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "1757707029dbede4e9": {
+      "type": "apps",
+      "blocks": {
+        "aftersell_by_rokt_pdp_upsells_GDVRdz": {
+          "type": "shopify://apps/aftersell-by-rokt/blocks/pdp-upsells/509ec35d-0632-4dfc-a105-fa799cd9d149",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "aftersell_by_rokt_pdp_upsells_GDVRdz"
+      ],
+      "disabled": true,
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "1759440184c3d188fc": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "17623607074ea56f98": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_3b2ef94_CfirwK": {
+          "type": "ai_gen_block_3b2ef94",
+          "settings": {
+            "heading": "Why Choose Swoveralls?",
+            "subheading": "See how Swoveralls stack up against traditional alternatives",
+            "column_count": 3,
+            "row_count": 6,
+            "featured_column_index": 1,
+            "col_1_header": "Swoveralls",
+            "col_2_header": "Overalls",
+            "col_3_header": "Sweatpants",
+            "col_4_header": "Joggers",
+            "col_5_header": "",
+            "col_6_header": "",
+            "row_1_label": "Super Soft Waistband-Free",
+            "row_2_label": "6 pockets incl. inside zipper",
+            "row_3_label": "Zipper fly",
+            "row_4_label": "Gender Neutral",
+            "row_5_label": "365 Day Return & Exchanges",
+            "row_6_label": "Compliments from strangers",
+            "row_7_label": "Versatile Styling",
+            "row_8_label": "Premium Quality",
+            "row_9_label": "",
+            "row_10_label": "",
+            "row_11_label": "",
+            "row_12_label": "",
+            "row_1_col_1": "check",
+            "row_1_col_2": "x",
+            "row_1_col_3": "x",
+            "row_1_col_4": "x",
+            "row_1_col_5": "x",
+            "row_1_col_6": "x",
+            "row_2_col_1": "check",
+            "row_2_col_2": "x",
+            "row_2_col_3": "x",
+            "row_2_col_4": "x",
+            "row_2_col_5": "x",
+            "row_2_col_6": "x",
+            "row_3_col_1": "check",
+            "row_3_col_2": "check",
+            "row_3_col_3": "x",
+            "row_3_col_4": "x",
+            "row_3_col_5": "x",
+            "row_3_col_6": "x",
+            "row_4_col_1": "check",
+            "row_4_col_2": "x",
+            "row_4_col_3": "check",
+            "row_4_col_4": "check",
+            "row_4_col_5": "check",
+            "row_4_col_6": "check",
+            "row_5_col_1": "check",
+            "row_5_col_2": "x",
+            "row_5_col_3": "x",
+            "row_5_col_4": "x",
+            "row_5_col_5": "x",
+            "row_5_col_6": "x",
+            "row_6_col_1": "check",
+            "row_6_col_2": "x",
+            "row_6_col_3": "x",
+            "row_6_col_4": "check",
+            "row_6_col_5": "x",
+            "row_6_col_6": "x",
+            "row_7_col_1": "check",
+            "row_7_col_2": "check",
+            "row_7_col_3": "check",
+            "row_7_col_4": "check",
+            "row_7_col_5": "check",
+            "row_7_col_6": "check",
+            "row_8_col_1": "check",
+            "row_8_col_2": "x",
+            "row_8_col_3": "check",
+            "row_8_col_4": "x",
+            "row_8_col_5": "x",
+            "row_8_col_6": "x",
+            "row_9_col_1": "check",
+            "row_9_col_2": "x",
+            "row_9_col_3": "x",
+            "row_9_col_4": "x",
+            "row_9_col_5": "x",
+            "row_9_col_6": "x",
+            "row_10_col_1": "check",
+            "row_10_col_2": "x",
+            "row_10_col_3": "x",
+            "row_10_col_4": "x",
+            "row_10_col_5": "x",
+            "row_10_col_6": "x",
+            "row_11_col_1": "check",
+            "row_11_col_2": "x",
+            "row_11_col_3": "x",
+            "row_11_col_4": "x",
+            "row_11_col_5": "x",
+            "row_11_col_6": "x",
+            "row_12_col_1": "check",
+            "row_12_col_2": "x",
+            "row_12_col_3": "x",
+            "row_12_col_4": "x",
+            "row_12_col_5": "x",
+            "row_12_col_6": "x",
+            "show_badge": false,
+            "badge_text": "Our Product",
+            "featured_header_bg": "#bcddd0",
+            "featured_header_text": "#121212",
+            "featured_column_bg": "#f0f4ff",
+            "featured_border_color": "#bcddd0",
+            "badge_background": "#ffffff",
+            "badge_text_color": "#334fb4",
+            "section_background": "#fcfaf1",
+            "table_background": "#ffffff",
+            "header_background": "#f3f3f3",
+            "header_text_color": "#121212",
+            "label_background": "#f3f3f3",
+            "text_color": "#121212",
+            "heading_color": "#121212",
+            "checkmark_color": "#008060",
+            "x_mark_color": "#d82c0d",
+            "border_color": "#e0e0e0",
+            "show_borders": true,
+            "cell_padding": 16,
+            "icon_size": 24,
+            "header_font_size": 16,
+            "body_font_size": 14,
+            "heading_size": 32,
+            "subheading_size": 16,
+            "section_padding": 60,
+            "show_cta": true,
+            "cta_text": "FREE THE WAISTBAND",
+            "cta_link": "shopify://collections/shop-all",
+            "button_background": "#bcddd0",
+            "button_text_color": "#28334a",
+            "button_hover_background": "#121212",
+            "button_hover_text": "#ffffff",
+            "button_font_size": 16,
+            "button_border_radius": 20,
+            "mobile_layout": "scroll"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_3b2ef94_CfirwK"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "17606620213107e4b2",
+    "workshop",
+    "main",
+    "replo_ugc_video_carousel_eYwyyx",
+    "recs",
+    "168263386588b4f614",
+    "17544573221d733936",
+    "replo_us_vs_them_rRzTTX",
+    "reviews",
+    "4926ffde-f6c8-45c4-934d-6fe2a972857a",
+    "1730132559d58499db",
+    "175009742458415859",
+    "1757707029dbede4e9",
+    "1759440184c3d188fc",
+    "17623607074ea56f98"
+  ]
+}
