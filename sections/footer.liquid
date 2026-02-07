@@ -35,15 +35,6 @@
       </div>
     </div>
 
-   <!-- START KiwiSizing code !-->
-     <div id="KiwiSizingChart" 
-        data-sizing-id="64604389"
-        data-display-mode="1"
-        data-recommender-display-mode="1"
-        data-layout-type="0" class="hidden">
-      </div>
-    <!-- END KiwiSizing code !-->
-    
     <div class="footer__body">
       <div class="footer__body-row">
         {% for parent_item in footer_menu.links %}
@@ -173,21 +164,6 @@
   </div>
 </footer>
 
-  <script defer>
-document.querySelectorAll('.kiwi-modal-toggle').forEach(el => {
-  el.addEventListener('click', () => {
-    const target = document.querySelector('[data-sizing-id="64604389"] .sizing-chart-modal-link');
-    if (target) target.click();
-  });
-});
-
-document.querySelectorAll('.kiwi-modal-chart-toggle').forEach(el => {
-  el.addEventListener('click', () => {
-    const target = document.querySelector('[data-sizing-id="64604389"] .sizing-calculator-modal-link');
-    if (target) target.click();
-  });
-});
-  </script>
 {% schema %}
 {
   "name": "Footer",

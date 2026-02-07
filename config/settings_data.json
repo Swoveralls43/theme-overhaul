@@ -1,1 +1,360 @@
-{"current":{"enable_algolia_plp":false,"colors_solid_button_labels":"#FFFFFF","colors_accent_1":"#121212","colors_accent_2":"#334FB4","colors_text":"#121212","colors_outline_button_labels":"#121212","colors_background_1":"#f5f6f8","colors_background_2":"#F3F3F3","type_header_font":"assistant_n4","type_body_font":"assistant_n4","favicon":"shopify:\/\/shop_images\/TGF_Circle_Badge_SwBKLYN-Navy_Full.jpg","show_discount_banner":false,"discount_banner_color":"#fa0404","discount_banner_message":"20% off","show_discount_sitewide":false,"discount_percentage":20,"discount_price":-24,"discount_message":"<strong>COZY20 {discount} OFF<\/strong>","use_purpledot":false,"purpledot_api_key":"c827a04d-cde0-488c-a26d-42802c1120ef","checkout_logo_image":"shopify:\/\/shop_images\/Free_The_Waistband_4.png","checkout_logo_position":"center","checkout_accent_color":"#28334a","checkout_button_color":"#000000","sections":{"announcement-bar":{"type":"announcement-bar","blocks":{"announcement_ybFKQP":{"type":"announcement","settings":{"text":"<h4><strong>INTRODUCING: LIMITED EDITION <\/strong><em><strong>WAFFLE FABRIC <\/strong><\/em><strong>SWOVERALLS<\/strong><\/h4>","background_color":"#d4c301","color":"#473de9","link":"shopify:\/\/collections\/new-arrivals","matching_url":""}},"announcement_Gknghq":{"type":"announcement","disabled":true,"settings":{"text":"<p>Welcome to our store<\/p>","background_color":"#000000","color":"#ffffff","link":"","matching_url":"\/"}},"announcement_AdwhBJ":{"type":"announcement","disabled":true,"settings":{"text":"<p>Welcome to our store<\/p>","background_color":"#000000","color":"#ffffff","link":"","matching_url":"\/"}},"announcement_WTNHGr":{"type":"announcement","disabled":true,"settings":{"text":"<h4>HO-HO-HOLY SOFTNESS. Give the gift of peak comfort. 20% off with GIFT20<\/h4>","background_color":"#890000","color":"#f5f6f8","link":"shopify:\/\/products\/swoveralls-gift-card","matching_url":"\/"}},"announcement_megQTF":{"type":"announcement","disabled":true,"settings":{"text":"<h5>CYBER SWOVEDAY IS LIVE. TRY YOUR CODES HERE &gt;&gt;&gt;<\/h5>","background_color":"#121212","color":"#ff8bd9","link":"https:\/\/swoveralls.com\/pages\/cm25","matching_url":"\/"}},"announcement_weyzKp":{"type":"announcement","disabled":true,"settings":{"text":"<h4>FREE TEE OR TOTE WITH ANY PAIR...PLUS 20% off with GIFT20<\/h4>","background_color":"#670404","color":"#ffffff","link":"shopify:\/\/collections\/shop-all","matching_url":""}},"announcement_XRc6TD":{"type":"announcement","disabled":true,"settings":{"text":"<p>Welcome to our store<\/p>","background_color":"#000000","color":"#ffffff","link":"","matching_url":"\/"}}},"block_order":["announcement_ybFKQP","announcement_Gknghq","announcement_AdwhBJ","announcement_WTNHGr","announcement_megQTF","announcement_weyzKp","announcement_XRc6TD"],"settings":{}},"header":{"type":"header","blocks":{"73c19901-5181-4b96-bec6-e8c526353ce9":{"type":"menu_dropdown","settings":{"title":"Shop","dropdown_main_menu":"eab-menu","banner_text":"","banner_url":""}}},"block_order":["73c19901-5181-4b96-bec6-e8c526353ce9"],"settings":{"logo":"shopify:\/\/shop_images\/ezgif.com-gif-maker_1.png","use_svg_logo":true,"menu_linklist":"eab-menu","is_transparent":false,"invert_at_top":true}},"footer":{"type":"footer","settings":{"logo":"shopify:\/\/shop_images\/swoverall_logo.png","form_title":"Text us for a good time (and a mystery discount 👀)","input_placeholder":"Enter your email","twitter_show":true,"twitter_link":"https:\/\/twitter.com\/swoveralls\/","facebook_show":true,"facebook_link":"https:\/\/www.facebook.com\/swoveralls\/","youtube_show":true,"youtube_link":"https:\/\/www.youtube.com\/@swoveralls","instagram_show":true,"instagram_link":"https:\/\/www.instagram.com\/swoveralls_\/","pinterest_show":false,"pinterest_link":"https:\/\/www.pinterest.com\/swoveralls\/","tiktok_show":true,"tiktok_link":"https:\/\/www.tiktok.com\/@swoveralls","footer_menu":"footer-1"}},"minicart":{"type":"minicart","settings":{"title":"My bag","show_progress_bar":true,"free_threshold":75,"bar_in_process_text":"from free shipping, you're almost there!","bar_in_success_text":"Congrats! You qualified for FREE SHIPPING","shipping_text":"Shipping and taxes will be calculated at Checkout.","checkout_text":"CHECKOUT","show_upsell":true,"upsell_collection":"47-best-sellers","upsell_limit":3,"upsell_title":"Don't miss out on these","upsell_btn_text":"Add to bag"}},"tsio-workshop-overview":{"type":"tsio-workshop-overview","blocks":{"tsio-workshop-overview-3":{"type":"lifecycle-step","settings":{"ws_step_preheading":"The Comfy Lab","ws_step_heading":"Slow & Comfy Fashion","ws_step_content":"We design new products. You crowd fund them and save $$$. Our planet takes on less waste.  Everybody wins."}},"tsio-workshop-overview-0":{"type":"lifecycle-step","settings":{"ws_step_preheading":"Step 1","ws_step_heading":"Pre-order at 30% off","ws_step_content":"You reserve your pairs and save 30%."}},"tsio-workshop-overview-1":{"type":"lifecycle-step","settings":{"ws_step_preheading":"Step 2","ws_step_heading":"Development","ws_step_content":"We go into production producing exactly what you ordered."}},"tsio-workshop-overview-2":{"type":"lifecycle-step","settings":{"ws_step_preheading":"Step 3","ws_step_heading":"Delivery","ws_step_content":"We deliver your crowd-funded, small-batch comfy products directly to you."}},"tsio-workshop-overview-4":{"type":"additional-panel","disabled":true,"settings":{"ws_panel_img_alt":"","ws_panel_heading":"Knowledge Base","ws_panel_content":"You’ve got questions? We’ve got answers about our Workshop platform. Dig into our knowledge-base or reach out to a member of our team.","ws_panel_cta":"Learn More","ws_panel_link":""}}},"block_order":["tsio-workshop-overview-3","tsio-workshop-overview-0","tsio-workshop-overview-1","tsio-workshop-overview-2","tsio-workshop-overview-4"],"settings":{"ws_banner_mobile":"shopify:\/\/shop_images\/DESKTOP_HOMEPAGE_BANNERS_5.jpg","ws_banner_desktop":"shopify:\/\/shop_images\/DESKTOP_HOMEPAGE_BANNERS_5.jpg","ws_banner_heading":"","ws_banner_text":"","ws_bar_color_progress":"#920eeb","ws_bar_height":"10px","ws_bar_border_width":"0","ws_bar_border_radius":"0","ws_bar_border_color":"#fafafa","ws_bar_color_bg":"#f2f2f2"}},"junip-reviews-status-text":{"type":"junip-reviews-status-text","settings":{"enable_junip_custom_status_text":true,"junip_average_rating":4.8,"junip_rating_desc":"out of 95,000 customers"}}},"content_for_index":[],"blocks":{"855628211100114053":{"type":"shopify:\/\/apps\/klaviyo-email-marketing-sms\/blocks\/klaviyo-onsite-embed\/2632fe16-c075-4321-a88b-50b567f42507","disabled":false,"settings":{}},"16017602894386113438":{"type":"shopify:\/\/apps\/junip-product-reviews-ugc\/blocks\/junip-store-key\/dc14f5a8-ed15-41b1-ad08-cfba23f9789b","disabled":false,"settings":{"enablePreviewMode":true}},"11560147490181472608":{"type":"shopify:\/\/apps\/rivo-loyalty-referrals\/blocks\/app-embed\/580e9665-b2cd-4dbc-b6ba-6445ac9e6871","disabled":false,"settings":{}},"15685250022964305326":{"type":"shopify:\/\/apps\/elevar-conversion-tracking\/blocks\/dataLayerEmbed\/bc30ab68-b15c-4311-811f-8ef485877ad6","disabled":false,"settings":{}},"17676059084223943535":{"type":"shopify:\/\/apps\/triplewhale\/blocks\/triple_pixel_snippet\/483d496b-3f1a-4609-aea7-8eee3b6b7a2a","disabled":false,"settings":{}},"4061484991452085298":{"type":"shopify:\/\/apps\/commslayer-helpdesk-chat\/blocks\/chat-widget\/e555a08e-ceaa-4a9b-ab9f-a58bccbfc762","disabled":false,"settings":{}},"2027901639039225189":{"type":"shopify:\/\/apps\/dynamatic-personalized-upsells\/blocks\/dynamatics-app\/2d829c71-4e5c-4e51-8c3d-03c05ca003b3","disabled":false,"settings":{}},"2153490007123654574":{"type":"shopify:\/\/apps\/consentmo-gdpr\/blocks\/gdpr_cookie_consent\/4fbe573f-a377-4fea-9801-3ee0858cae41","disabled":false,"settings":{}},"6258010234218468052":{"type":"shopify:\/\/apps\/dynamatic-personalized-upsells\/blocks\/dynamatics-cart\/2d829c71-4e5c-4e51-8c3d-03c05ca003b3","disabled":false,"settings":{"dynamaticTriggerBtn":".header__icon--count,.header__icon--count *","cartCountClass":"","cartCountText":"","cartDisbledPages":"","cartObserverNeeded":true,"useShopMoneyFormat":false}},"4976129024724438625":{"type":"shopify:\/\/apps\/smartseo\/blocks\/brokenLinkDetection\/7b0a6064-ca2e-4392-9a1d-8c43c942357b","disabled":false,"settings":{}},"6406956604159796213":{"type":"shopify:\/\/apps\/smart-seo\/blocks\/smartseo\/7b0a6064-ca2e-4392-9a1d-8c43c942357b","disabled":false,"settings":{}},"17252073691577738930":{"type":"shopify:\/\/apps\/pp6n8ml66-opensend\/blocks\/opensend\/30e0f67a-a227-495b-b956-07014ca526de","disabled":false,"settings":{}},"2786716548061469553":{"type":"shopify:\/\/apps\/axon\/blocks\/app-embed\/baa0f014-62ea-462f-a8aa-a94befb1cbad","disabled":false,"settings":{}},"10142937387702430166":{"type":"shopify:\/\/apps\/timesact-pre-order\/blocks\/app-embed\/bf6c109b-79b5-457c-8752-0e5e9e9676e7","disabled":true,"settings":{}}}},"presets":{"Default":{"colors_solid_button_labels":"#FFFFFF","colors_accent_1":"#121212","colors_accent_2":"#334FB4","colors_text":"#121212","colors_outline_button_labels":"#121212","colors_background_1":"#FFFFFF","colors_background_2":"#F3F3F3","type_header_font":"assistant_n4","type_body_font":"assistant_n4","sections":{"announcement-bar":{"type":"announcement-bar","blocks":{"announcement-bar-0":{"type":"announcement","settings":{"background_color":"#000","color":"#fff"}}},"block_order":["announcement-bar-0"],"settings":{}}}}},"platform_customizations":{"custom_css":[".junip-review-carousel-item {font-size: 1.4rem;}","div#rebuy-widget-75251 {display: none;}"]}}
+{
+  "current": {
+    "enable_algolia_plp": false,
+    "colors_solid_button_labels": "#FFFFFF",
+    "colors_accent_1": "#121212",
+    "colors_accent_2": "#334FB4",
+    "colors_text": "#121212",
+    "colors_outline_button_labels": "#121212",
+    "colors_background_1": "#f5f6f8",
+    "colors_background_2": "#F3F3F3",
+    "type_header_font": "assistant_n4",
+    "type_body_font": "assistant_n4",
+    "favicon": "shopify://shop_images/TGF_Circle_Badge_SwBKLYN-Navy_Full.jpg",
+    "show_discount_banner": false,
+    "discount_banner_color": "#fa0404",
+    "discount_banner_message": "20% off",
+    "show_discount_sitewide": false,
+    "discount_percentage": 20,
+    "discount_price": -24,
+    "discount_message": "<strong>COZY20 {discount} OFF</strong>",
+    "use_purpledot": false,
+    "purpledot_api_key": "c827a04d-cde0-488c-a26d-42802c1120ef",
+    "checkout_logo_image": "shopify://shop_images/Free_The_Waistband_4.png",
+    "checkout_logo_position": "center",
+    "checkout_accent_color": "#28334a",
+    "checkout_button_color": "#000000",
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "blocks": {
+          "announcement_ybFKQP": {
+            "type": "announcement",
+            "settings": {
+              "text": "<h4><strong>INTRODUCING: LIMITED EDITION </strong><em><strong>WAFFLE FABRIC </strong></em><strong>SWOVERALLS</strong></h4>",
+              "background_color": "#d4c301",
+              "color": "#473de9",
+              "link": "shopify://collections/new-arrivals",
+              "matching_url": ""
+            }
+          },
+          "announcement_Gknghq": {
+            "type": "announcement",
+            "disabled": true,
+            "settings": {
+              "text": "<p>Welcome to our store</p>",
+              "background_color": "#000000",
+              "color": "#ffffff",
+              "link": "",
+              "matching_url": "/"
+            }
+          },
+          "announcement_AdwhBJ": {
+            "type": "announcement",
+            "disabled": true,
+            "settings": {
+              "text": "<p>Welcome to our store</p>",
+              "background_color": "#000000",
+              "color": "#ffffff",
+              "link": "",
+              "matching_url": "/"
+            }
+          },
+          "announcement_WTNHGr": {
+            "type": "announcement",
+            "disabled": true,
+            "settings": {
+              "text": "<h4>HO-HO-HOLY SOFTNESS. Give the gift of peak comfort. 20% off with GIFT20</h4>",
+              "background_color": "#890000",
+              "color": "#f5f6f8",
+              "link": "shopify://products/swoveralls-gift-card",
+              "matching_url": "/"
+            }
+          },
+          "announcement_megQTF": {
+            "type": "announcement",
+            "disabled": true,
+            "settings": {
+              "text": "<h5>CYBER SWOVEDAY IS LIVE. TRY YOUR CODES HERE &gt;&gt;&gt;</h5>",
+              "background_color": "#121212",
+              "color": "#ff8bd9",
+              "link": "https://swoveralls.com/pages/cm25",
+              "matching_url": "/"
+            }
+          },
+          "announcement_weyzKp": {
+            "type": "announcement",
+            "disabled": true,
+            "settings": {
+              "text": "<h4>FREE TEE OR TOTE WITH ANY PAIR...PLUS 20% off with GIFT20</h4>",
+              "background_color": "#670404",
+              "color": "#ffffff",
+              "link": "shopify://collections/shop-all",
+              "matching_url": ""
+            }
+          },
+          "announcement_XRc6TD": {
+            "type": "announcement",
+            "disabled": true,
+            "settings": {
+              "text": "<p>Welcome to our store</p>",
+              "background_color": "#000000",
+              "color": "#ffffff",
+              "link": "",
+              "matching_url": "/"
+            }
+          }
+        },
+        "block_order": [
+          "announcement_ybFKQP",
+          "announcement_Gknghq",
+          "announcement_AdwhBJ",
+          "announcement_WTNHGr",
+          "announcement_megQTF",
+          "announcement_weyzKp",
+          "announcement_XRc6TD"
+        ],
+        "settings": {}
+      },
+      "header": {
+        "type": "header",
+        "blocks": {
+          "73c19901-5181-4b96-bec6-e8c526353ce9": {
+            "type": "menu_dropdown",
+            "settings": {
+              "title": "Shop",
+              "dropdown_main_menu": "eab-menu",
+              "banner_text": "",
+              "banner_url": ""
+            }
+          }
+        },
+        "block_order": [
+          "73c19901-5181-4b96-bec6-e8c526353ce9"
+        ],
+        "settings": {
+          "logo": "shopify://shop_images/ezgif.com-gif-maker_1.png",
+          "use_svg_logo": true,
+          "menu_linklist": "eab-menu",
+          "is_transparent": false,
+          "invert_at_top": true
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "logo": "shopify://shop_images/swoverall_logo.png",
+          "form_title": "Text us for a good time (and a mystery discount \ud83d\udc40)",
+          "input_placeholder": "Enter your email",
+          "twitter_show": true,
+          "twitter_link": "https://twitter.com/swoveralls/",
+          "facebook_show": true,
+          "facebook_link": "https://www.facebook.com/swoveralls/",
+          "youtube_show": true,
+          "youtube_link": "https://www.youtube.com/@swoveralls",
+          "instagram_show": true,
+          "instagram_link": "https://www.instagram.com/swoveralls_/",
+          "pinterest_show": false,
+          "pinterest_link": "https://www.pinterest.com/swoveralls/",
+          "tiktok_show": true,
+          "tiktok_link": "https://www.tiktok.com/@swoveralls",
+          "footer_menu": "footer-1"
+        }
+      },
+      "minicart": {
+        "type": "minicart",
+        "settings": {
+          "title": "My bag",
+          "show_progress_bar": true,
+          "free_threshold": 75,
+          "bar_in_process_text": "from free shipping, you're almost there!",
+          "bar_in_success_text": "Congrats! You qualified for FREE SHIPPING",
+          "shipping_text": "Shipping and taxes will be calculated at Checkout.",
+          "checkout_text": "CHECKOUT",
+          "show_upsell": true,
+          "upsell_collection": "47-best-sellers",
+          "upsell_limit": 3,
+          "upsell_title": "Don't miss out on these",
+          "upsell_btn_text": "Add to bag"
+        }
+      },
+      "tsio-workshop-overview": {
+        "type": "tsio-workshop-overview",
+        "blocks": {
+          "tsio-workshop-overview-3": {
+            "type": "lifecycle-step",
+            "settings": {
+              "ws_step_preheading": "The Comfy Lab",
+              "ws_step_heading": "Slow & Comfy Fashion",
+              "ws_step_content": "We design new products. You crowd fund them and save $$$. Our planet takes on less waste.  Everybody wins."
+            }
+          },
+          "tsio-workshop-overview-0": {
+            "type": "lifecycle-step",
+            "settings": {
+              "ws_step_preheading": "Step 1",
+              "ws_step_heading": "Pre-order at 30% off",
+              "ws_step_content": "You reserve your pairs and save 30%."
+            }
+          },
+          "tsio-workshop-overview-1": {
+            "type": "lifecycle-step",
+            "settings": {
+              "ws_step_preheading": "Step 2",
+              "ws_step_heading": "Development",
+              "ws_step_content": "We go into production producing exactly what you ordered."
+            }
+          },
+          "tsio-workshop-overview-2": {
+            "type": "lifecycle-step",
+            "settings": {
+              "ws_step_preheading": "Step 3",
+              "ws_step_heading": "Delivery",
+              "ws_step_content": "We deliver your crowd-funded, small-batch comfy products directly to you."
+            }
+          },
+          "tsio-workshop-overview-4": {
+            "type": "additional-panel",
+            "disabled": true,
+            "settings": {
+              "ws_panel_img_alt": "",
+              "ws_panel_heading": "Knowledge Base",
+              "ws_panel_content": "You\u2019ve got questions? We\u2019ve got answers about our Workshop platform. Dig into our knowledge-base or reach out to a member of our team.",
+              "ws_panel_cta": "Learn More",
+              "ws_panel_link": ""
+            }
+          }
+        },
+        "block_order": [
+          "tsio-workshop-overview-3",
+          "tsio-workshop-overview-0",
+          "tsio-workshop-overview-1",
+          "tsio-workshop-overview-2",
+          "tsio-workshop-overview-4"
+        ],
+        "settings": {
+          "ws_banner_mobile": "shopify://shop_images/DESKTOP_HOMEPAGE_BANNERS_5.jpg",
+          "ws_banner_desktop": "shopify://shop_images/DESKTOP_HOMEPAGE_BANNERS_5.jpg",
+          "ws_banner_heading": "",
+          "ws_banner_text": "",
+          "ws_bar_color_progress": "#920eeb",
+          "ws_bar_height": "10px",
+          "ws_bar_border_width": "0",
+          "ws_bar_border_radius": "0",
+          "ws_bar_border_color": "#fafafa",
+          "ws_bar_color_bg": "#f2f2f2"
+        }
+      },
+      "junip-reviews-status-text": {
+        "type": "junip-reviews-status-text",
+        "settings": {
+          "enable_junip_custom_status_text": true,
+          "junip_average_rating": 4.8,
+          "junip_rating_desc": "out of 95,000 customers"
+        }
+      }
+    },
+    "content_for_index": [],
+    "blocks": {
+      "855628211100114053": {
+        "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
+        "disabled": false,
+        "settings": {}
+      },
+      "16017602894386113438": {
+        "type": "shopify://apps/junip-product-reviews-ugc/blocks/junip-store-key/dc14f5a8-ed15-41b1-ad08-cfba23f9789b",
+        "disabled": false,
+        "settings": {
+          "enablePreviewMode": true
+        }
+      },
+      "11560147490181472608": {
+        "type": "shopify://apps/rivo-loyalty-referrals/blocks/app-embed/580e9665-b2cd-4dbc-b6ba-6445ac9e6871",
+        "disabled": false,
+        "settings": {}
+      },
+      "15685250022964305326": {
+        "type": "shopify://apps/elevar-conversion-tracking/blocks/dataLayerEmbed/bc30ab68-b15c-4311-811f-8ef485877ad6",
+        "disabled": false,
+        "settings": {}
+      },
+      "17676059084223943535": {
+        "type": "shopify://apps/triplewhale/blocks/triple_pixel_snippet/483d496b-3f1a-4609-aea7-8eee3b6b7a2a",
+        "disabled": false,
+        "settings": {}
+      },
+      "4061484991452085298": {
+        "type": "shopify://apps/commslayer-helpdesk-chat/blocks/chat-widget/e555a08e-ceaa-4a9b-ab9f-a58bccbfc762",
+        "disabled": false,
+        "settings": {}
+      },
+      "2153490007123654574": {
+        "type": "shopify://apps/consentmo-gdpr/blocks/gdpr_cookie_consent/4fbe573f-a377-4fea-9801-3ee0858cae41",
+        "disabled": false,
+        "settings": {}
+      },
+      "4976129024724438625": {
+        "type": "shopify://apps/smartseo/blocks/brokenLinkDetection/7b0a6064-ca2e-4392-9a1d-8c43c942357b",
+        "disabled": false,
+        "settings": {}
+      },
+      "6406956604159796213": {
+        "type": "shopify://apps/smart-seo/blocks/smartseo/7b0a6064-ca2e-4392-9a1d-8c43c942357b",
+        "disabled": false,
+        "settings": {}
+      },
+      "17252073691577738930": {
+        "type": "shopify://apps/pp6n8ml66-opensend/blocks/opensend/30e0f67a-a227-495b-b956-07014ca526de",
+        "disabled": false,
+        "settings": {}
+      },
+      "2786716548061469553": {
+        "type": "shopify://apps/axon/blocks/app-embed/baa0f014-62ea-462f-a8aa-a94befb1cbad",
+        "disabled": false,
+        "settings": {}
+      },
+      "10142937387702430166": {
+        "type": "shopify://apps/timesact-pre-order/blocks/app-embed/bf6c109b-79b5-457c-8752-0e5e9e9676e7",
+        "disabled": true,
+        "settings": {}
+      }
+    }
+  },
+  "presets": {
+    "Default": {
+      "colors_solid_button_labels": "#FFFFFF",
+      "colors_accent_1": "#121212",
+      "colors_accent_2": "#334FB4",
+      "colors_text": "#121212",
+      "colors_outline_button_labels": "#121212",
+      "colors_background_1": "#FFFFFF",
+      "colors_background_2": "#F3F3F3",
+      "type_header_font": "assistant_n4",
+      "type_body_font": "assistant_n4",
+      "sections": {
+        "announcement-bar": {
+          "type": "announcement-bar",
+          "blocks": {
+            "announcement-bar-0": {
+              "type": "announcement",
+              "settings": {
+                "background_color": "#000",
+                "color": "#fff"
+              }
+            }
+          },
+          "block_order": [
+            "announcement-bar-0"
+          ],
+          "settings": {}
+        }
+      }
+    }
+  },
+  "platform_customizations": {
+    "custom_css": [
+      ".junip-review-carousel-item {font-size: 1.4rem;}",
+      "div#rebuy-widget-75251 {display: none;}"
+    ]
+  }
+}

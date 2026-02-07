@@ -78,20 +78,12 @@
       "settings": {
         "heading": ""
       }
-    },
-    "replo_1_swoveralls_hack_pdPBKk": {
-      "type": "replo-1-swoveralls-hack",
-      "disabled": true,
-      "settings": {
-        "replo_text_f284ef9c-be35-4280-a5ad-fdeeaf8ed423": "<p>PRO TIP</p>"
-      }
     }
   },
   "order": [
     "hero_banner_rafjQU",
     "media_text_columns_TabTcV",
     "page-template",
-    "contact_form_cUYwFc",
-    "replo_1_swoveralls_hack_pdPBKk"
+    "contact_form_cUYwFc"
   ]
 }

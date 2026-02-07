@@ -9,12 +9,6 @@
  */
 {
   "sections": {
-    "replo_1_swoveralls_hack_T4Ptnj": {
-      "type": "replo-1-swoveralls-hack",
-      "settings": {
-        "replo_text_f284ef9c-be35-4280-a5ad-fdeeaf8ed423": ""
-      }
-    },
     "e1f7e547-0977-455e-9311-37c3684759e2": {
       "type": "hero-banner",
       "disabled": true,
@@ -149,7 +143,6 @@
     }
   },
   "order": [
-    "replo_1_swoveralls_hack_T4Ptnj",
     "e1f7e547-0977-455e-9311-37c3684759e2",
     "page-template",
     "2390f0ec-5e65-4ae1-ab49-1dc897984f51",

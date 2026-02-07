@@ -61,17 +61,3 @@
     font-size: 16px;
   }
 }
-
-/* ======== Yotpo Loyalty Page ======= */
-
-.yotpo-widget-hero-section .yotpo-customer-logged-out-buttons .yotpo-register-link {
-  padding-right: 0;
-  margin-bottom: 10px;
-}
-
-@media screen and (min-width: 786px) {
-  .yotpo-widget-hero-section .yotpo-customer-logged-out-buttons .yotpo-register-link {
-    padding-right: 14px;
-    margin: 0;
-  }
-}

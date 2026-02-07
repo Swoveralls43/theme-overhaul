@@ -10,9 +10,22 @@ $(document).ready(async function() {
         minicartSubtotalCount: '.js-cart-count',
         minicartSubtotalEnding: '.js-cart-count-ending',
         minicartSubtotal: '.js-minicart-subtotal-price',
-        minicartBar: '.js-minicart-progress-bar',
-        minicartBarText: ".js-bar-progress-text",
-        addToCartBtn: "#addToCartBtn"
+        addToCartBtn: "#addToCartBtn",
+        tiers: '.js-minicart-tiers',
+        tierShipping: '.js-tier-shipping',
+        tierShippingText: '.js-tier-shipping-text',
+        tierShippingCheck: '.js-tier-shipping-check',
+        shippingRemaining: '.js-shipping-remaining',
+        shippingBar: '.js-shipping-bar',
+        tierDiscount: '.js-tier-discount',
+        tierDiscountText: '.js-tier-discount-text',
+        tierDiscountBadge: '.js-tier-discount-badge',
+        nextDiscount: '.js-next-discount',
+        tierSavings: '.js-tier-savings',
+        savingsPercent: '.js-savings-percent',
+        discountLine: '.js-discount-line',
+        discountPercent: '.js-discount-percent',
+        discountAmount: '.js-discount-amount'
     }
 
     const disableBodyScroll = bodyScrollLock.disableBodyScroll;
@@ -28,13 +41,16 @@ $(document).ready(async function() {
     const count = $(selectors.minicartSubtotalCount);
     const ending = $(selectors.minicartSubtotalEnding);
     const subtotal = $(selectors.minicartSubtotal);
-    const bar = $(selectors.minicartBar);
-    const barText = $(selectors.minicartBarText);
     const addToCartBtn = $(selectors.addToCartBtn);
 
-    let treshold = barText.data('treshold') * 100;
-    let progressText = barText.data('processText');
-    let successText = barText.data('successText');
+    // Tier configuration from data attributes
+    const tiersEl = $(selectors.tiers);
+    const freeThreshold = (tiersEl.data('free-threshold') || 69) * 100;
+    const tier2Pairs = tiersEl.data('tier2-pairs') || 2;
+    const tier2Discount = tiersEl.data('tier2-discount') || 20;
+    const tier3Pairs = tiersEl.data('tier3-pairs') || 3;
+    const tier3Discount = tiersEl.data('tier3-discount') || 25;
+    const pairTypes = (tiersEl.data('pair-types') || 'Swoveralls,Swovie Shorts,Comfyalls').split(',').map(t => t.trim().toLowerCase());
 
     function openCart() {
         minicart.addClass('open');
@@ -100,8 +116,7 @@ $(document).ready(async function() {
             .then(response => {
                 response.json();
             })
-
-        .then(function() {
+            .then(function() {
                 getProducts();
                 getCart();
                 openCart();
@@ -163,6 +178,115 @@ $(document).ready(async function() {
             })
     }
 
+    function countPairs(cart) {
+        let pairCount = 0;
+        cart.items.forEach(item => {
+            const productType = (item.product_type || '').toLowerCase();
+            if (pairTypes.includes(productType)) {
+                pairCount += item.quantity;
+            }
+        });
+        return pairCount;
+    }
+
+    function getCurrentDiscount(pairCount) {
+        if (pairCount >= tier3Pairs) {
+            return tier3Discount;
+        } else if (pairCount >= tier2Pairs) {
+            return tier2Discount;
+        }
+        return 0;
+    }
+
+    function getNextTierInfo(pairCount) {
+        if (pairCount >= tier3Pairs) {
+            return { achieved: true, discount: tier3Discount };
+        } else if (pairCount >= tier2Pairs) {
+            return {
+                pairsNeeded: tier3Pairs - pairCount,
+                nextDiscount: tier3Discount,
+                currentDiscount: tier2Discount
+            };
+        } else {
+            return {
+                pairsNeeded: tier2Pairs - pairCount,
+                nextDiscount: tier2Discount,
+                currentDiscount: 0
+            };
+        }
+    }
+
+    function updateTiers(cart) {
+        if (!tiersEl.length) return;
+
+        const cartSubtotal = cart.items_subtotal_price;
+        const pairCount = countPairs(cart);
+        const currentDiscount = getCurrentDiscount(pairCount);
+        const nextTier = getNextTierInfo(pairCount);
+
+        // Update shipping tier
+        const shippingEl = $(selectors.tierShipping);
+        const shippingTextEl = $(selectors.tierShippingText);
+        const shippingCheckEl = $(selectors.tierShippingCheck);
+        const shippingBarEl = $(selectors.shippingBar);
+        const shippingRemainingEl = $(selectors.shippingRemaining);
+
+        if (cartSubtotal >= freeThreshold) {
+            shippingEl.addClass('achieved');
+            shippingTextEl.html('FREE SHIPPING unlocked!');
+            shippingCheckEl.show();
+            shippingBarEl.css('width', '100%');
+        } else {
+            shippingEl.removeClass('achieved');
+            const remaining = freeThreshold - cartSubtotal;
+            shippingRemainingEl.text(Shopify.formatMoney(remaining));
+            shippingTextEl.html('Add <span class="js-shipping-remaining">' + Shopify.formatMoney(remaining) + '</span> for FREE SHIPPING');
+            shippingCheckEl.hide();
+            const progress = Math.min((cartSubtotal / freeThreshold) * 100, 100);
+            shippingBarEl.css('width', progress + '%');
+        }
+
+        // Update discount tier
+        const discountEl = $(selectors.tierDiscount);
+        const discountTextEl = $(selectors.tierDiscountText);
+        const discountBadgeEl = $(selectors.tierDiscountBadge);
+        const savingsEl = $(selectors.tierSavings);
+        const savingsPercentEl = $(selectors.savingsPercent);
+
+        if (currentDiscount > 0) {
+            discountEl.addClass('achieved');
+            savingsEl.show();
+            savingsPercentEl.text(currentDiscount + '%');
+
+            if (nextTier.achieved) {
+                discountTextEl.html('Maximum savings unlocked!');
+                discountBadgeEl.text(currentDiscount + '% OFF').show();
+            } else {
+                discountTextEl.html('Add ' + nextTier.pairsNeeded + ' more pair' + (nextTier.pairsNeeded > 1 ? 's' : '') + ' to save ' + nextTier.nextDiscount + '%');
+                discountBadgeEl.text(currentDiscount + '% OFF').show();
+            }
+        } else {
+            discountEl.removeClass('achieved');
+            savingsEl.hide();
+            discountBadgeEl.hide();
+            discountTextEl.html('Add ' + nextTier.pairsNeeded + ' pair' + (nextTier.pairsNeeded > 1 ? 's' : '') + ' to save <span class="js-next-discount">' + nextTier.nextDiscount + '%</span>');
+        }
+
+        // Update checkout discount display
+        const discountLineEl = $(selectors.discountLine);
+        const discountPercentEl = $(selectors.discountPercent);
+        const discountAmountEl = $(selectors.discountAmount);
+
+        if (currentDiscount > 0) {
+            const discountValue = Math.round(cartSubtotal * (currentDiscount / 100));
+            discountLineEl.show();
+            discountPercentEl.text(currentDiscount + '% off');
+            discountAmountEl.text('-' + Shopify.formatMoney(discountValue));
+        } else {
+            discountLineEl.hide();
+        }
+    }
+
     async function getCart() {
         $.getJSON('/cart.js', function(cart) {
             if (cart.item_count === 0) {
@@ -173,16 +297,8 @@ $(document).ready(async function() {
                 subtotal.text(Shopify.formatMoney(cart.items_subtotal_price));
                 cart.item_count > 1 ? ending.addClass('active') : ending.removeClass('active');
 
-                if (bar) {
-                    let barProgressPercent = cart.items_subtotal_price * 100 / treshold;
-                    bar.css('width', `${barProgressPercent}%`)
-
-                    if (cart.items_subtotal_price < treshold) {
-                        barText.text(`${Shopify.formatMoney(treshold - cart.items_subtotal_price)} ${progressText}`);
-                    } else {
-                        barText.text(successText);
-                    }
-                }
+                // Update tier display
+                updateTiers(cart);
             }
 
             headerCount.text(cart.item_count);
@@ -229,7 +345,7 @@ $(document).ready(async function() {
         addUpsellProduct($(this));
     });
 
-    //PLP grid 
+    //PLP grid
     $('.js-product-grid').on('change', '.js-quick-add-input', function() {
         addItem(parseInt($(this).val()));
         openCart();
@@ -241,17 +357,4 @@ $(document).ready(async function() {
         openCart();
     });
 
-    const cartDrawer = document.querySelector('#nvd-cart div');
-
-    if (cartDrawer) {
-        const observer = new MutationObserver((mutationsList) => {
-            for (const mutation of mutationsList) {
-                if (mutation.attributeName === 'class') {
-                    getCart();
-                }
-            }
-        });
-
-        observer.observe(cartDrawer, { attributes: true });
-    }
 });

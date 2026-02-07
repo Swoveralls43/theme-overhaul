@@ -30,16 +30,3 @@ input {
   font-family: var(--font-body);
   font-weight: 200;
 }
-
-/* Yotpo */
-
-.yotpo-point-balance-text {
-  font-family: var(--font-heading) !important;
-  font-weight: normal !important;
-  font-size: 25px !important;
-}
-
-.yotpo-not-enough-points-text {
-  font-family: var(--font-body) !important;
-  font-weight: normal !important;
-}

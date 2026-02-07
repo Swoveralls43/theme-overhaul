@@ -432,20 +432,5 @@
         "default": "<b>{discount}</b> discount!"
       }
     ]
-  },
-  {
-    "name": "Purple Dot",
-    "settings": [
-      {
-        "type": "checkbox",
-        "id": "use_purpledot",
-        "label": "Turn on Purple Dot integration"
-      },
-      {
-        "type": "text",
-        "id": "purpledot_api_key",
-        "label": "Purple Dot API Key"
-      }
-    ]
   }
 ]

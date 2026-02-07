@@ -85,7 +85,7 @@
           "type": "product_extra_info",
           "disabled": true,
           "settings": {
-            "info_text": "<h3>🎉 Get A Free Mystery Pair With Every Order of Swoveralls 🎉</h3>"
+            "info_text": "<h3>\ud83c\udf89 Get A Free Mystery Pair With Every Order of Swoveralls \ud83c\udf89</h3>"
           }
         },
         "4c2f2ba1-1c51-4d5c-a624-8524866d4310": {
@@ -112,11 +112,6 @@
         "size_guide": "shopify://shop_images/Swoveralls_Size_Guide.jpg",
         "colorcodesnew": "Forest Green:#228B22;Midnight Black:#000000;Navy:#000080;Dark Athletic Grey:#63666A;Light Heather Grey:#B0ABB0;Crimson:#dc143c;Party Red:#FF0000;Candy Pink:#fcbcd6;Orange:#FFA500;Retro Terry Bumblebee:#eab642;Denim Heather:#779dd5;Cobalt Blue:#0047AB;Blush Pink:#f7e0e1;Matcha:#CEDCAB;Lavender:#D5ADD6;Rainbow Stripe Tie Dye:https://cdn.shopify.com/s/files/1/0047/6862/8836/files/swatch-filters-multi.png?v=1678308179;Swovie Shorts - Stars n Swoves:https://cdn.shopify.com/s/files/1/0047/6862/8836/files/starsnswove.png;Challah Challah:https://cdn.shopify.com/s/files/1/0764/6029/4429/files/challah_challah_swatch.png;Dijon:#eab642;Dino Print:https://cdn.shopify.com/s/files/1/0047/6862/8836/files/Dino_Print_1.jpg?v=1711722226;Doodle Print:https://cdn.shopify.com/s/files/1/0047/6862/8836/files/Doodle_Print_1.jpg?v=1711722226;Floral Print:https://cdn.shopify.com/s/files/1/0047/6862/8836/files/Floral_print_3af58a94-6a21-4c7c-8729-236a015435cc.jpg?v=1711722225;Peace and Shaka Print:https://cdn.shopify.com/s/files/1/0047/6862/8836/products/cream-towcho_shaka.jpg?v=1655911187; Retro Terry Orange Creamsicle:#fd6339;Sun:https://cdn.shopify.com/s/files/1/0047/6862/8836/files/sun.png?v=1719189226;Moon:https://cdn.shopify.com/s/files/1/0047/6862/8836/files/Screenshot_10.png?v=1719189480;Purple Rain:#613f88"
       }
-    },
-    "replo_ugc_video_carousel_eYwyyx": {
-      "type": "replo-ugc-video-carousel",
-      "disabled": true,
-      "settings": {}
     },
     "recs": {
       "type": "product-recommendations-slider",
@@ -146,31 +141,6 @@
         "include_margins": true
       }
     },
-    "17544573221d733936": {
-      "type": "apps",
-      "blocks": {
-        "dynamatic_personalized_upsells_dynamatics_9f7FHx": {
-          "type": "shopify://apps/dynamatic-personalized-upsells/blocks/dynamatics/2d829c71-4e5c-4e51-8c3d-03c05ca003b3",
-          "disabled": true,
-          "settings": {
-            "zone_id": "ZID0880-THE76351754458075-WEBPAGE",
-            "custom_css": "",
-            "load_widget_after_page_load": false,
-            "event_triggerer": ""
-          }
-        }
-      },
-      "block_order": [
-        "dynamatic_personalized_upsells_dynamatics_9f7FHx"
-      ],
-      "settings": {
-        "include_margins": true
-      }
-    },
-    "replo_us_vs_them_rRzTTX": {
-      "type": "replo-us-vs-them",
-      "settings": {}
-    },
     "reviews": {
       "type": "product-reviews",
       "disabled": true,
@@ -185,26 +155,6 @@
     },
     "1730132559d58499db": {
       "type": "apps",
-      "settings": {
-        "include_margins": true
-      }
-    },
-    "175009742458415859": {
-      "type": "apps",
-      "blocks": {
-        "kiwi_size_chart_recommender_kiwi_sizing_mPAFNQ": {
-          "type": "shopify://apps/kiwi-size-chart-recommender/blocks/kiwiSizing/b7369922-bf15-44ce-a121-a22a8fcbc4b0",
-          "settings": {
-            "product": "{{product}}",
-            "waitForElementSelector": "",
-            "waitForElementDelay": 5
-          }
-        }
-      },
-      "block_order": [
-        "kiwi_size_chart_recommender_kiwi_sizing_mPAFNQ"
-      ],
-      "disabled": true,
       "settings": {
         "include_margins": true
       }
@@ -236,15 +186,11 @@
     "17606620213107e4b2",
     "workshop",
     "main",
-    "replo_ugc_video_carousel_eYwyyx",
     "recs",
     "168263386588b4f614",
-    "17544573221d733936",
-    "replo_us_vs_them_rRzTTX",
     "reviews",
     "4926ffde-f6c8-45c4-934d-6fe2a972857a",
     "1730132559d58499db",
-    "175009742458415859",
     "1757707029dbede4e9",
     "1759440184c3d188fc"
   ]

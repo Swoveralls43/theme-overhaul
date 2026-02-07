@@ -304,33 +304,6 @@ document.querySelector('.prod_img img').src = this.selectedProduct.featured_imag
         }
     }
 
-    populateSelectedProductReviews(productId) {
-        const currentProductReview = document.querySelector(`[data-yotpo-main-widget][data-product-id="${productId}"]`);
-        const baseProductReview = document.querySelector('[data-product-review-base]');
-        const currentProductShortReview = this.querySelector(`.yotpo-small[data-product-id="${productId}"]`);
-        const baseProductShortReview = this.querySelector('[data-product-description-base]');
-
-        document.querySelectorAll('.product__review').forEach(function (elem) {
-            elem.classList.add('hidden');
-        });
-
-        this.querySelectorAll('.product__description__form__reviews').forEach(function (elem) {
-            elem.classList.add('hidden');
-        });
-
-        if (currentProductReview) {
-            currentProductReview.closest('.product__review').classList.remove('hidden');
-        } else {
-            baseProductReview.classList.remove('hidden');
-        }
-
-        if (currentProductShortReview) {
-            currentProductShortReview.closest('.product__description__form__reviews').classList.remove('hidden');
-        } else {
-            baseProductShortReview.classList.remove('hidden');
-        }
-    }
-
     populateSelectedProductOptions() {
       const notify2 = document.querySelector('[data-right-drawer-renderer="product-notify-me"]');
         const dataTags2 = notify2.dataset.tags.toLowerCase();

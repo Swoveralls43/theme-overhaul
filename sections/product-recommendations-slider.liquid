@@ -30,13 +30,10 @@
 
     {% if recommendations.products_count > 0 %}
       <div class="product-recommendations__slider content-slider js-product-recommendations-slider">
-        {% assign excluded_product_count = 1 %}
         {% for product in recommendations.products %}
-          {% unless product.tags contains 'exclude_rebuy' %}
             <div class="product-recommendations__slider-slide js-slide">
               {% include 'product-grid-item', product: product %}
             </div>
-          {% endunless %}
         {% endfor %}
       </div>
     {% endif %}

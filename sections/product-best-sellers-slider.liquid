@@ -29,11 +29,9 @@
 
           <div class="product-recommendations__slider content-slider js-product-best-sellers-slider">
             {% for product in best_sellers.products limit: limit %}
-              {% unless product.tags contains 'exclude_rebuy' %}
                 <div class="product-recommendations__slider-slide js-slide">
                   {% include 'product-grid-item', product: product %}
                 </div>
-              {% endunless %}
             {% endfor %}
           </div>
         </div>

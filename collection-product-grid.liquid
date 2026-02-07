@@ -14,9 +14,7 @@
             </div>
         {% else %}
             {% for product in collection.products %}
-                {% unless product.tags contains 'exclude_rebuy' %}
                     {% render 'product-grid-item' product: product, forloop: forloop %}
-                {% endunless %}
                 {% if forloop.last and paginate.next %}
                     <div class="product-grid__item product-grid__item--next js-grid-item-next">
                     <a href="{{ paginate.next.url }}">
